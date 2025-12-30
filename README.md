@@ -7,14 +7,13 @@ Anciennement ShellbotsOS, Fleurdelix a été réécrit de A à Z avec une base l
 
 Fleurdelix intègre gratuitement des applications de différentes sortes pour remplacer l'ensemble des outils payants ou gratuits des GAFAM (Google, Apple, Facebook, Amazon, Microsoft) et j'ai intégré aussi de l'IA complètement locale pour la sécurité de vos données.
 
-Fleurdelix est gratuit et peux fonctionner sur des architectures Intel (PC) mais aussi Arm (Raspberry PI, ...), et des machines virtuelles.
+Fleurdelix est gratuit et peux fonctionner sur des architectures Intel (PC) mais aussi Arm (Raspberry PI, ...), des machines virtuelles ainsi que des plateformes de virtualisation.
 
 J'ai créé Fleurdelix pour les québécois et la communauté francophone à travers le monde dont la France, Belgique, Suisse, Afrique, .... et pour son accessibilité et facilité d'installation et d'utilisation. 
 
 J'ai quelques clients dans le domaine de la santé qui utilise le système pour héberger des modèles de données IA et bases de données vectorielles. C'est un de mes derniers grands projets qui va me tenir actif pour la retraite :)
 
-Le système peut être téléchargé directement sur Github ou via l'achat de nos machines intégrant notre OS disponible bientôt sur notre boutique Québec Terroir.
-
+Le système peut être téléchargé directement sur Github ou via l'achat de nos machines intégrant notre OS (bientôt dispo)
 # Fonctionnalités
 
 - Linux noyau de base (ubuntu server 24.04 LTS minimized sans outils et logiciels)
