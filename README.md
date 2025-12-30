@@ -9,7 +9,7 @@ Fleurdelix intègre gratuitement des applications de différentes sortes pour re
 
 Fleurdelix est gratuit et peux fonctionner sur des architectures Intel (PC) mais aussi Arm (Raspberry PI, ...), des machines virtuelles ainsi que des plateformes de virtualisation.
 
-J'ai créé Fleurdelix pour les québécois et la communauté francophone à travers le monde dont la France, Belgique, Suisse, Afrique, .... afin qu'ils puissent bénéficier d'un système où leurs propres données restent confidentielles et ne servent pas à entrainer des modèles grand public.
+J'ai créé Fleurdelix pour les québécois et la communauté francophone à travers le monde dont la France, Belgique, Suisse, Afrique, .... ainsi que leurs entreprises afin qu'ils puissent bénéficier d'un système où leurs propres données restent confidentielles et ne servent pas à entrainer des modèles grand public.
 
 Fleurdelix bénéficie aussi des outils modernes pour la bureautique, l'IA générative, la musique, la création multimédia et 3d, etc...
 
