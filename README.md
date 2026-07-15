@@ -23,5 +23,8 @@ Le système peut être téléchargé directement sur Github ou via l'achat de no
 
 - Pour le détail des fonctionnalités, voir la section "Construction base du noyau Fleurdelix OS" 
 
+## Blog
+
+- Voici des articles / tutoriels en lien avec notre système ou IA souverain et l'actualité : [Accès au blog](https://github.com/dominiquedelaire/Fleurdelix/tree/main/Blog)
 
 # Fleurdelix Mobile
