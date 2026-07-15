@@ -21,7 +21,8 @@ Le système peut être téléchargé directement sur Github ou via l'achat de no
 
 ## Fonctionnalités
 
-- Pour le détail des fonctionnalités, voir la section "Construction base du noyau Fleurdelix OS" 
+- Pour le détail des fonctionnalités, voir la section "Core" qui détaille comment construire le noyau et tous les logiciels inclus et ajoutés au fur et à mesure des mises à jour.
+  Allez à la section [Core](https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core) 
 
 ## Blog
 [Accès au blog et tous les articles](https://github.com/dominiquedelaire/Fleurdelix/tree/main/Blog)
@@ -30,3 +31,8 @@ Le système peut être téléchargé directement sur Github ou via l'achat de no
   - [Créer son propre modèle local à partir d'un modèle existant performant](https://github.com/dominiquedelaire/Fleurdelix/blob/main/Blog/Creer%20son%20propre%20mod%C3%A8le%20local%20%C3%A0%20partir%20d'un%20mod%C3%A8le%20existant%20performant.md) (Juillet 2026)
 
 # Fleurdelix Mobile
+
+## Introduction
+Fleurdelix Mobile est un environnement qui se greffe par dessus Android et qui remplace l'interface Android par une interface plus épurée avec des apps souveraines et afin de minimiser notre dépendance aux téléphones. Il est possible aussi de configurer l'environnement pour une utilisation plus simple pour des enfants ou des personnes agées. L'interface se veut simple pour une utilisation rapide et des couleurs 2 tons, un peu comme sur une liseuse.
+
+Fleurdelix sera bientôt disponible sur les différents stores et magasins Android.
