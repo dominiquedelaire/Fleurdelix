@@ -2,7 +2,7 @@
 
 > Un jeu d'arcade HTML5 où tu conduis dans les rues de Montréal en essayant de garder ta suspension en vie. Bonne chance.
 
-C'est le printemps (ou l'hiver) à Montréal. Ta mission : traverser la ville en évitant les nids de poule, les cônes orange, les autobus, le verglas pis les déneigeuses. Ramasse des poutines en chemin pour réparer tes amortisseurs. Quand ta suspension rend l'âme, le Garage Chez Ti-Guy te remet la facture — main-d'œuvre incluse, évidemment.
+C'est le printemps (ou l'hiver) à Montréal. Ta mission : traverser la ville en évitant les nids de poule, les cônes orange, les autobus, le verglas pis les déneigeuses. Ramasse des poutines en chemin pour réparer tes amortisseurs. Quand ta suspension rend l'âme, le Garage Chez Ti-Guy te remet la facture  main-d'œuvre incluse, évidemment.
 
 **Un seul fichier HTML. Aucune dépendance. Aucune installation. Ça roule partout, même sur mobile.**
 
