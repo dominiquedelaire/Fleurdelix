@@ -1,4 +1,4 @@
-**Titre :** Construction de la base du noyau de Fleurdelix OS   
+# Construction de la base du noyau de Fleurdelix OS   
 **Auteur :** Dominique Delaire   
 **Date de création initiale :** 14 juin 2025   
 **Date de mise à jour :** 15 juillet 2026     
