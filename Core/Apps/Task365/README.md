@@ -1,5 +1,9 @@
 # Task365
 
+**Auteur :** Dominique Delaire   
+**Date de création initiale :** 30 juin 2025   
+  
+
 **Assistant personnel local et hors-ligne** : tâches, journal de bord, budget
 multi-comptes, contacts, et un module pour travailleurs autonomes avec calcul de
 taxes. Tout est stocké dans une base SQLite sur votre machine — **aucune donnée
