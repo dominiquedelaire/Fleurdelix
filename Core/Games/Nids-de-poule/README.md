@@ -6,7 +6,7 @@ C'est le printemps (ou l'hiver) à Montréal. Ta mission : traverser la ville en
 
 **Un seul fichier HTML. Aucune dépendance. Aucune installation. Ça roule partout, même sur mobile.**
 
-[Comment Jouer ?](https://github.com/dominiquedelaire/Fleurdelix/edit/main/Core/Games/Nids-de-poule/README.md#-jouer)
+[Comment Jouer ?](https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Games/Nids-de-poule#-jouer)
 
 ## 📸 Captures d'écran
 
