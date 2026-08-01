@@ -1,0 +1,41 @@
+[project]
+name = "task365"
+version = "1.0.0"
+description = "Assistant personnel local : tâches, journal de bord, budget multi-comptes, contacts et module travailleur autonome (calcul de taxes). Interfaces terminal, TUI et bureau (fenêtre web)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Fleurdelix, D. Delaire" }]
+keywords = ["productivité", "tâches", "budget", "journal", "taxes", "sqlite", "hors-ligne"]
+
+# Dépendances de base : l'interface terminal (CLI) et le TUI.
+dependencies = [
+    "rich>=13.0",
+    "textual>=0.50",
+]
+
+[project.optional-dependencies]
+# Interface bureau en fenêtre web (recommandée) : « task365 web ».
+web = ["pywebview>=5.0", "qtpy>=2.4", "pyside6>=6.6"]
+# Export des dépenses / revenus en Excel (.xlsx). L'export CSV, lui,
+# ne demande aucune dépendance.
+export = ["openpyxl>=3.1"]
+# Interface bureau alternative (DearPyGui) : « task365 gui ».
+gui = ["dearpygui>=1.10"]
+# Tout installer d'un coup.
+all = ["pywebview>=5.0", "qtpy>=2.4", "pyside6>=6.6", "openpyxl>=3.1", "dearpygui>=1.10"]
+
+[project.scripts]
+task365 = "task365.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/dominiquedelaire/Fleurdelix/Core/Apps/Task365"
+Repository = "https://github.com/dominiquedelaire/Fleurdelix/Core/Apps/Task365"
+Issues = "https://github.com/dominiquedelaire/Fleurdelix/Apps/Core/Task365/issues"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["task365"]
