@@ -8,6 +8,8 @@ C'est le printemps (ou l'hiver) à Montréal. Ta mission : traverser la ville en
 
 [Comment Jouer ?](https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Games/Nids-de-poule#-jouer)
 
+Ou si tu n'es pas patient, lance le [jeu maintenant en ligne](fleurdelix.quebec/execute/Nids_de_poule_MTL.html)
+
 ## 📸 Captures d'écran
 
 | Menu principal | Vue 2D (de haut) |
@@ -24,7 +26,8 @@ C'est le printemps (ou l'hiver) à Montréal. Ta mission : traverser la ville en
 
 ## 🎮 Jouer
 
-Télécharge `nids-de-poule-mtl.html` et ouvre-le dans n'importe quel navigateur. C'est tout.
+- Télécharge `nids-de-poule-mtl.html` et ouvre-le dans n'importe quel navigateur. C'est tout.
+- Ou joue en ligne directement en cliquant sur ce lien : [Nids_de_poule_MTL.html](fleurdelix.quebec/execute/Nids_de_poule_MTL.html)
 
 
 
