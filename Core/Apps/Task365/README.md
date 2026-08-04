@@ -9,6 +9,8 @@ multi-comptes, contacts, et un module pour travailleurs autonomes avec calcul de
 taxes. Tout est stocké dans une base SQLite sur votre machine — **aucune donnée
 ne quitte votre ordinateur**.
 
+Cette Application est livrée de base dans Fleurdelix OS.
+
 Task365 propose plusieurs interfaces qui partagent exactement la même logique et
 la même base de données :
 
