@@ -2,9 +2,9 @@
 **Date de création :** 14 Juillet 2026   
 **Auteur :** Dominique Delaire
 
-<p><strong>L'objectif de ce tutoriel est de vous montrer comment créer son propre modèle IA à partir d'un autre et l'embellir avec notre contexte, nos données, etc... et le publier. Tout cela avec des outils open source ou gratuits :)</strong></p>
+<p><strong>L'objectif de ce tutoriel est de vous montrer comment créer son propre modèle IA à partir d'un autre et l'embellir avec notre contexte, nos données, etc... et le publier. Tout cela avec des outils open source ou gratuits sous Fleurdelix OS :)</strong></p>
 <p><strong>Nous allons bâtir un modèle en lien avec le management et des conseils sur la gestion des ressources.</strong></p>
-<p><strong>Ceci est un modèle exemple, celui qui est disponible dans notre boutique est beaucoup plus précis et a énormément de contenus en management pour les décideurs, Vp, Directeurs, etc...</strong></p>
+<p><strong>Ceci est un modèle exemple.</strong></p>
 <h3><strong>Prérequis</strong></h3>
 <p>Tous les prérequis sont déjà installés dans Fleurdelix (Anciennement ShellbotsOS). Voici les informations pour les autres systèmes d'exploitation :</p>
 <ul>
