@@ -27,8 +27,6 @@ Le système peut être téléchargé directement sur Github ou via l'achat de no
 ## Blog
 [Accès au blog et tous les articles](https://github.com/dominiquedelaire/Fleurdelix/tree/main/Blog)
 
-- Voici des articles / tutoriels en lien avec notre système ou IA souverain et l'actualité : 
-  - [Créer son propre modèle local à partir d'un modèle existant performant](https://github.com/dominiquedelaire/Fleurdelix/blob/main/Blog/Creer%20son%20propre%20mod%C3%A8le%20local%20%C3%A0%20partir%20d'un%20mod%C3%A8le%20existant%20performant.md) (Juillet 2026)
 
 # Fleurdelix Mobile
 
