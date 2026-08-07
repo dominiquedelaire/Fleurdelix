@@ -39,7 +39,7 @@ Le mode opératoire suivant permet de construire le noyau de base de l'OS Fleurd
 - On va réparer les éventuels "trous" KDE par expérience :) : **sudo apt install kde-standard network-manager-gnome konsole dolphin -y**
 - Ensuite on va installer notre premier navigateur web chromium (on installera firefox plus tard) : **sudo apt install chromium-browser**
 - On va aussi débuter la personnalisation au fur et à mesure :
-  - Allez sur notre github (github.com/dominiquedelaire/Fleurdelix/) et copier les ressources images et icons dans le répertoire créé précédemment (/usr/share/fleurdelix/icons et images)
+  - Allez sur notre github (github.com/dominiquedelaire/Fleurdelix/) via Chromium et copier les ressources images et icons dans le répertoire créé précédemment (/usr/share/fleurdelix/icons et images)
     - <img width="1202" height="464" alt="image" src="https://github.com/user-attachments/assets/e13d892e-d783-4126-b6ff-b0641b43956e" />
   - Faire un clic droit sur l'icone en bas à gauche de KDE puis l'option "Configurer le lanceur d'application" puis cliquer sur l'icone pour choisir la ressource fleurdelix-logo.png dans /usr/share/fleurdelix/fleurdelix-logo.png
   - A documenter : Complèter avec l'écran de démarrage et le fond d'écran.
