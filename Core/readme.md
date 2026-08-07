@@ -28,7 +28,9 @@ Le mode opératoire suivant permet de construire le noyau de base de l'OS Fleurd
 - Installation de l'écran de connexion : **sudo apt install lightdm slick-greeter lightdm-settings --no-install-recommends -y**
 - Activation et nettoyage : **sudo systemctl set-default graphical.target**
 - Préparation des répertoires fleurdelix pour les ressources graphiques, images, icones et autres ressources
-  - **sudo mkdir -p /usr/share/fleurdelix/ressources/logos**
+  - **sudo mkdir -p /usr/share/fleurdelix/ressources/logos**   
+  - **sudo mkdir -p /usr/share/fleurdelix/ressources/icons**   
+  - **sudo mkdir -p /usr/share/fleurdelix/ressources/images**   
 - Installation ensuite de l'environnement graphique Kde Plasma, très bon environnement graphique, c'est ce que nous avons privilégié pour Fleurdelix :
   - **sudo apt install kde-standard -y** (A l'installation, le système va demander le "display manager" : choisir sddm (celui de KDE)
   - Pourquoi nous avons choisi sddm : il est plus beau pour KDE, il permet des thèmes animés, des vidéos en fond d'écran de login, etc..
