@@ -36,7 +36,8 @@ Le mode opératoire suivant permet de construire le noyau de base de l'OS Fleurd
 - Redémarrer : **sudo reboot**
 - A l'écran de connexion au reboot, choisir en bas à gauche ou à droite sur la roue dentée, soit Plasma, soit Wayland (Avec Nvidia, wayland est plus compatible mais pas de pb majeur non plus avec plasma)
 - On va nettoyer ensuite l'installation de notre premier display manager en faisant : **sudo apt purge lightdm -y puis sudo apt autoremove --purge -y**
-- On va réparer les éventuels "trous" KDE par expérience :) : **sudo apt install kde-standard network-manager-gnome konsole dolphin -y**
+- On va réparer les éventuels "trous" KDE par expérience :) : **sudo apt install kde-standard network-manager-gnome konsole dolphin pipx -y**
+- On va paramétrer le chemin pour pipx, commande pour installer des apps Fleurdelix ultérieurement :) en faisant : **pipx ensurepath** puis fermer le terminal et le réouvrir.
 - On va installer sudo / admin pour dolphin, le gestionnaire de fichiers : **sudo apt install kio-admin**
 - Ensuite on va installer notre premier navigateur web chromium (on installera firefox plus tard) : **sudo apt install chromium-browser**
 - On va aussi débuter la personnalisation au fur et à mesure :
