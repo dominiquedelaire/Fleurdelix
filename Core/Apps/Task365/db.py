@@ -72,7 +72,9 @@ CREATE TABLE IF NOT EXISTS entries (
     account_id  INTEGER REFERENCES accounts(id) ON DELETE CASCADE,
     amount      REAL,
     -- pour les taches : 1 = prioritaire, 0 = normale
-    priority    INTEGER NOT NULL DEFAULT 0
+    priority    INTEGER NOT NULL DEFAULT 0,
+    -- pour les operations budget : 1 = rapproche avec le compte bancaire
+    reconciled  INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS tags (
@@ -208,7 +210,8 @@ def _migrate_columns(conn) -> None:
         "expenses": [("is_personal", "INTEGER NOT NULL DEFAULT 1"),
                      ("op_type", "TEXT NOT NULL DEFAULT 'expense'"),
                      ("third_party", "TEXT")],
-        "entries": [("priority", "INTEGER NOT NULL DEFAULT 0")],
+        "entries": [("priority", "INTEGER NOT NULL DEFAULT 0"),
+                    ("reconciled", "INTEGER NOT NULL DEFAULT 0")],
     }
     for table, cols in migrations.items():
         existing = {r["name"] for r in
@@ -861,6 +864,15 @@ def add_budget_entry(account_id: int, amount: float, title: str,
         account_id=account_id,
         amount=float(amount),
     )
+
+
+def set_reconciled(entry_id: int, reconciled: bool) -> bool:
+    """Marque une operation budget comme rapprochee (ou non) avec la banque."""
+    with get_connection() as conn:
+        cur = conn.execute(
+            "UPDATE entries SET reconciled = ? WHERE id = ? AND type = 'budget'",
+            (1 if reconciled else 0, int(entry_id)))
+        return cur.rowcount > 0
 
 
 def add_transfer(from_account_id: int, to_account_id: int, amount: float,

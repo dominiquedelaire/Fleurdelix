@@ -292,6 +292,7 @@ class Api:
                 "title": op.get("title") or "",
                 "amount": round(op["amount"] or 0, 2),
                 "tags": [t for t in op["tags"] if t != "virement"],
+                "reconciled": bool(op.get("reconciled")),
             })
         ops.sort(key=lambda o: o["date"], reverse=True)
 
@@ -344,6 +345,12 @@ class Api:
                         date=parse_date(op_date) if op_date else None,
                         tags=parse_tags(tags) or None)
         return self.load_budget()
+
+    def set_reconciled(self, op_id: int, reconciled: bool) -> dict:
+        """Coche/decoche le rapprochement bancaire d'une operation, sans
+        recharger tout le budget (juste l'etat)."""
+        ok = db.set_reconciled(int(op_id), bool(reconciled))
+        return {"ok": ok, "id": int(op_id), "reconciled": bool(reconciled)}
 
     def get_operation(self, op_id: int) -> dict | None:
         op = db.get_budget_entry(int(op_id))
@@ -1338,7 +1345,7 @@ HTML = r"""
             <label class="datelbl">date <input type="date" id="tr_date"></label>
             <button class="primary small" onclick="submitTransfer()">Virer</button>
           </div>
-          <table><thead><tr><th>Date</th><th>Libellé</th><th>Catégorie</th><th style="text-align:right">Montant</th><th></th></tr></thead>
+          <table><thead><tr><th>Date</th><th>Libellé</th><th>Catégorie</th><th style="text-align:right">Montant</th><th style="text-align:center" title="Rapproché avec le compte bancaire">Rappr.</th><th></th></tr></thead>
           <tbody id="b_ops"></tbody></table>
         </div>
       </div>
@@ -2455,10 +2462,11 @@ HTML = r"""
     document.getElementById('flt_info').textContent = info;
 
     document.getElementById('b_ops').innerHTML = !b.operations.length ?
-      '<tr><td colspan="5" class="muted">Aucune opération.</td></tr>' :
+      '<tr><td colspan="6" class="muted">Aucune opération.</td></tr>' :
       b.operations.map(o=>`<tr><td>${o.date}</td><td>${esc(o.title)}</td>
         <td class="tag">${o.tags.map(t=>'#'+esc(t)).join(' ')}</td>
         <td style="text-align:right" class="${o.amount>=0?'pos':'neg'}">${o.amount>=0?'+':''}${o.amount.toFixed(2)}</td>
+        <td style="text-align:center"><input type="checkbox" ${o.reconciled?'checked':''} onchange="toggleReconciled(${o.id}, this)" title="Rapproché avec le compte bancaire"></td>
         <td style="text-align:right"><span class="iconbtn" onclick="editOp(${o.id})">✎</span><span class="iconbtn" onclick="delOp(${o.id})">🗑</span></td></tr>`).join('');
     document.getElementById('b_accounts').innerHTML =
       b.accounts.map(a=>`<div class="row"><span>${esc(a.name)}</span><span><span class="${a.balance>=0?'pos':'neg'}">${a.balance.toFixed(2)}</span> <span class="iconbtn" onclick="delAccount(${a.id},'${esc(a.name)}')">🗑</span></span></div>`).join('')
@@ -2538,6 +2546,11 @@ HTML = r"""
     document.getElementById('opForm').classList.remove('hide');
   }
   async function delOp(id){ await window.pywebview.api.delete_operation(id); loadBudget(); }
+  async function toggleReconciled(id, el){
+    // enregistre le rapprochement sans passer par le formulaire de modification
+    const r=await window.pywebview.api.set_reconciled(id, el.checked);
+    if(!r || !r.ok){ el.checked=!el.checked; return; } // annule visuellement si échec
+  }
 
   async function submitTransfer(){
     const from=document.getElementById('tr_from').value;
