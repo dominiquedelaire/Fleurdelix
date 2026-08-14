@@ -75,7 +75,7 @@ Le mode opératoire suivant permet de construire le noyau de base de l'OS Fleurd
     - On met à jour le menu de démarrage de l'OS pour appliquer le changement : **sudo update-grub**
   - On reboot pour valider les changements : **sudo reboot**  
 ### Installation des logiciels de la distribution Fleurdelix
-- Navigateur Internet fiable héritant de chromium mais sans la surveillance google : Brave
+- **Brave** - Navigateur Internet fiable héritant de chromium mais sans la surveillance google
   - **sudo apt install curl**
   - **sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg**
   - **echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list**
