@@ -231,6 +231,8 @@ moyenne et nombre de mesures. Chaque point affiche sa date et sa valeur au survo
 > Les courbes se construisent à partir des métriques `poids` et `sommeil` saisies
 > dans le Journal. Il faut au moins deux mesures pour qu'une courbe s'affiche.
 
+<img width="752" height="661" alt="screen4" src="https://github.com/user-attachments/assets/136c15bd-0a6b-45b4-9964-ec515ddcddb0" />
+
 <!-- Capture d'écran : Récapitulatif année -->
 
 ### Écran Récurrences
@@ -253,6 +255,8 @@ est **idempotente** : relancer ne crée jamais de doublons.
 Chaque ligne peut être désactivée/réactivée ou supprimée.
 
 <!-- Capture d'écran : Récurrences -->
+<img width="952" height="546" alt="screen5" src="https://github.com/user-attachments/assets/f30066ad-0a8c-465f-b1ef-42c8ea6711db" />
+
 
 ### Écran Budget
 
