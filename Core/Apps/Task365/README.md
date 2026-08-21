@@ -396,6 +396,12 @@ Partout où une date est demandée, ces formes sont comprises :
 | `10/06/2026`, `10-06-2026` | date française |
 | `10/06` | jour/mois, année courante |
 
+Un exemple d'écran en ligne de commande :   
+<img width="1031" height="674" alt="screen11" src="https://github.com/user-attachments/assets/33a57173-e728-4393-b0cb-5cb3da0ad8ae" />
+
+
+
+
 ### `task` : tâches
 
 ```bash
