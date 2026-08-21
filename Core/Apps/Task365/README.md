@@ -68,7 +68,7 @@ Task365 requiert **Python 3.10 ou plus**. La méthode recommandée est
 [`pipx`](https://pipx.pypa.io/), qui installe l'application dans un
 environnement isolé tout en rendant la commande `task365` disponible partout.
 
-### Linux (Ubuntu / Fleurdelix OS)
+### Fleurdelix OS et Linux (Ubuntu)
 
 ```bash
 # pipx si absent
