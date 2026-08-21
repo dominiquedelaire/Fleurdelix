@@ -282,6 +282,8 @@ filtrée, suivi d'une ligne **« Total (revenus − dépenses) »** donnant le s
 net de la période.
 
 <!-- Capture d'écran : Budget -->
+<img width="952" height="546" alt="screen6" src="https://github.com/user-attachments/assets/7d33fc37-7cc7-49f0-8ab3-991653fb153e" />
+
 
 ### Écran Contacts et notes
 
@@ -291,6 +293,8 @@ modifier ou d'en supprimer. Les contacts eux-mêmes sont créables, modifiables 
 supprimables.
 
 <!-- Capture d'écran : Contacts -->
+<img width="952" height="546" alt="screen7" src="https://github.com/user-attachments/assets/c0610041-7a5d-4c1e-b42d-6484dcf134ba" />
+
 
 ### Écran Gestion revenu et dépense
 
@@ -339,6 +343,8 @@ BOM et séparé par des points-virgules, pour s'ouvrir correctement dans Excel,
 OnlyOffice et LibreOffice.
 
 <!-- Capture d'écran : Gestion revenu et dépense -->
+<img width="952" height="546" alt="screen8" src="https://github.com/user-attachments/assets/7f6fb02d-cf50-4672-ad7d-dae7b500a132" />
+
 
 ### Écran Catégories
 
@@ -346,6 +352,8 @@ Gestion simple des catégories de dépenses et revenus : création, renommage,
 suppression.
 
 <!-- Capture d'écran : Catégories -->
+<img width="952" height="546" alt="screen9" src="https://github.com/user-attachments/assets/7eca8175-5a72-4257-a3d6-27483e7f47d1" />
+
 
 ### Écran Taxes
 
@@ -359,6 +367,8 @@ supprimer. Le calcul de taxes du module travailleur autonome s'appuie sur ces
 définitions.
 
 <!-- Capture d'écran : Taxes -->
+<img width="952" height="546" alt="screen10" src="https://github.com/user-attachments/assets/e1e8a111-38c2-4b5f-9ad1-53fc8969d050" />
+
 
 ---
 
