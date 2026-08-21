@@ -4,7 +4,7 @@
 
 
 
-**Assistant personnel local et hors-ligne** : tâches, journal de bord, budget
+**Assistant personnel local et hors-ligne** : tâches, journal de bord (sport, alimentaire, journal intime, ...), budget
 multi-comptes, contacts, et un module pour travailleurs autonomes avec calcul de
 taxes. Tout est stocké dans une base SQLite sur votre machine, **aucune donnée
 ne quitte votre ordinateur**.
