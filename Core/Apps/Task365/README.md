@@ -1,9 +1,15 @@
 # Task365
 
+**Auteur** : Dominique Delaire, Licence MIT, 2026.  
+
+
+
 **Assistant personnel local et hors-ligne** : tâches, journal de bord, budget
 multi-comptes, contacts, et un module pour travailleurs autonomes avec calcul de
 taxes. Tout est stocké dans une base SQLite sur votre machine, **aucune donnée
 ne quitte votre ordinateur**.
+
+<img width="614" height="375" alt="screen1" src="https://github.com/user-attachments/assets/af10856b-3e8b-4007-880c-b01445e5b308" />
 
 Task365 propose plusieurs interfaces qui partagent **exactement la même logique et
 la même base de données** :
@@ -161,6 +167,11 @@ task365 web
 La fenêtre s'organise en une **barre latérale** (repliable via ☰) regroupant les
 écrans par thème, et une **zone de contenu** à droite. Des badges affichent le
 nombre de tâches à faire, de contacts et de récurrences actives.
+
+<img width="1289" height="758" alt="screen1" src="https://github.com/user-attachments/assets/af10856b-3e8b-4007-880c-b01445e5b308" />
+
+<img width="896" height="597" alt="screen3" src="https://github.com/user-attachments/assets/5e4e5254-8886-4d84-bcc8-ca23a7d022dd" />
+
 
 <!-- Capture d'écran : vue générale -->
 
