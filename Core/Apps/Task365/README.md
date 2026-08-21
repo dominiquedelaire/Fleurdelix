@@ -69,7 +69,7 @@ Task365 requiert **Python 3.10 ou plus**. La méthode recommandée est
 environnement isolé tout en rendant la commande `task365` disponible partout.
 
 ### Fleurdelix OS et Linux (Ubuntu)
-Task365 est déjà installé dans notre distribution Fleurdelix OS :).  
+Task365 est déjà installé dans notre distribution Fleurdelix OS :).    
 
 ```bash
 # pipx si absent
