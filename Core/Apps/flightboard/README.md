@@ -1,8 +1,13 @@
-# ✈️ FlightBoard
+# FlightBoard pour Fleurdelix OS, Linux, Windows, MacOS
 
-**Afficheur des avions qui passent au-dessus de chez vous**, façon panneau à LED d'aéroport ou scope radar de tour de contrôle.
+**Un Afficheur Temps-réel d'avions qui passent au-dessus de chez vous**, façon panneau à LED d'aéroport ou scope radar de tour de contrôle.
 
-Application Python multiplateforme (Linux, macOS, Windows 11) construite avec [pywebview](https://pywebview.flowrl.com/). Les données de vol proviennent de réseaux ADS-B communautaires, gratuits et sans clé d'API.
+J'ai construit cette application pour l'un de mes enfants, Jad, qui veut être Pilote et qui est fan de flightradar et autres apps. Les écrans vendus dans le commerce qui font exactement la même chose sont vendus plusieurs centaines de dollars.
+Ce projet pourrait être intégré sur n'importe quel écran avec par exemple un raspberry PI intégré pour faire la même chose.
+
+C'est une application Python multiplateforme (Fleurdelix OS, Linux, macOS, Windows 11) construite avec [pywebview](https://pywebview.flowrl.com/).   
+
+**Les données de vol proviennent de réseaux ADS-B communautaires, gratuits et sans clé d'API.**
 
 <!-- Ajoutez vos captures d'écran ici :
 ![Tableau LED](docs/screenshots/tableau-led.png)
@@ -14,7 +19,7 @@ Application Python multiplateforme (Linux, macOS, Windows 11) construite avec [p
 
 - **Deux affichages** : tableau texte (compagnie, vol, route, appareil, altitude…) ou radar centré sur votre position, avec balayage animé, avions orientés selon leur cap réel, traînées de trajectoire et mini-indicatifs.
 - **Deux rendus** : LED simulées (police matricielle 5×7 dessinée point par point, halo, formes rondes ou carrées) ou lisse, style écran de tour de contrôle (vert phosphore, dégradés, halos lumineux).
-- **Informations à la carte** : cochez ce que vous voulez voir — compagnie, numéro de vol, origine → destination, villes, modèle d'avion, immatriculation, altitude, vitesse, distance et direction, cap, taux de montée, compteur. Chaque ligne a sa propre couleur, ou une couleur unique pour tout (préréglages ambre, rouge, vert, blanc).
+- **Informations à la carte** : cochez ce que vous voulez voir : compagnie, numéro de vol, origine & destination, villes, modèle d'avion, immatriculation, altitude, vitesse, distance et direction, cap, taux de montée, compteur. Chaque ligne a sa propre couleur, ou une couleur unique pour tout (préréglages ambre, rouge, vert, blanc).
 - **Position** : saisie manuelle des coordonnées, géolocalisation de l'appareil, ou localisation approximative par IP.
 - **Réglable** : rayon de recherche (5–250 km), fréquence de rafraîchissement, durée d'affichage par vol, unités métriques ou impériales, taille et forme des LED, couleurs du fond et du radar.
 - **Défilement** automatique des textes trop longs, rotation par pages si tout ne tient pas à l'écran.
@@ -77,11 +82,11 @@ python main.py --debug         # outils de développement (clic droit → Inspec
 
 Tout se règle dans le panneau ⚙ et se prévisualise en direct ; « Enregistrer » conserve les choix.
 
-- **Position** — nom du lieu, latitude/longitude, bouton « Géolocaliser l'appareil » (selon plateforme) ou « Localiser par IP » (ville approximative).
-- **Portée et rythme** — rayon de recherche, fréquence de rafraîchissement des données, durée d'affichage de chaque vol, unités.
-- **Apparence** — affichage (tableau/radar), rendu (LED simulées/lisse), taille et forme des LED, halo, couleur du fond, des LED éteintes et du radar.
-- **Couleurs du texte** — une couleur unique (préréglages inclus) ou une couleur par information.
-- **Informations affichées** — cases à cocher, dans l'ordre d'affichage.
+- **Position** : nom du lieu, latitude/longitude, bouton « Géolocaliser l'appareil » (selon plateforme) ou « Localiser par IP » (ville approximative).
+- **Portée et rythme** : rayon de recherche, fréquence de rafraîchissement des données, durée d'affichage de chaque vol, unités.
+- **Apparence** : affichage (tableau/radar), rendu (LED simulées/lisse), taille et forme des LED, halo, couleur du fond, des LED éteintes et du radar.
+- **Couleurs du texte** : une couleur unique (préréglages inclus) ou une couleur par information.
+- **Informations affichées** : cases à cocher, dans l'ordre d'affichage.
 
 Les réglages sont enregistrés dans `settings.json`, hors du dossier du projet :
 
@@ -132,9 +137,9 @@ flightboard/
 ## Dépannage
 
 - **Fenêtre noire au lancement** : les erreurs s'affichent en rouge en bas à gauche de la fenêtre ; `python main.py --debug` donne accès à la console complète. En dernier recours, `--browser` fonctionne partout.
-- **`[pywebview] QT cannot be loaded` au démarrage (Linux)** : sans gravité — pywebview essaie Qt puis bascule sur GTK. Pour le faire taire, forcez GTK : `webview.start(gui="gtk")` dans `main.py`.
+- **`[pywebview] QT cannot be loaded` au démarrage (Linux)** : sans gravité, pywebview essaie Qt puis bascule sur GTK. Pour le faire taire, forcez GTK : `webview.start(gui="gtk")` dans `main.py`.
 - **« Données indisponibles »** : les serveurs ADS-B sont peut-être temporairement injoignables, ou votre connexion bloque les requêtes ; réessayez, ou vérifiez avec `curl https://api.airplanes.live/v2/point/45.5/-73.5/20`.
-- **Aucun avion détecté** : élargissez le rayon — la couverture varie selon les régions et l'heure.
+- **Aucun avion détecté** : élargissez le rayon, la couverture varie selon les régions et l'heure.
 
 ## Licence
 
