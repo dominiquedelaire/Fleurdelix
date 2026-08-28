@@ -11,11 +11,20 @@ Elle est préinstallée sur Fleurdelix OS.
 
 **Les données de vol proviennent de réseaux ADS-B communautaires, gratuits et sans clé d'API.**
 
+Vue Radar (Lisse non led).  
 <img width="2016" height="925" alt="Vue Radar (Lisse non Led)" src="https://github.com/user-attachments/assets/b1b14898-a35e-481e-9adf-ee821ff2252b" />
+Vue Texte (Mode Led).  
 <img width="2035" height="1051" alt="Vue Texte (Mode Led)" src="https://github.com/user-attachments/assets/88dd2c53-2fb8-4583-b4cc-9f894c9085a7" />
+Vue Texte (Non Led).  
 <img width="2016" height="1063" alt="Vue Texte (non Led)" src="https://github.com/user-attachments/assets/579025af-92a1-4483-9957-0cb9400be10d" />
+Vue Radar (Mode Led).   
 <img width="2035" height="1051" alt="Vue Radar (Mode Led)" src="https://github.com/user-attachments/assets/324968eb-a840-432f-b74a-5c625a804fae" />
+Exemple de paramètres.  
 <img width="404" height="359" alt="Exemple de paramètres de l'application" src="https://github.com/user-attachments/assets/df2ae87a-12b9-4e02-9f38-54ad7b7938e6" />
+Lancement sur Ipad depuis App locale.  
+<img width="1086" height="1449" alt="testaccesipad2" src="https://github.com/user-attachments/assets/823c05b2-1624-469a-89a6-17e178fbbaea" />
+<img width="1086" height="1448" alt="testaccesipad1" src="https://github.com/user-attachments/assets/4fcd707b-0375-4d0e-a052-145be834a747" />
+
 
 
 ## Fonctionnalités
