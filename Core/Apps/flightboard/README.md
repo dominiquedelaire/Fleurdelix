@@ -5,15 +5,17 @@
 J'ai construit cette application pour l'un de mes enfants, Jad, qui veut être Pilote et qui est fan de flightradar et autres apps. Les écrans vendus dans le commerce qui font exactement la même chose sont vendus plusieurs centaines de dollars.
 Ce projet pourrait être intégré sur n'importe quel écran avec par exemple un raspberry PI intégré pour faire la même chose.
 
-C'est une application Python multiplateforme (Fleurdelix OS, Linux, macOS, Windows 11) construite avec [pywebview](https://pywebview.flowrl.com/).   
+C'est une application Python multiplateforme (Fleurdelix OS, Linux, macOS, Windows 11) construite avec [pywebview](https://pywebview.flowrl.com/) et peux s'exécuter aussi sur une tablette ipad , samsung, téléphones, xbox ou TV via navigateur internet.   
+
+Elle est préinstallée sur Fleurdelix OS.   
 
 **Les données de vol proviennent de réseaux ADS-B communautaires, gratuits et sans clé d'API.**
 
-<!-- Ajoutez vos captures d'écran ici :
-![Tableau LED](docs/screenshots/tableau-led.png)
-![Radar LED](docs/screenshots/radar-led.png)
-![Radar lisse](docs/screenshots/radar-lisse.png)
--->
+<img width="2016" height="925" alt="Vue Radar (Lisse non Led)" src="https://github.com/user-attachments/assets/b1b14898-a35e-481e-9adf-ee821ff2252b" />
+<img width="2035" height="1051" alt="Vue Texte (Mode Led)" src="https://github.com/user-attachments/assets/88dd2c53-2fb8-4583-b4cc-9f894c9085a7" />
+<img width="2016" height="1063" alt="Vue Texte (non Led)" src="https://github.com/user-attachments/assets/579025af-92a1-4483-9957-0cb9400be10d" />
+<img width="2035" height="1051" alt="Vue Radar (Mode Led)" src="https://github.com/user-attachments/assets/324968eb-a840-432f-b74a-5c625a804fae" />
+
 
 ## Fonctionnalités
 
@@ -38,7 +40,7 @@ source .venv/bin/activate        # Windows : .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Linux (Ubuntu / Debian)
+### Fleurdelix OS ou Linux (Ubuntu / Debian)
 
 pywebview s'appuie sur WebKitGTK, à installer via apt **avant** de créer le venv, et le venv doit voir les paquets système :
 
@@ -92,7 +94,7 @@ Les réglages sont enregistrés dans `settings.json`, hors du dossier du projet 
 
 | Système | Emplacement |
 |---|---|
-| Linux | `~/.config/FlightBoard/` |
+| Fleurdelix OS / Linux | `~/.config/FlightBoard/` |
 | macOS | `~/Library/Application Support/FlightBoard/` |
 | Windows | `%APPDATA%\FlightBoard\` |
 
