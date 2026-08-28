@@ -1,1 +1,953 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>FlightBoard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FlightBoard">
+<meta name="theme-color" content="#050505">
+<style>
+  :root{
+    --bg:#050505; --panel:#141414; --line:#262626; --ink:#e8e8e8; --muted:#8a8a8a; --accent:#4aa8ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+  #board{position:fixed;inset:0;width:100vw;height:100vh;display:block;cursor:none}
+  body.ui-visible #board{cursor:default}
 
+  /* bouton réglages — discret, apparaît au survol */
+  #gear{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+        background:rgba(20,20,20,.85);color:var(--muted);display:grid;place-items:center;opacity:0;transition:opacity .25s;cursor:pointer}
+  body.ui-visible #gear,#gear:focus-visible{opacity:1}
+  #gear:hover{color:var(--ink)}
+  #gear svg{width:18px;height:18px}
+
+  /* tiroir des réglages */
+  #drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--panel);border-left:1px solid var(--line);
+          transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;padding:18px 20px 40px}
+  #drawer.open{transform:none}
+  #drawer h1{font-size:15px;margin:0 0 4px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  #drawer h2{font-size:12px;margin:22px 0 8px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px}
+  .row{display:flex;gap:8px;align-items:center;margin:6px 0}
+  .row label{flex:1;color:var(--ink)}
+  .row small{color:var(--muted)}
+  input[type=number],input[type=text],select{background:#0b0b0b;border:1px solid var(--line);color:var(--ink);padding:6px 8px;border-radius:6px;width:110px;font:inherit}
+  input[type=text]{width:160px}
+  input[type=range]{flex:1;accent-color:var(--accent)}
+  input[type=color]{width:34px;height:26px;border:1px solid var(--line);background:none;padding:0;border-radius:6px;cursor:pointer}
+  input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent)}
+  button{background:#1f1f1f;border:1px solid var(--line);color:var(--ink);padding:7px 12px;border-radius:6px;cursor:pointer;font:inherit}
+  button:hover{border-color:#444}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#031}
+  .fields .row{padding:4px 0}
+  .fields .row label{display:flex;gap:8px;align-items:center}
+  #presets{flex-wrap:wrap}
+  #presets button{padding:4px 9px;font-size:12px}
+  .actions{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+  #status{color:var(--muted);font-size:12px;margin-top:10px;min-height:1.2em}
+  .hint{color:var(--muted);font-size:12px;margin:4px 0 0}
+  kbd{background:#222;border:1px solid #333;border-radius:4px;padding:0 5px;font-size:11px}
+</style>
+</head>
+<body>
+<canvas id="board"></canvas>
+<pre id="jserr" style="position:fixed;left:10px;bottom:10px;color:#ff5c5c;font:12px monospace;margin:0;white-space:pre-wrap;pointer-events:none"></pre>
+
+<button id="gear" title="Réglages (S)" aria-label="Réglages">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+  </svg>
+</button>
+
+<aside id="drawer" aria-label="Réglages">
+  <h1>FlightBoard</h1>
+  <p class="hint"><kbd>S</kbd> réglages · <kbd>F</kbd> plein écran · <kbd>R</kbd> radar/texte · <kbd>→</kbd> vol suivant · <kbd>Échap</kbd> fermer</p>
+
+  <h2>Position</h2>
+  <div class="row"><label>Nom du lieu</label><input type="text" id="location_name"></div>
+  <div class="row"><label>Latitude</label><input type="number" id="lat" step="0.0001"></div>
+  <div class="row"><label>Longitude</label><input type="number" id="lon" step="0.0001"></div>
+  <div class="row">
+    <button id="btnGeo">Géolocaliser l'appareil</button>
+    <button id="btnIp">Localiser par IP</button>
+  </div>
+  <p class="hint">La géolocalisation peut ne pas être disponible dans la fenêtre native ; la localisation par IP donne la ville approximative.</p>
+
+  <h2>Portée et rythme</h2>
+  <div class="row"><label>Rayon de recherche <small id="radiusLbl"></small></label><input type="range" id="radius_km" min="5" max="250" step="5"></div>
+  <div class="row"><label>Rafraîchir les données <small id="refreshLbl"></small></label><input type="range" id="refresh_seconds" min="5" max="120" step="5"></div>
+  <div class="row"><label>Durée par vol <small id="cycleLbl"></small></label><input type="range" id="cycle_seconds" min="2" max="30" step="1"></div>
+  <div class="row"><label>Unités</label>
+    <select id="units"><option value="metric">Métriques (m, km/h)</option><option value="imperial">Impériales (ft, mph)</option></select></div>
+
+  <h2>Apparence</h2>
+  <div class="row"><label>Affichage</label>
+    <select id="display_mode"><option value="board">Tableau texte</option><option value="radar">Radar</option></select></div>
+  <div class="row"><label>Rendu</label>
+    <select id="render_style"><option value="led">LED simulées</option><option value="smooth">Lisse (tour de contrôle)</option></select></div>
+  <div class="row"><label>Couleur du radar</label><input type="color" id="radar_color"></div>
+  <div class="row"><label>Taille des LED <small id="pitchLbl"></small></label><input type="range" id="led_pitch" min="4" max="22" step="1"></div>
+  <div class="row"><label>Forme</label>
+    <select id="led_shape"><option value="round">Ronde</option><option value="square">Carrée</option></select></div>
+  <div class="row"><label>Halo lumineux <small id="glowLbl"></small></label><input type="range" id="glow" min="0" max="1" step="0.05"></div>
+  <div class="row"><label>Couleur du fond</label><input type="color" id="bg_color"></div>
+  <div class="row"><label>Couleur des LED éteintes</label><input type="color" id="off_color"></div>
+
+  <h2>Couleurs du texte</h2>
+  <div class="row"><label><input type="checkbox" id="mono"> Une seule couleur pour tout</label><input type="color" id="mono_color"></div>
+  <div class="row" id="presets">
+    <small>Styles :</small>
+    <button type="button" data-preset="ambre">Ambre</button>
+    <button type="button" data-preset="rouge">Rouge</button>
+    <button type="button" data-preset="vert">Vert</button>
+    <button type="button" data-preset="blanc">Blanc</button>
+    <button type="button" data-preset="multi">Multicolore</button>
+  </div>
+  <p class="hint">Sinon, chaque information ci-dessous a sa propre couleur (pastille à droite).</p>
+
+  <h2>Informations affichées et leur couleur</h2>
+  <div class="fields" id="fields"></div>
+
+  <div class="actions">
+    <button class="primary" id="btnSave">Enregistrer</button>
+    <button id="btnReset">Valeurs par défaut</button>
+  </div>
+  <div id="status"></div>
+</aside>
+
+<script>
+// Police matricielle 5x7 (colonnes × lignes). '#' = LED allumée.
+// Les caractères accentués sont ramenés à leur lettre de base avant le rendu.
+const FONT5x7 = {
+' ': '.....|.....|.....|.....|.....|.....|.....',
+'!': '..#..|..#..|..#..|..#..|..#..|.....|..#..',
+'"': '.#.#.|.#.#.|.#.#.|.....|.....|.....|.....',
+'#': '.#.#.|.#.#.|#####|.#.#.|#####|.#.#.|.#.#.',
+'$': '..#..|.####|#.#..|.###.|..#.#|####.|..#..',
+'%': '##...|##..#|...#.|..#..|.#...|#..##|...##',
+'&': '.##..|#..#.|#.#..|.#...|#.#.#|#..#.|.##.#',
+"'": '.##..|..#..|.#...|.....|.....|.....|.....',
+'(': '...#.|..#..|.#...|.#...|.#...|..#..|...#.',
+')': '.#...|..#..|...#.|...#.|...#.|..#..|.#...',
+'*': '.....|..#..|#.#.#|.###.|#.#.#|..#..|.....',
+'+': '.....|..#..|..#..|#####|..#..|..#..|.....',
+',': '.....|.....|.....|.....|.##..|..#..|.#...',
+'-': '.....|.....|.....|#####|.....|.....|.....',
+'.': '.....|.....|.....|.....|.....|.##..|.##..',
+'/': '.....|....#|...#.|..#..|.#...|#....|.....',
+'0': '.###.|#...#|#..##|#.#.#|##..#|#...#|.###.',
+'1': '..#..|.##..|..#..|..#..|..#..|..#..|.###.',
+'2': '.###.|#...#|....#|...#.|..#..|.#...|#####',
+'3': '#####|...#.|..#..|...#.|....#|#...#|.###.',
+'4': '...#.|..##.|.#.#.|#..#.|#####|...#.|...#.',
+'5': '#####|#....|####.|....#|....#|#...#|.###.',
+'6': '..##.|.#...|#....|####.|#...#|#...#|.###.',
+'7': '#####|....#|...#.|..#..|.#...|.#...|.#...',
+'8': '.###.|#...#|#...#|.###.|#...#|#...#|.###.',
+'9': '.###.|#...#|#...#|.####|....#|...#.|.##..',
+':': '.....|.##..|.##..|.....|.##..|.##..|.....',
+';': '.....|.##..|.##..|.....|.##..|..#..|.#...',
+'<': '...#.|..#..|.#...|#....|.#...|..#..|...#.',
+'=': '.....|.....|#####|.....|#####|.....|.....',
+'>': '.#...|..#..|...#.|....#|...#.|..#..|.#...',
+'?': '.###.|#...#|....#|...#.|..#..|.....|..#..',
+'@': '.###.|#...#|....#|.##.#|#.#.#|#.#.#|.###.',
+'A': '.###.|#...#|#...#|#####|#...#|#...#|#...#',
+'B': '####.|#...#|#...#|####.|#...#|#...#|####.',
+'C': '.###.|#...#|#....|#....|#....|#...#|.###.',
+'D': '###..|#..#.|#...#|#...#|#...#|#..#.|###..',
+'E': '#####|#....|#....|####.|#....|#....|#####',
+'F': '#####|#....|#....|####.|#....|#....|#....',
+'G': '.###.|#...#|#....|#.###|#...#|#...#|.####',
+'H': '#...#|#...#|#...#|#####|#...#|#...#|#...#',
+'I': '.###.|..#..|..#..|..#..|..#..|..#..|.###.',
+'J': '..###|...#.|...#.|...#.|...#.|#..#.|.##..',
+'K': '#...#|#..#.|#.#..|##...|#.#..|#..#.|#...#',
+'L': '#....|#....|#....|#....|#....|#....|#####',
+'M': '#...#|##.##|#.#.#|#.#.#|#...#|#...#|#...#',
+'N': '#...#|#...#|##..#|#.#.#|#..##|#...#|#...#',
+'O': '.###.|#...#|#...#|#...#|#...#|#...#|.###.',
+'P': '####.|#...#|#...#|####.|#....|#....|#....',
+'Q': '.###.|#...#|#...#|#...#|#.#.#|#..#.|.##.#',
+'R': '####.|#...#|#...#|####.|#.#..|#..#.|#...#',
+'S': '.####|#....|#....|.###.|....#|....#|####.',
+'T': '#####|..#..|..#..|..#..|..#..|..#..|..#..',
+'U': '#...#|#...#|#...#|#...#|#...#|#...#|.###.',
+'V': '#...#|#...#|#...#|#...#|#...#|.#.#.|..#..',
+'W': '#...#|#...#|#...#|#.#.#|#.#.#|#.#.#|.#.#.',
+'X': '#...#|#...#|.#.#.|..#..|.#.#.|#...#|#...#',
+'Y': '#...#|#...#|#...#|.#.#.|..#..|..#..|..#..',
+'Z': '#####|....#|...#.|..#..|.#...|#....|#####',
+'[': '.###.|.#...|.#...|.#...|.#...|.#...|.###.',
+'\\': '.....|#....|.#...|..#..|...#.|....#|.....',
+']': '.###.|...#.|...#.|...#.|...#.|...#.|.###.',
+'^': '..#..|.#.#.|#...#|.....|.....|.....|.....',
+'_': '.....|.....|.....|.....|.....|.....|#####',
+'`': '.#...|..#..|...#.|.....|.....|.....|.....',
+'a': '.....|.....|.###.|....#|.####|#...#|.####',
+'b': '#....|#....|#.##.|##..#|#...#|#...#|####.',
+'c': '.....|.....|.###.|#....|#....|#...#|.###.',
+'d': '....#|....#|.##.#|#..##|#...#|#...#|.####',
+'e': '.....|.....|.###.|#...#|#####|#....|.###.',
+'f': '..##.|.#..#|.#...|###..|.#...|.#...|.#...',
+'g': '.....|.....|.####|#...#|.####|....#|.###.',
+'h': '#....|#....|#.##.|##..#|#...#|#...#|#...#',
+'i': '..#..|.....|.##..|..#..|..#..|..#..|.###.',
+'j': '...#.|.....|..##.|...#.|...#.|#..#.|.##..',
+'k': '#....|#....|#..#.|#.#..|##...|#.#..|#..#.',
+'l': '.##..|..#..|..#..|..#..|..#..|..#..|.###.',
+'m': '.....|.....|##.#.|#.#.#|#.#.#|#...#|#...#',
+'n': '.....|.....|#.##.|##..#|#...#|#...#|#...#',
+'o': '.....|.....|.###.|#...#|#...#|#...#|.###.',
+'p': '.....|.....|####.|#...#|####.|#....|#....',
+'q': '.....|.....|.####|#...#|.####|....#|....#',
+'r': '.....|.....|#.##.|##..#|#....|#....|#....',
+'s': '.....|.....|.###.|#....|.###.|....#|####.',
+'t': '.#...|.#...|###..|.#...|.#...|.#..#|..##.',
+'u': '.....|.....|#...#|#...#|#...#|#..##|.##.#',
+'v': '.....|.....|#...#|#...#|#...#|.#.#.|..#..',
+'w': '.....|.....|#...#|#...#|#.#.#|#.#.#|.#.#.',
+'x': '.....|.....|#...#|.#.#.|..#..|.#.#.|#...#',
+'y': '.....|.....|#...#|#...#|.####|....#|.###.',
+'z': '.....|.....|#####|...#.|..#..|.#...|#####',
+'{': '...#.|..#..|..#..|.#...|..#..|..#..|...#.',
+'|': '..#..|..#..|..#..|..#..|..#..|..#..|..#..',
+'}': '.#...|..#..|..#..|...#.|..#..|..#..|.#...',
+'~': '.....|.....|.#..#|#.#.#|#..#.|.....|.....',
+'°': '.##..|#..#.|.##..|.....|.....|.....|.....',
+'→': '.....|..#..|...#.|#####|...#.|..#..|.....',
+'←': '.....|..#..|.#...|#####|.#...|..#..|.....',
+'↑': '..#..|.###.|#.#.#|..#..|..#..|..#..|..#..',
+'↓': '..#..|..#..|..#..|..#..|#.#.#|.###.|..#..',
+};
+
+// Pré-compilation : pour chaque caractère, 7 lignes de 5 booléens
+const GLYPHS = {};
+for (const ch in FONT5x7) GLYPHS[ch] = FONT5x7[ch].split('|').map(r => [...r].map(c => c === '#'));
+
+
+// Mini police 3x5 (majuscules + chiffres) pour les petites étiquettes du radar
+const FONT3x5 = {
+'0':'###|#.#|#.#|#.#|###','1':'.#.|##.|.#.|.#.|###','2':'###|..#|###|#..|###','3':'###|..#|###|..#|###',
+'4':'#.#|#.#|###|..#|..#','5':'###|#..|###|..#|###','6':'###|#..|###|#.#|###','7':'###|..#|..#|..#|..#',
+'8':'###|#.#|###|#.#|###','9':'###|#.#|###|..#|###',
+'A':'.#.|#.#|###|#.#|#.#','B':'##.|#.#|##.|#.#|##.','C':'###|#..|#..|#..|###','D':'##.|#.#|#.#|#.#|##.',
+'E':'###|#..|###|#..|###','F':'###|#..|###|#..|#..','G':'###|#..|#.#|#.#|###','H':'#.#|#.#|###|#.#|#.#',
+'I':'###|.#.|.#.|.#.|###','J':'..#|..#|..#|#.#|###','K':'#.#|#.#|##.|#.#|#.#','L':'#..|#..|#..|#..|###',
+'M':'#.#|###|###|#.#|#.#','N':'###|#.#|#.#|#.#|#.#','O':'###|#.#|#.#|#.#|###','P':'###|#.#|###|#..|#..',
+'Q':'###|#.#|#.#|###|..#','R':'###|#.#|##.|#.#|#.#','S':'###|#..|###|..#|###','T':'###|.#.|.#.|.#.|.#.',
+'U':'#.#|#.#|#.#|#.#|###','V':'#.#|#.#|#.#|#.#|.#.','W':'#.#|#.#|###|###|#.#','X':'#.#|#.#|.#.|#.#|#.#',
+'Y':'#.#|#.#|.#.|.#.|.#.','Z':'###|..#|.#.|#..|###','-':'...|...|###|...|...','#':'#.#|###|#.#|###|#.#',
+' ':'...|...|...|...|...',
+};
+const GLYPHS3 = {};
+for (const ch in FONT3x5) GLYPHS3[ch] = FONT3x5[ch].split('|').map(r => [...r].map(c => c === '#'));
+function drawText3x5(g, text, x, y, color){
+  g.fillStyle = color;
+  let cx = x;
+  for (const ch of String(text).toUpperCase()){
+    const gl = GLYPHS3[ch] || GLYPHS3[' '];
+    for (let r = 0; r < 5; r++) for (let c = 0; c < 3; c++) if (gl[r][c]) g.fillRect(cx + c, y + r, 1, 1);
+    cx += 4;
+  }
+  return cx - x - 1;
+}
+function measure3x5(text){ return String(text).length * 4 - 1; }
+
+function glyphFor(ch){
+  if (GLYPHS[ch]) return GLYPHS[ch];
+  const base = ch.normalize('NFD').replace(/[\u0300-\u036f]/g, '');   // é -> e
+  return GLYPHS[base] || GLYPHS['?'];
+}
+
+/** Dessine `text` sur un contexte 2D à l'échelle 1 pixel = 1 LED. Retourne la largeur. */
+function drawText5x7(g, text, x, y, color){
+  g.fillStyle = color;
+  let cx = x;
+  for (const ch of text){
+    const gl = glyphFor(ch);
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 5; c++) if (gl[r][c]) g.fillRect(cx + c, y + r, 1, 1);
+    cx += 6;
+  }
+  return cx - x - 1;
+}
+function measure5x7(text){ return [...text].length * 6 - 1; }
+
+</script>
+<script>
+/* ============================================================
+   Pont vers Python : pywebview si présent, sinon HTTP local
+   ============================================================ */
+let bridge = null;   // 'pywebview' ou 'http', décidé une fois au démarrage
+const pywebviewReady = new Promise(res => {
+  if (window.pywebview && window.pywebview.api) return res(true);
+  window.addEventListener('pywebviewready', () => res(true), {once:true});
+  setTimeout(() => res(!!(window.pywebview && window.pywebview.api)), location.protocol === 'file:' ? 5000 : 1500);
+});
+const api = {
+  async call(name, payload){
+    if (!bridge) bridge = (await pywebviewReady) ? 'pywebview' : 'http';
+    if (bridge === 'pywebview') {
+      return payload === undefined ? window.pywebview.api[name]() : window.pywebview.api[name](payload);
+    }
+    const url = new URL('/api/'+name, location.href);
+    const r = await fetch(url, payload === undefined ? {} : {method:'POST', body: JSON.stringify(payload)});
+    return r.json();
+  }
+};
+
+/* ============================================================
+   Définition des champs affichables
+   ============================================================ */
+const FIELDS = [
+  ['airline',          'Compagnie'],
+  ['callsign',         'Numéro de vol / indicatif'],
+  ['route',            'Origine → destination (codes)'],
+  ['origin_name',      'Ville de départ'],
+  ['destination_name', 'Ville d\'arrivée'],
+  ['aircraft',         'Modèle d\'avion'],
+  ['registration',     'Immatriculation'],
+  ['altitude',         'Altitude'],
+  ['speed',            'Vitesse'],
+  ['distance',         'Distance et direction'],
+  ['heading',          'Cap'],
+  ['vertical_rate',    'Taux de montée / descente'],
+  ['counter',          'Compteur et heure de mise à jour'],
+];
+
+function fmtNum(n){ return Math.round(n).toLocaleString('fr-CA').replace(/\u00a0/g,' '); }
+
+function lineFor(key, f, s, idx, total, updatedAt){
+  const imp = s.units === 'imperial';
+  const r = f.route || {}, a = f.aircraft || {};
+  switch(key){
+    case 'airline':  return r.airline || (f.callsign && /^[A-Z]{3}\d/.test(f.callsign) ? f.callsign.slice(0,3) : 'Vol prive');
+    case 'callsign': return f.callsign || ('#'+(f.hex||'').toUpperCase());
+    case 'route': {
+      const o = r.origin_iata || r.origin_icao, d = r.dest_iata || r.dest_icao;
+      return (o && d) ? `${o}-${d}` : 'Route inconnue';
+    }
+    case 'origin_name':      return r.origin_city ? 'De: '+r.origin_city : 'De: ?';
+    case 'destination_name': return r.dest_city ? 'Vers: '+r.dest_city : 'Vers: ?';
+    case 'aircraft':     return a.type || f.type_desc || f.type_code || 'Appareil inconnu';
+    case 'registration': return f.registration || '—';
+    case 'altitude': {
+      if (f.altitude_ft == null) return 'Alt: —';
+      if (f.altitude_ft === 0) return 'Au sol';
+      return imp ? `Alt: ${fmtNum(f.altitude_ft)}ft` : `Alt: ${fmtNum(f.altitude_ft*0.3048)}m`;
+    }
+    case 'speed': {
+      if (f.speed_kt == null) return 'Vit: —';
+      return imp ? `Vit: ${fmtNum(f.speed_kt*1.15078)}mph` : `Vit: ${fmtNum(f.speed_kt*1.852)}km/h`;
+    }
+    case 'distance': {
+      const d = imp ? (f.distance_km*0.621371).toFixed(1)+'mi' : f.distance_km.toFixed(1)+'km';
+      return `${d} ${f.bearing_compass}`;
+    }
+    case 'heading': return f.track != null ? `Cap: ${Math.round(f.track)}°` : 'Cap: —';
+    case 'vertical_rate': {
+      if (f.vertical_rate_fpm == null) return 'V/S: —';
+      const v = f.vertical_rate_fpm, arrow = v > 100 ? '^' : v < -100 ? 'v' : '=';
+      return imp ? `${arrow} ${fmtNum(Math.abs(v))}ft/min` : `${arrow} ${(Math.abs(v)*0.00508).toFixed(1)}m/s`;
+    }
+    case 'counter': {
+      const t = updatedAt ? (d=>String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'))(new Date(updatedAt*1000)) : '--:--';
+      return `${idx+1}/${total}  ${t}`;
+    }
+  }
+  return '';
+}
+
+/* ============================================================
+   Rendu LED
+   ============================================================ */
+const canvas = document.getElementById('board');
+const ctx = canvas.getContext('2d');
+const mat = document.createElement('canvas');           // matrice : 1 pixel = 1 LED
+const mctx = mat.getContext('2d', {willReadFrequently:true});
+let offGrid = null;                                      // LED éteintes (mis en cache)
+
+let settings = null;
+let flights = [], flightIdx = 0, updatedAt = null, lastError = null;
+let lastFetch = -1e9, lastCycle = 0;
+const scroll = {};                                       // décalage de défilement par ligne
+const trails = {};                                       // historique de positions par avion (pour le radar)
+
+function recordTrails(){
+  const t = Date.now();
+  for (const f of flights){
+    if (!f.hex) continue;
+    const tr = trails[f.hex] || (trails[f.hex] = []);
+    const last = tr[tr.length-1];
+    if (!last || last.d !== f.distance_km || last.b !== f.bearing) tr.push({d: f.distance_km, b: f.bearing, t});
+    if (tr.length > 12) tr.shift();
+  }
+  // oubli des avions disparus et des points trop vieux (15 min)
+  const seen = new Set(flights.map(f=>f.hex));
+  for (const hx in trails){
+    trails[hx] = trails[hx].filter(pt => t - pt.t < 15*60*1000);
+    if (!trails[hx].length || !seen.has(hx)) delete trails[hx];
+  }
+}
+
+function resize(){
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(innerWidth*dpr); canvas.height = Math.floor(innerHeight*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const pitch = settings ? settings.led_pitch : 8;
+  mat.width  = Math.max(16, Math.floor(innerWidth/pitch));
+  mat.height = Math.max(8,  Math.floor(innerHeight/pitch));
+  offGrid = null;
+}
+addEventListener('resize', resize);
+
+function drawPlane(g, cx, cy, size, angleDeg, color){
+  // pictogramme d'avion vu de dessus, pointé dans la direction de vol
+  g.save(); g.translate(cx, cy); g.rotate((angleDeg-90)*Math.PI/180); g.scale(size/10, size/10);
+  g.fillStyle = color;
+  g.beginPath();
+  g.moveTo(9,0);  g.lineTo(3,-1.2); g.lineTo(-1,-9); g.lineTo(-3.5,-9); g.lineTo(-2,-1.3);
+  g.lineTo(-6,-1); g.lineTo(-8,-4); g.lineTo(-9.5,-4); g.lineTo(-8.5,0); g.lineTo(-9.5,4); g.lineTo(-8,4);
+  g.lineTo(-6,1);  g.lineTo(-2,1.3); g.lineTo(-3.5,9); g.lineTo(-1,9); g.lineTo(3,1.2); g.closePath();
+  g.fill(); g.restore();
+}
+
+function composeRadar(now){
+  const W = mat.width, H = mat.height;
+  mctx.clearRect(0,0,W,H);
+  const col = settings.mono ? settings.mono_color : (settings.radar_color || '#3cff5a');
+  const cx = Math.floor(W/2), cy = Math.floor(H/2);
+  const R = Math.max(10, Math.floor(Math.min(W, H)/2) - 2);
+  const range = settings.radius_km;
+
+  // balayage : secteur estompé + aiguille brillante
+  const ang = (now % 4000) / 4000 * 2*Math.PI;
+  mctx.fillStyle = col; mctx.globalAlpha = 0.42;
+  mctx.beginPath(); mctx.moveTo(cx, cy);
+  mctx.arc(cx, cy, R, ang - Math.PI/2 - 0.85, ang - Math.PI/2); mctx.closePath(); mctx.fill();
+  mctx.globalAlpha = 1;
+  mctx.strokeStyle = col; mctx.lineWidth = 1;
+  mctx.beginPath(); mctx.moveTo(cx, cy);
+  mctx.lineTo(cx + R*Math.sin(ang), cy - R*Math.cos(ang)); mctx.stroke();
+
+  // anneaux + croix
+  for (const f of [1/3, 2/3, 1]) {
+    mctx.globalAlpha = f === 1 ? 0.85 : 0.45;
+    mctx.beginPath(); mctx.arc(cx, cy, R*f, 0, 6.283); mctx.stroke();
+  }
+  mctx.globalAlpha = 0.4;
+  mctx.beginPath(); mctx.moveTo(cx-R, cy); mctx.lineTo(cx+R, cy); mctx.moveTo(cx, cy-R); mctx.lineTo(cx, cy+R); mctx.stroke();
+  mctx.globalAlpha = 1;
+
+  // points cardinaux, à l'intérieur du cercle
+  drawText5x7(mctx, 'N', cx-2, cy-R+2, col);
+  drawText5x7(mctx, 'S', cx-2, cy+R-9, col);
+  drawText5x7(mctx, 'O', cx-R+3, cy-3, col);
+  drawText5x7(mctx, 'E', cx+R-8, cy-3, col);
+
+  // en-tête (portée + nombre) en haut à gauche, hors du cercle si possible
+  drawText5x7(mctx, `${range}km`, 1, 1, col);
+  drawText5x7(mctx, `${flights.length} vol${flights.length>1?'s':''}`, 1, 9, col);
+
+  const polar = (d, brg) => {
+    const rr = Math.min(1, d / range) * R;
+    const a = brg * Math.PI/180;
+    return [cx + rr*Math.sin(a), cy - rr*Math.cos(a)];
+  };
+
+  // trainées (points de plus en plus lumineux vers la position actuelle)
+  for (const f of flights){
+    const tr = trails[f.hex]; if (!tr || tr.length < 2) continue;
+    tr.slice(0, -1).forEach((pt, j) => {
+      const [tx, ty] = polar(pt.d, pt.b);
+      mctx.globalAlpha = 0.35 + 0.45 * (j / (tr.length - 1));
+      mctx.fillStyle = col;
+      mctx.fillRect(Math.round(tx), Math.round(ty), 1, 1);
+    });
+    mctx.globalAlpha = 1;
+  }
+
+  // avions + petit indicatif à côté de chacun
+  flights.forEach((f, i) => {
+    const [x, y] = polar(f.distance_km, f.bearing);
+    if (i === flightIdx) {
+      mctx.globalAlpha = 0.75 + 0.25*Math.sin(now/200);
+      drawPlane(mctx, x, y, 5, f.track ?? 0, col);
+      mctx.globalAlpha = 1;
+    } else {
+      drawPlane(mctx, x, y, 3, f.track ?? 0, col);
+      const tag = f.callsign || (f.hex||'').toUpperCase();
+      const tw = measure3x5(tag);
+      let tx = x + 5; if (tx + tw > W-1) tx = x - 5 - tw;
+      let ty = y - 6; if (ty < 1) ty = y + 4;
+      mctx.globalAlpha = 0.8;
+      drawText3x5(mctx, tag, Math.round(tx), Math.round(ty), col);
+      mctx.globalAlpha = 1;
+    }
+  });
+
+  // fiche du vol suivi, épinglée en bas à gauche (évite les collisions au centre)
+  const f = flights[flightIdx];
+  if (f) {
+    const tag = f.callsign || (f.hex||'').toUpperCase();
+    const tw = measure3x5(tag);
+    const [sx, sy] = polar(f.distance_km, f.bearing);
+    let tx = sx + 5; if (tx + tw > W-1) tx = sx - 5 - tw;
+    let ty = sy - 6; if (ty < 1) ty = sy + 4;
+    mctx.globalAlpha = 0.9;
+    drawText3x5(mctx, tag, Math.round(tx), Math.round(ty), col);
+    mctx.globalAlpha = 1;
+
+    const l1 = f.callsign || ('#'+(f.hex||'').toUpperCase());
+    const imp = settings.units === 'imperial';
+    const alt = f.altitude_ft == null ? '' : (f.altitude_ft === 0 ? 'sol' : (imp ? fmtNum(f.altitude_ft)+'ft' : fmtNum(f.altitude_ft*0.3048)+'m'));
+    const l2 = (imp ? (f.distance_km*0.621371).toFixed(1)+'mi' : f.distance_km.toFixed(1)+'km') + (alt ? ' '+alt : '');
+    drawText5x7(mctx, l1, 1, H-17, col);
+    drawText5x7(mctx, l2, 1, H-9, col);
+    } else if (!lastError) {
+    drawText5x7(mctx, 'recherche'+(Math.floor(now/600)%2?'.':' '), 1, H-8, col);
+  }
+  if (lastError) drawText5x7(mctx, 'Donnees indisponibles', 1, H-8, '#ff5c5c');
+}
+
+function buildLines(now){
+  const f = flights[flightIdx];
+  const keys = FIELDS.map(k=>k[0]).filter(k => settings.fields[k]);
+  const lines = [];
+  if (lastError) {
+    lines.push({text:'Données indisponibles', color:'#ff5c5c'}, {text:lastError.slice(0,60), color:'#9a9a9a'});
+  } else if (!f) {
+    const blink = Math.floor(now/600)%2 ? '.' : ' ';
+    lines.push({text:`Aucun avion a ${settings.radius_km}km`, color:'#9a9a9a'},
+               {text:`${settings.location_name||''}  recherche${blink}`, color:'#5a5a5a'});
+  } else {
+    for (const k of keys) lines.push({key:k, text: lineFor(k, f, settings, flightIdx, flights.length, updatedAt), color: settings.mono ? settings.mono_color : (settings.colors[k] || '#fff')});
+  }
+  return lines;
+}
+
+function composeMatrix(now){
+  if (settings.display_mode === 'radar') return composeRadar(now);
+  const W = mat.width, H = mat.height;
+  mctx.clearRect(0,0,W,H);
+  const f = flights[flightIdx];
+  const lines = buildLines(now);
+  if (!lines.length) lines.push({text:'Aucune information cochée', color:'#9a9a9a'});
+
+  // zone pictogramme à gauche (si assez large)
+  const iconW = W >= 70 ? Math.min(H, 20) : 0;
+  if (iconW && f) drawPlane(mctx, iconW/2, H/2, iconW*0.42, f.track ?? 0, settings.mono ? settings.mono_color : (settings.colors.route || '#4aa8ff'));
+  if (iconW) { mctx.fillStyle='#2a2a2a'; mctx.fillRect(iconW+1, 1, 1, H-2); }
+
+  const x0 = iconW ? iconW+4 : 2;
+  const avail = W - x0 - 1;
+  const lineH = 9;                                      // 7 LED de glyphe + 2 d'interligne
+  const perPage = Math.max(1, Math.floor((H - 1) / lineH));
+  // si tout ne tient pas, on tourne les pages pendant la durée d'affichage du vol
+  const pages = Math.ceil(lines.length / perPage);
+  const page = pages > 1 ? Math.floor((now - lastCycle) / (settings.cycle_seconds*1000 / pages)) % pages : 0;
+  const shown = lines.slice(page*perPage, page*perPage + perPage);
+  const top = Math.floor((H - lineH*shown.length + 2) / 2);
+
+  shown.forEach((ln, i) => {
+    const tw = measure5x7(ln.text);
+    let x = x0;
+    const id = ln.key || 'msg'+i;
+    if (tw > avail) {                                   // défilement horizontal
+      const period = tw + avail;
+      const off = ((now/60) + (scroll[id]||0)) % period;   // ~16 LED/s
+      x = Math.round(x0 + avail - off);
+    }
+    mctx.save();
+    mctx.beginPath(); mctx.rect(x0, 0, avail, H); mctx.clip();
+    drawText5x7(mctx, ln.text, x, top + i*lineH, ln.color);
+    mctx.restore();
+  });
+}
+
+
+/* ============================================================
+   Rendu lisse (sans LED), style écran de tour de contrôle
+   ============================================================ */
+function polarPx(d, brg, cx, cy, R, range){
+  const rr = Math.min(1, d / range) * R;
+  const a = brg * Math.PI/180;
+  return [cx + rr*Math.sin(a), cy - rr*Math.cos(a)];
+}
+
+function renderSmoothRadar(now){
+  const w = innerWidth, hgt = innerHeight;
+  const col = settings.mono ? settings.mono_color : (settings.radar_color || '#3cff5a');
+  const cx = w/2, cy = hgt/2;
+  const R = Math.min(w, hgt)/2 - 24;
+  const range = settings.radius_km;
+
+  ctx.fillStyle = settings.bg_color || '#050505'; ctx.fillRect(0,0,w,hgt);
+  // fond du scope légèrement lumineux au centre
+  const bgGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+  bgGrad.addColorStop(0, 'rgba(60,255,90,0.07)');
+  bgGrad.addColorStop(1, 'rgba(60,255,90,0.015)');
+  ctx.fillStyle = bgGrad;
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.283); ctx.fill();
+
+  // balayage : secteur dégradé + aiguille
+  const ang = (now % 4000) / 4000 * 2*Math.PI;
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.283); ctx.clip();
+  if (ctx.createConicGradient) {
+    const g = ctx.createConicGradient(ang - Math.PI/2, cx, cy);
+    g.addColorStop(0, 'rgba(0,0,0,0)');
+    g.addColorStop(0.82, 'rgba(0,0,0,0)');
+    g.addColorStop(1, col);
+    ctx.fillStyle = g;
+    ctx.fillRect(cx-R, cy-R, 2*R, 2*R);
+  } else {
+    ctx.globalAlpha = 0.25; ctx.fillStyle = col;
+    ctx.beginPath(); ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, R, ang - Math.PI/2 - 0.8, ang - Math.PI/2); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+  ctx.strokeStyle = col; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(cx, cy);
+  ctx.lineTo(cx + R*Math.sin(ang), cy - R*Math.cos(ang)); ctx.stroke();
+
+  // anneaux, croix, graduations de distance
+  ctx.lineWidth = 1;
+  for (const fr of [1/3, 2/3, 1]) {
+    ctx.globalAlpha = fr === 1 ? 0.9 : 0.35;
+    ctx.beginPath(); ctx.arc(cx, cy, R*fr, 0, 6.283); ctx.stroke();
+  }
+  ctx.globalAlpha = 0.25;
+  ctx.beginPath(); ctx.moveTo(cx-R, cy); ctx.lineTo(cx+R, cy); ctx.moveTo(cx, cy-R); ctx.lineTo(cx, cy+R); ctx.stroke();
+  ctx.globalAlpha = 1;
+  const fs = Math.max(11, Math.min(16, Math.round(R/22)));
+  ctx.font = `${fs}px ui-monospace, Menlo, Consolas, monospace`;
+  ctx.fillStyle = col; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  ctx.globalAlpha = 0.55;
+  const imp = settings.units === 'imperial';
+  for (const fr of [1/3, 2/3]) {   // la graduation extérieure = la portée, déjà en en-tête
+    const d = range * fr;
+    ctx.fillText(imp ? (d*0.621371).toFixed(0)+'mi' : d.toFixed(0)+'km', cx + 5, cy - R*fr + fs + 2);
+  }
+  ctx.globalAlpha = 1;
+
+  // points cardinaux
+  ctx.textAlign = 'center';
+  ctx.fillText('N', cx, cy - R + fs + 2);
+  ctx.fillText('S', cx, cy + R - 6);
+  ctx.textAlign = 'left';  ctx.fillText('O', cx - R + 5, cy - 4);
+  ctx.textAlign = 'right'; ctx.fillText('E', cx + R - 5, cy - 4);
+  ctx.textAlign = 'left';
+
+  // en-tête
+  ctx.font = `${fs+3}px ui-monospace, Menlo, Consolas, monospace`;
+  ctx.fillText(`${range}km   ${flights.length} vol${flights.length>1?'s':''}`, 12, fs + 12);
+
+  // trainées
+  for (const f of flights){
+    const tr = trails[f.hex]; if (!tr || tr.length < 2) continue;
+    for (let j = 0; j < tr.length - 1; j++){
+      const [tx, ty] = polarPx(tr[j].d, tr[j].b, cx, cy, R, range);
+      ctx.globalAlpha = 0.15 + 0.4 * (j / (tr.length - 1));
+      ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(tx, ty, 1.6, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // avions + étiquettes
+  ctx.shadowColor = col;
+  flights.forEach((f, i) => {
+    const [x, y] = polarPx(f.distance_km, f.bearing, cx, cy, R, range);
+    const sel = i === flightIdx;
+    ctx.shadowBlur = sel ? 14 : 7;
+    ctx.globalAlpha = sel ? 0.8 + 0.2*Math.sin(now/200) : 1;
+    drawPlane(ctx, x, y, sel ? 13 : 9, f.track ?? 0, col);
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+    const tag = f.callsign || (f.hex||'').toUpperCase();
+    // abrégé de la compagnie sous l'indicatif (sauf vols privés)
+    const r = f.route || {};
+    let airline = '';
+    if (r.airline) {
+      airline = r.airline.length > 16 ? (r.airline_iata || r.airline.slice(0, 15) + '…') : r.airline;
+    } else if (r.airline_iata) airline = r.airline_iata;
+    const fs2 = Math.max(9, Math.round(fs * 0.8));
+    ctx.font = `${fs}px ui-monospace, Menlo, Consolas, monospace`;
+    ctx.globalAlpha = sel ? 1 : 0.75;
+    const tw = Math.max(ctx.measureText(tag).width, airline ? airline.length * fs2 * 0.62 : 0);
+    let lx = x + 14; if (lx + tw > w - 6) lx = x - 14 - tw;
+    ctx.fillText(tag, lx, y - 8);
+    if (airline) {
+      ctx.font = `${fs2}px ui-monospace, Menlo, Consolas, monospace`;
+      ctx.globalAlpha = sel ? 0.85 : 0.6;
+      ctx.fillText(airline, lx, y - 8 + fs2 + 2);
+    }
+    ctx.globalAlpha = 1;
+  });
+
+  // fiche du vol suivi en bas à gauche
+  const f = flights[flightIdx];
+  if (f) {
+    const alt = f.altitude_ft == null ? '' : (f.altitude_ft === 0 ? 'sol' : (imp ? fmtNum(f.altitude_ft)+'ft' : fmtNum(f.altitude_ft*0.3048)+'m'));
+    const l2 = (imp ? (f.distance_km*0.621371).toFixed(1)+'mi' : f.distance_km.toFixed(1)+'km') + (alt ? '  '+alt : '');
+    ctx.font = `bold ${fs+4}px ui-monospace, Menlo, Consolas, monospace`;
+    ctx.fillText(f.callsign || ('#'+(f.hex||'').toUpperCase()), 12, hgt - fs - 18);
+    ctx.font = `${fs+2}px ui-monospace, Menlo, Consolas, monospace`;
+    ctx.fillText(l2, 12, hgt - 12);
+  } else if (!lastError) {
+    ctx.globalAlpha = 0.6;
+    ctx.fillText('recherche'+(Math.floor(now/600)%2?'…':''), 12, hgt - 12);
+    ctx.globalAlpha = 1;
+  }
+  if (lastError) { ctx.fillStyle = '#ff5c5c'; ctx.fillText('Données indisponibles', 12, hgt - 12); }
+}
+
+function renderSmoothBoard(now){
+  const w = innerWidth, hgt = innerHeight;
+  ctx.fillStyle = settings.bg_color || '#050505'; ctx.fillRect(0,0,w,hgt);
+  const f = flights[flightIdx];
+  const lines = buildLines(now);
+  if (!lines.length) return;
+
+  const iconW = w > 560 ? Math.min(hgt, 180) : 0;
+  if (iconW && f) {
+    ctx.shadowColor = settings.mono ? settings.mono_color : (settings.colors.route || '#4aa8ff');
+    ctx.shadowBlur = 16;
+    drawPlane(ctx, iconW/2, hgt/2, iconW*0.36, f.track ?? 0, settings.mono ? settings.mono_color : (settings.colors.route || '#4aa8ff'));
+    ctx.shadowBlur = 0;
+  }
+  if (iconW) { ctx.fillStyle = 'rgba(255,255,255,0.12)'; ctx.fillRect(iconW+8, 10, 1, hgt-20); }
+
+  const x0 = iconW ? iconW + 26 : 22;
+  const avail = w - x0 - 14;
+  const lineH = Math.max(26, Math.min(96, Math.floor((hgt - 20) / lines.length)));
+  const fpx = Math.round(lineH * 0.66);
+  ctx.font = `bold ${fpx}px ui-monospace, Menlo, Consolas, monospace`;
+  ctx.textBaseline = 'alphabetic';
+  const top = Math.floor((hgt - lineH*lines.length)/2);
+
+  lines.forEach((ln, i) => {
+    const tw = ctx.measureText(ln.text).width;
+    let x = x0;
+    if (tw > avail) {
+      const period = tw + avail;
+      const off = ((now/12) % period);
+      x = x0 + avail - off;
+    }
+    ctx.save();
+    ctx.beginPath(); ctx.rect(x0, 0, avail, hgt); ctx.clip();
+    ctx.shadowColor = ln.color; ctx.shadowBlur = 10;
+    ctx.fillStyle = ln.color;
+    ctx.fillText(ln.text, x, top + i*lineH + fpx);
+    ctx.restore();
+  });
+}
+
+function renderLeds(){
+  const W = mat.width, H = mat.height, p = settings.led_pitch;
+  const round = settings.led_shape !== 'square';
+  const ox = (innerWidth - W*p)/2, oy = (innerHeight - H*p)/2;
+  const r = p*0.36;
+
+  ctx.fillStyle = settings.bg_color || '#050505'; ctx.fillRect(0,0,innerWidth,innerHeight);
+
+  if (!offGrid) {                                        // grille des LED éteintes, mise en cache
+    offGrid = document.createElement('canvas');
+    const dpr = window.devicePixelRatio||1;
+    offGrid.width = innerWidth*dpr; offGrid.height = innerHeight*dpr;
+    const g = offGrid.getContext('2d'); g.scale(dpr,dpr);
+    g.fillStyle = settings.off_color || '#141414';
+    for (let y=0;y<H;y++) for (let x=0;x<W;x++){
+      const cx = ox + x*p + p/2, cy = oy + y*p + p/2;
+      if (round){ g.beginPath(); g.arc(cx,cy,r,0,6.283); g.fill(); } else g.fillRect(cx-r,cy-r,r*2,r*2);
+    }
+  }
+  ctx.drawImage(offGrid, 0, 0, innerWidth, innerHeight);
+
+  const img = mctx.getImageData(0,0,W,H).data;
+  // passe 1 : halo, passe 2 : LED
+  for (let pass=0; pass<2; pass++){
+    for (let y=0;y<H;y++) for (let x=0;x<W;x++){
+      const i = (y*W+x)*4, a = img[i+3];
+      if (a < 90) continue;
+      const k = Math.min(1, a/255 + 0.15);
+      const cx = ox + x*p + p/2, cy = oy + y*p + p/2;
+      if (pass===0 && !(settings.glow > 0)) continue;
+    const rr = pass===0 ? r*1.9 : r;
+      ctx.fillStyle = `rgba(${img[i]},${img[i+1]},${img[i+2]},${pass===0 ? (settings.glow ?? 0.2)*k : k})`;
+      if (round){ ctx.beginPath(); ctx.arc(cx,cy,rr,0,6.283); ctx.fill(); } else ctx.fillRect(cx-rr,cy-rr,rr*2,rr*2);
+    }
+  }
+}
+
+let lastFrame = 0;
+function frame(now){
+  requestAnimationFrame(frame);
+  if (!settings) return;
+  try { frameInner(now); } catch(e){ document.getElementById('jserr').textContent = 'Erreur de rendu : '+(e.stack||e); }
+}
+let lastDims = '';
+function frameInner(now){
+  const dims = innerWidth+'x'+innerHeight+'@'+(window.devicePixelRatio||1)+'/'+settings.led_pitch;
+  if (dims !== lastDims) { lastDims = dims; resize(); }
+  if (now - lastFrame < 1000/24) return;               // 24 i/s suffit pour un afficheur
+  lastFrame = now;
+
+  if (flights.length > 1 && now - lastCycle > settings.cycle_seconds*1000){ nextFlight(); lastCycle = now; }
+  if (now - lastFetch > settings.refresh_seconds*1000) { lastFetch = now; refresh(); }
+
+  if (settings.render_style === 'smooth') {
+    if (settings.display_mode === 'radar') renderSmoothRadar(now); else renderSmoothBoard(now);
+  } else {
+    composeMatrix(now);
+    renderLeds();
+  }
+}
+function nextFlight(){ flightIdx = flights.length ? (flightIdx+1) % flights.length : 0; for (const k in scroll) delete scroll[k]; }
+
+async function refresh(){
+  try {
+    const res = await api.call('get_flights');
+    if (res.ok){
+      // garder la position dans le cycle si l'avion courant est toujours là
+      const cur = flights[flightIdx]?.hex;
+      flights = res.flights; updatedAt = res.time; lastError = null;
+      recordTrails();
+      const j = flights.findIndex(f=>f.hex===cur); flightIdx = j>=0 ? j : 0;
+    } else lastError = res.error || 'erreur inconnue';
+  } catch(e){ lastError = String(e); }
+}
+
+/* ============================================================
+   Réglages
+   ============================================================ */
+const drawer = document.getElementById('drawer');
+const $ = id => document.getElementById(id);
+const status = msg => { $('status').textContent = msg; };
+
+function buildFieldRows(){
+  const box = $('fields'); box.innerHTML = '';
+  for (const [key,label] of FIELDS){
+    const row = document.createElement('div'); row.className='row';
+    row.innerHTML = `<label><input type="checkbox" data-f="${key}"> ${label}</label><input type="color" data-c="${key}">`;
+    box.appendChild(row);
+  }
+}
+function fillForm(s){
+  ['location_name','lat','lon','radius_km','refresh_seconds','cycle_seconds','units','led_pitch','led_shape','glow','bg_color','off_color','mono_color','display_mode','radar_color','render_style'].forEach(k => $(k).value = s[k]);
+  $('mono').checked = !!s.mono;
+  document.querySelectorAll('[data-f]').forEach(el => el.checked = !!s.fields[el.dataset.f]);
+  document.querySelectorAll('[data-c]').forEach(el => el.value = s.colors[el.dataset.c] || '#ffffff');
+  syncLabels();
+}
+function readForm(){
+  const s = {fields:{}, colors:{}};
+  ['location_name','units','led_shape','bg_color','off_color','mono_color','display_mode','radar_color','render_style'].forEach(k => s[k] = $(k).value);
+  s.mono = $('mono').checked;
+  ['lat','lon','radius_km','refresh_seconds','cycle_seconds','led_pitch','glow'].forEach(k => s[k] = Number($(k).value));
+  document.querySelectorAll('[data-f]').forEach(el => s.fields[el.dataset.f] = el.checked);
+  document.querySelectorAll('[data-c]').forEach(el => s.colors[el.dataset.c] = el.value);
+  return s;
+}
+function syncLabels(){
+  $('radiusLbl').textContent = $('radius_km').value+' km';
+  $('refreshLbl').textContent = $('refresh_seconds').value+' s';
+  $('cycleLbl').textContent = $('cycle_seconds').value+' s';
+  $('pitchLbl').textContent = $('led_pitch').value+' px';
+  $('glowLbl').textContent = Math.round($('glow').value*100)+' %';
+}
+drawer.addEventListener('input', e => {
+  syncLabels();
+  // aperçu immédiat de l'apparence et des champs, sans enregistrer
+  const s = readForm();
+  settings = Object.assign({}, settings, s, {fields:s.fields, colors:s.colors});
+  if (e.target.id === 'led_pitch' || e.target.id === 'off_color') resize();
+});
+
+$('btnSave').onclick = async () => {
+  settings = await api.call('save_settings', readForm());
+  resize(); lastFetch = -1e9; status('Réglages enregistrés.');
+};
+$('btnReset').onclick = async () => {
+  settings = await api.call('reset_settings'); fillForm(settings); resize(); lastFetch = -1e9; status('Valeurs par défaut restaurées.');
+};
+$('btnIp').onclick = async () => {
+  status('Localisation par IP…');
+  const r = await api.call('locate');
+  if (r.ok){ $('lat').value = r.lat; $('lon').value = r.lon; $('location_name').value = r.location_name; status('Position trouvée : '+r.location_name); }
+  else status('Échec : '+r.error);
+};
+$('btnGeo').onclick = () => {
+  if (!navigator.geolocation) return status('Géolocalisation non disponible ici — essayez « Localiser par IP ».');
+  status('Demande de position…');
+  navigator.geolocation.getCurrentPosition(
+    pos => { $('lat').value = pos.coords.latitude.toFixed(5); $('lon').value = pos.coords.longitude.toFixed(5); status('Position de l\'appareil récupérée.'); },
+    err => status('Géolocalisation refusée ou indisponible — essayez « Localiser par IP ».'),
+    {timeout:10000});
+};
+
+function toggleDrawer(open){
+  const o = open ?? !drawer.classList.contains('open');
+  drawer.classList.toggle('open', o);
+  document.body.classList.toggle('ui-visible', o);
+}
+const PRESETS = {
+  ambre: {mono:true,  mono_color:'#ffb000'},
+  rouge: {mono:true,  mono_color:'#ff3030'},
+  vert:  {mono:true,  mono_color:'#3cff5a'},
+  blanc: {mono:true,  mono_color:'#f4f4f4'},
+  multi: {mono:false},
+};
+document.querySelectorAll('[data-preset]').forEach(btn => btn.onclick = () => {
+  const pr = PRESETS[btn.dataset.preset];
+  $('mono').checked = pr.mono; if (pr.mono_color) $('mono_color').value = pr.mono_color;
+  drawer.dispatchEvent(new Event('input'));
+});
+$('gear').onclick = () => toggleDrawer();
+let hideTimer;
+addEventListener('mousemove', () => {
+  if (drawer.classList.contains('open')) return;
+  document.body.classList.add('ui-visible');
+  clearTimeout(hideTimer); hideTimer = setTimeout(() => document.body.classList.remove('ui-visible'), 2500);
+});
+let lastTap = 0;
+canvas.addEventListener('touchend', e => {
+  const t = Date.now();
+  if (t - lastTap < 350) { nextFlight(); lastCycle = performance.now(); }
+  lastTap = t;
+  document.body.classList.add('ui-visible');
+  clearTimeout(hideTimer); hideTimer = setTimeout(() => document.body.classList.remove('ui-visible'), 3000);
+});
+addEventListener('keydown', e => {
+  if (!settings) return;
+  if (e.target.matches('input,select')) { if (e.key==='Escape') toggleDrawer(false); return; }
+  if (e.key==='s' || e.key==='S') toggleDrawer();
+  else if (e.key==='Escape') toggleDrawer(false);
+  else if (e.key==='r' || e.key==='R') { settings.display_mode = settings.display_mode==='radar' ? 'board' : 'radar'; $('display_mode').value = settings.display_mode; api.call('save_settings', {display_mode: settings.display_mode}); }
+  else if (e.key==='ArrowRight') { nextFlight(); lastCycle = performance.now(); }
+  else if (e.key==='f' || e.key==='F') {
+    if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.();
+  }
+});
+
+window.addEventListener('error', e => { document.getElementById('jserr').textContent = 'Erreur : '+e.message; });
+window.addEventListener('unhandledrejection', e => { document.getElementById('jserr').textContent = 'Erreur : '+(e.reason && e.reason.message || e.reason); });
+
+/* ============================================================
+   Démarrage
+   ============================================================ */
+(async () => {
+  buildFieldRows();
+  try { settings = await api.call('get_settings'); }
+  catch(e){ document.getElementById('jserr').textContent = 'Impossible de joindre Python : '+e; return; }
+  fillForm(settings);
+  resize();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
