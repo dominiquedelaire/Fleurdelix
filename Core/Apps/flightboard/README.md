@@ -45,8 +45,11 @@ Voir la démonstration sur youtube.
 
 Prérequis : Python 3.9 ou plus récent.
 
+Télécharger les fichiers de flightboard et du sous répertoire ui et copier dans un répertoire en local sur votre ordinateur.
+
+ou cloner le git avec git clone https://github.com/dominiquedelaire/Fleurdelix.git et aller dans le répertoire flightboard dans votre terminal Fleurdelix, linux, mac ou windows.   
+
 ```bash
-git clone https://github.com/<votre-compte>/flightboard.git
 cd flightboard
 python3 -m venv .venv
 source .venv/bin/activate        # Windows : .venv\Scripts\activate
