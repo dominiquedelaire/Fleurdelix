@@ -15,6 +15,7 @@ Elle est préinstallée sur Fleurdelix OS.
 <img width="2035" height="1051" alt="Vue Texte (Mode Led)" src="https://github.com/user-attachments/assets/88dd2c53-2fb8-4583-b4cc-9f894c9085a7" />
 <img width="2016" height="1063" alt="Vue Texte (non Led)" src="https://github.com/user-attachments/assets/579025af-92a1-4483-9957-0cb9400be10d" />
 <img width="2035" height="1051" alt="Vue Radar (Mode Led)" src="https://github.com/user-attachments/assets/324968eb-a840-432f-b74a-5c625a804fae" />
+<img width="404" height="359" alt="Exemple de paramètres de l'application" src="https://github.com/user-attachments/assets/df2ae87a-12b9-4e02-9f38-54ad7b7938e6" />
 
 
 ## Fonctionnalités
@@ -89,6 +90,10 @@ Tout se règle dans le panneau ⚙ et se prévisualise en direct ; « Enregistre
 - **Apparence** : affichage (tableau/radar), rendu (LED simulées/lisse), taille et forme des LED, halo, couleur du fond, des LED éteintes et du radar.
 - **Couleurs du texte** : une couleur unique (préréglages inclus) ou une couleur par information.
 - **Informations affichées** : cases à cocher, dans l'ordre d'affichage.
+
+<img width="404" height="971" alt="Paramètres de l'application" src="https://github.com/user-attachments/assets/65f60d35-5d92-458e-a52b-2ccd31248519" />
+<img width="404" height="969" alt="Paramètres de l'application suite" src="https://github.com/user-attachments/assets/44556aec-f8fa-4d29-bc84-3bb7113a7ad4" />
+
 
 Les réglages sont enregistrés dans `settings.json`, hors du dossier du projet :
 
