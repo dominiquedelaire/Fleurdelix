@@ -38,6 +38,7 @@ Lancement sur Ipad depuis App locale.
 - **Utilisable comme cadre** : plein écran d'une touche, interface qui s'efface toute seule.
 - **iPad / téléphone** : mode serveur pour afficher le tableau sur n'importe quel appareil du réseau local.
 
+Voir la démonstration sur youtube.  
 [![Voir la démonstration](https://img.youtube.com/vi/_W8mwUjzd2U/maxresdefault.jpg)](https://www.youtube.com/watch?v=_W8mwUjzd2U)
 
 ## Installation
