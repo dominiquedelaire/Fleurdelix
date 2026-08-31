@@ -1,0 +1,147 @@
+# Règles de la sentinelle.
+#
+# Chaque règle porte un mode : rien ne bloque tant que tu ne l'as pas demandé.
+# Écris une règle en observe, lance `sentinelle check` pour voir ce qu'elle
+# aurait attrapé, puis durcis ce qui est calibré.
+#
+# Sévérités : info · moyenne · haute · critique
+
+# Le verdict : observe (défaut) · demande (un humain tranche) · bloque
+controle:
+  delai_demande_s: 120      # sans réponse au bout de ce délai : refus
+  si_erreur: bloquer        # si la sentinelle ne peut pas évaluer : bloquer|laisser
+
+# Tarifs : ce que coûte un appel, selon toi. La sentinelle voit les appels
+# d'outils, pas tes jetons de modèle : ce coût est une convention que tu poses,
+# pas une facture relevée. Utile quand un outil tape une API payante.
+tarifs:
+  defaut: 0
+  fetch: 0.002
+  web_search: 0.01
+  "db.*": 0.005
+  query: 0.004
+
+# Budgets. Portées : session · heure · jour · semaine · glissante · toujours.
+# Un appel refusé ne consomme rien.
+budgets:
+  - id: appels-par-session
+    portee: session
+    max_appels: 300
+    mode: demande
+    description: cette session a déjà demandé beaucoup d'outils
+
+  - id: depense-quotidienne
+    portee: jour
+    max_cout: 5.00
+    mode: bloque
+    description: plafond de dépense estimée pour la journée
+
+  - id: rafale-reseau
+    outil: ["fetch", "web_search", "upload"]
+    portee: glissante
+    fenetre_s: 60
+    max_appels: 20
+    mode: bloque
+    description: trop d'appels réseau en une minute
+
+  - id: depense-totale
+    portee: toujours
+    max_cout: 50.00
+    mode: demande
+    description: dépense estimée depuis le premier jour
+
+  - id: volume-rapporte
+    portee: jour
+    max_octets: 50000000
+    mode: demande
+    description: les outils ont rapporté beaucoup de données aujourd'hui
+
+# Caviardage : ce qui est écrit au journal, pas ce qui est bloqué.
+# niveau : normal (motifs + entropie) · leger (motifs seuls) · aucun
+redaction:
+  niveau: normal
+  donnees_personnelles: true      # courriels, cartes, NAS, téléphones
+  seuil_entropie: 3.6
+
+  # Motifs maison, en plus des formats connus (Stripe, AWS, GitHub, JWT…)
+  motifs:
+    - genre: matricule-interne
+      expression: "\\bEMP-[0-9]{6}\\b"
+
+  # Ces fichiers ne sont jamais recopiés au journal : on garde leur taille et
+  # leur empreinte, rien d'autre.
+  chemins_sensibles:
+    - "**/.env"
+    - "**/.ssh/*"
+    - "**/*.pem"
+    - "**/credentials*"
+
+# Les marqueurs ne déclenchent rien. Ils posent une étiquette de provenance sur
+# la session, que les règles de séquence utilisent ensuite.
+marqueurs:
+  - marque: secret
+    quand:
+      outil: ["read_file", "read_text_file", "cat"]
+      arg: path
+      correspond: "(\\.env|\\.ssh/|/secrets?/|credentials|id_rsa|\\.pem$)"
+
+  - marque: donnees_client
+    quand:
+      outil: ["query", "db.*", "read_file"]
+      arg: path
+      correspond: "(clients|factures|rh/)"
+
+  - marque: contenu_externe
+    quand:
+      outil: ["fetch", "web_search", "browse"]
+
+regles:
+  - id: ecriture-hors-projet
+    description: écriture de fichier en dehors du dossier de travail autorisé
+    severite: haute
+    mode: demande
+    quand:
+      outil: ["write_file", "edit_file", "move_file"]
+      arg: path
+      non_dans:
+        - "/home/*/projets/**"
+        - "/tmp/**"
+
+  - id: fuite-possible
+    description: un secret a été lu dans cette session, puis quelque chose est sorti
+    severite: critique
+    mode: bloque
+    sequence:
+      - marque: secret
+      - outil: ["fetch", "http_post", "git_push", "send_email", "upload"]
+    fenetre: meme_run
+
+  - id: donnees-client-vers-externe
+    description: des données client ont été lues, puis envoyées à l'extérieur
+    severite: critique
+    sequence:
+      - marque: donnees_client
+      - outil: ["fetch", "http_post", "send_email", "upload"]
+    fenetre: meme_run
+
+  - id: suppression-en-serie
+    description: rafale de suppressions
+    severite: haute
+    seuil:
+      outil: "delete*"
+      compte: 5
+      fenetre_s: 60
+
+  - id: commande-shell
+    description: exécution d'une commande shell
+    severite: moyenne
+    quand:
+      outil: ["run_command", "bash", "shell", "execute"]
+
+  - id: acces-config-sentinelle
+    description: l'agent regarde le dispositif qui le surveille
+    severite: critique
+    mode: bloque
+    quand:
+      arg: path
+      contient: ".sentinelle"

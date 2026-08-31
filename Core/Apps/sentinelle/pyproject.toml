@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentinelle"
+version = "0.1.0"
+description = "Boîte noire locale pour agents IA : enregistre, scelle, explique."
+requires-python = ">=3.10"
+dependencies = ["pyyaml>=6.0"]
+
+[project.optional-dependencies]
+ui = ["pywebview>=5.0"]
+
+[project.scripts]
+sentinelle = "sentinelle.cli:_point_entree"
+
+[tool.setuptools]
+packages = ["sentinelle"]
+
+[tool.setuptools.package-data]
+sentinelle = ["ui/*"]
