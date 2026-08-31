@@ -1,4 +1,4 @@
-# Sentinelle
+# Sentinelle pour Fleurdelix OS
 
 **Un exemple de contrôleur local pour agents IA.** La sentinelle se place entre
 un agent et ses outils, enregistre tout ce qui passe dans un journal scellé,
@@ -7,11 +7,13 @@ caviarde les secrets avant de les écrire, et peut retenir ou refuser un appel.
 Tout reste sur la machine : un fichier SQLite, aucun service, aucun compte,
 aucun conteneur.
 
-> **Ceci est un projet d'exemple, pas un produit.** Il est écrit pour montrer
+> **Ceci est un projet d'exemple dans Fleurdelix OS.** Il est écrit pour montrer
 > comment on construit ce genre de dispositif et pour rendre les décisions de
 > conception discutables. 
 
 ---
+<img width="1807" height="914" alt="Ecran de visualisation Sentinelle" src="https://github.com/user-attachments/assets/9b5d301e-598a-47f2-ac49-21f3125c695b" />
+
 
 ## Voir en trois commandes
 
@@ -231,7 +233,7 @@ pip install -e .            # pyyaml seulement
 pip install pywebview       # pour la fenêtre
 ```
 
-Sous Ubuntu, pywebview a besoin d'un moteur de rendu :
+Sous Fleurdelix OS (préinstallé), ou Linux Ubuntu, pywebview a besoin d'un moteur de rendu :
 
 ```bash
 sudo apt install python3-gi gir1.2-webkit2-4.1 libcairo2-dev
