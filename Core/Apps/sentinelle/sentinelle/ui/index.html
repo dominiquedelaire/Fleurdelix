@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentinelle</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ─────────────────────────────── colonne des sessions -->
+  <aside class="rail">
+    <header class="marque">
+      <h1>Sentinelle</h1>
+      <p class="sous">boîte noire</p>
+    </header>
+
+    <div id="sceau-chaine" class="sceau-chaine" title="intégrité du journal">
+      <span class="pastille"></span>
+      <span class="txt">vérification…</span>
+    </div>
+
+    <nav class="sessions" id="sessions" aria-label="Sessions enregistrées"></nav>
+
+    <button class="attente" id="ouvrir-demandes" hidden>
+      <span class="compte" id="compte-demandes">0</span>
+      <span>en attente de toi</span>
+    </button>
+
+    <div class="liens">
+      <button class="lien" id="ouvrir-budgets">Budgets</button>
+      <button class="lien" id="ouvrir-secrets">Secrets</button>
+      <button class="lien" id="ouvrir-regles">Règles</button>
+    </div>
+  </aside>
+
+  <!-- ─────────────────────────────── piste centrale -->
+  <main class="piste">
+    <header class="entete" id="entete">
+      <p class="vide">Choisis une session à gauche.</p>
+    </header>
+    <div class="defilement">
+      <section id="chronologie" class="chronologie"></section>
+      <section id="panneau-demandes" class="demandes" hidden>
+        <h2>En attente de toi</h2>
+        <p class="note">Ces appels sont retenus : l'agent attend, l'outil n'a
+          rien exécuté. Sans réponse dans le délai prévu, ils seront refusés.</p>
+        <div id="liste-demandes"></div>
+      </section>
+
+      <section id="panneau-budgets" class="budgets" hidden>
+        <h2>Compteurs</h2>
+        <p class="note">Recalculés depuis le journal scellé, jamais stockés :
+          un compteur qu'on peut remettre à zéro sans laisser de trace ne vaut
+          rien. Un appel refusé ne consomme pas de budget.</p>
+        <div id="liste-budgets"></div>
+      </section>
+
+      <section id="panneau-secrets" class="secrets" hidden>
+        <h2>Ce qui est passé sans être gardé</h2>
+        <p class="note">Chaque valeur ci-dessous a traversé un agent. Aucune
+          n'est stockée : le journal ne contient que ces empreintes, qui ne se
+          retournent pas sans la clé locale. Clique pour suivre une valeur.</p>
+        <div id="liste-secrets"></div>
+      </section>
+
+      <section id="panneau-regles" class="regles" hidden>
+        <h2>Règles</h2>
+        <p class="note">Rien n'est bloqué. Écris une règle, rejoue-la sur
+          l'historique, et vois ce qu'elle aurait attrapé.</p>
+        <textarea id="yaml" spellcheck="false" aria-label="Règles YAML"></textarea>
+        <div class="barre-boutons">
+          <button id="rejouer" class="bouton primaire">Rejouer sur l'historique</button>
+          <button id="enregistrer" class="bouton">Enregistrer les règles</button>
+        </div>
+        <div id="resultat-regles" class="resultat-regles"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ─────────────────────────────── tiroir d'enquête -->
+  <section class="tiroir" id="tiroir" aria-live="polite">
+    <p class="vide">Clique un événement pour voir d'où il vient.</p>
+  </section>
+
+</div>
+
+<footer class="statut">
+  <span id="st-db">-</span>
+  <span id="st-evts"></span>
+  <span id="st-alertes"></span>
+  <span class="pousse" id="st-mode"></span>
+  <button class="frein" id="frein">Arrêt d'urgence</button>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

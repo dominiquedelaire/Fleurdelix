@@ -1,0 +1,404 @@
+/* Sentinelle : parti pris visuel
+   Tout est froid et monochrome : c'est un instrument de lecture, pas un tableau
+   de bord. La couleur ne sert qu'à une chose, signaler. Ambre = attention,
+   rouge = grave, vert d'eau = le sceau de la chaîne. Rien d'autre n'est coloré.
+   La police est monospace partout, y compris les titres : le sujet est un
+   registre de machine, pas un article. */
+
+:root {
+  --nuit:      #0E1216;
+  --panneau:   #151B21;
+  --creux:     #10161B;
+  --trait:     #232E37;
+  --texte:     #C7D3DB;
+  --attenue:   #6B7C88;
+  --faible:    #47555F;
+  --sceau:     #6FD1BC;
+  --caution:   #E3A44A;
+  --alerte:    #D9564B;
+
+  --mono: ui-monospace, "JetBrains Mono", "DejaVu Sans Mono", Menlo, monospace;
+  --sans: system-ui, "Inter", "Segoe UI", sans-serif;
+
+  --statut-h: 26px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; height: 100%;
+  background: var(--nuit);
+  color: var(--texte);
+  font: 13px/1.5 var(--mono);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+button { font: inherit; color: inherit; }
+
+.app {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr) 372px;
+  height: calc(100vh - var(--statut-h));
+}
+
+/* ───────────────────────────────────────────── rail des sessions */
+
+.rail {
+  background: var(--creux);
+  border-right: 1px solid var(--trait);
+  display: flex; flex-direction: column;
+  min-height: 0;
+}
+
+.marque { padding: 22px 20px 14px; }
+.marque h1 {
+  margin: 0; font-size: 13px; font-weight: 500;
+  letter-spacing: .34em; text-transform: uppercase;
+}
+.marque .sous {
+  margin: 6px 0 0; color: var(--faible);
+  font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+}
+
+.sceau-chaine {
+  margin: 0 20px 18px; padding: 9px 11px;
+  border: 1px solid var(--trait); border-radius: 2px;
+  display: flex; align-items: center; gap: 9px;
+  font-size: 10.5px; color: var(--attenue);
+  letter-spacing: .04em;
+}
+.sceau-chaine .pastille {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--faible); flex: none;
+}
+.sceau-chaine.ok  { color: var(--sceau); border-color: color-mix(in srgb, var(--sceau) 30%, var(--trait)); }
+.sceau-chaine.ok .pastille  { background: var(--sceau); box-shadow: 0 0 7px color-mix(in srgb, var(--sceau) 60%, transparent); }
+.sceau-chaine.bris { color: var(--alerte); border-color: color-mix(in srgb, var(--alerte) 40%, var(--trait)); }
+.sceau-chaine.bris .pastille { background: var(--alerte); }
+
+.sessions { flex: 1; overflow-y: auto; padding: 0 12px 12px; }
+
+.session {
+  display: block; width: 100%; text-align: left;
+  background: none; border: 0; border-left: 2px solid transparent;
+  padding: 10px 10px 11px; cursor: pointer;
+  border-radius: 0 2px 2px 0;
+}
+.session:hover { background: #1A2229; }
+.session[aria-current="true"] { background: var(--panneau); border-left-color: var(--sceau); }
+.session .agent { display: block; font-size: 12px; }
+.session .meta  { display: block; margin-top: 3px; font-size: 10px; color: var(--faible); }
+.session .badge {
+  float: right; font-size: 9.5px; padding: 1px 5px; border-radius: 2px;
+  letter-spacing: .06em;
+}
+.session .badge.haute    { color: var(--caution); border: 1px solid color-mix(in srgb, var(--caution) 40%, transparent); }
+.session .badge.critique { color: var(--alerte);  border: 1px solid color-mix(in srgb, var(--alerte) 45%, transparent); }
+
+/* Une demande en attente est la seule chose qui doit interrompre la lecture :
+   un agent est arrêté et attend. D'où le pouls, et rien d'autre qui clignote. */
+.attente {
+  margin: 0 12px 12px; padding: 11px 12px; width: calc(100% - 24px);
+  background: color-mix(in srgb, var(--caution) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--caution) 45%, transparent);
+  border-radius: 2px; color: var(--caution); cursor: pointer;
+  display: flex; align-items: center; gap: 9px;
+  font-size: 11px; letter-spacing: .04em; text-align: left;
+  animation: pouls 2.4s ease-in-out infinite;
+}
+.attente .compte {
+  background: var(--caution); color: var(--nuit); border-radius: 2px;
+  padding: 0 6px; font-size: 11px;
+}
+@keyframes pouls {
+  50% { border-color: color-mix(in srgb, var(--caution) 15%, transparent); }
+}
+
+.demandes { padding: 22px 28px 48px; max-width: 780px; }
+.demandes h2 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
+.demandes .note { color: var(--faible); font-size: 11.5px; margin: 0 0 18px; max-width: 60ch; }
+.demande {
+  border: 1px solid var(--trait); border-left: 2px solid var(--caution);
+  border-radius: 2px; padding: 14px 16px; margin-bottom: 12px;
+}
+.demande .regle { color: var(--caution); font-size: 11px; letter-spacing: .06em; }
+.demande .quoi { display: block; margin: 7px 0 3px; font-size: 12.5px; }
+.demande .pourquoi { color: var(--faible); font-size: 11px; }
+.demande pre.bloc { margin-top: 10px; max-height: 130px; }
+.demande .actions { display: flex; gap: 9px; margin-top: 13px; }
+.bouton.accorder { color: var(--sceau); border-color: color-mix(in srgb, var(--sceau) 40%, var(--trait)); }
+.bouton.refuser  { color: var(--alerte); border-color: color-mix(in srgb, var(--alerte) 40%, var(--trait)); }
+
+.frein {
+  margin-left: 14px; background: none; border: 1px solid var(--nuit);
+  color: var(--nuit); border-radius: 2px; padding: 1px 9px;
+  font-size: 10px; letter-spacing: .08em; cursor: pointer; opacity: .55;
+}
+.frein:hover { opacity: 1; }
+.frein.tire {
+  background: var(--alerte); color: var(--texte);
+  border-color: var(--alerte); opacity: 1;
+}
+
+.liens { display: flex; border-top: 1px solid var(--trait); }
+.lien {
+  flex: 1; margin: 0; padding: 13px 16px; background: none; border: 0;
+  text-align: left; cursor: pointer; color: var(--attenue);
+  font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase;
+}
+.lien + .lien { border-left: 1px solid var(--trait); }
+.lien:hover { color: var(--texte); }
+
+/* Un secret caviardé n'est pas une censure, c'est une pièce à conviction :
+   il se voit, il se compte, et le même secret porte partout le même sceau. */
+.caviarde {
+  color: var(--sceau);
+  background: color-mix(in srgb, var(--sceau) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sceau) 25%, transparent);
+  border-radius: 2px; padding: 0 4px; font-size: .92em; white-space: nowrap;
+}
+
+.budgets { padding: 22px 28px 48px; max-width: 780px; }
+.budgets h2 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
+.budgets .note { color: var(--faible); font-size: 11.5px; margin: 0 0 20px; max-width: 60ch; }
+
+.budget { padding: 14px 0 16px; border-bottom: 1px solid var(--trait); }
+.budget .titre { display: flex; align-items: baseline; gap: 10px; }
+.budget .nom { font-size: 12px; }
+.budget .cible { color: var(--faible); font-size: 10.5px; }
+.budget .verdict {
+  margin-left: auto; font-size: 9.5px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--faible);
+}
+.budget.proche  .verdict { color: var(--caution); }
+.budget.depasse .verdict { color: var(--alerte); }
+
+/* La jauge est le compteur : pleine largeur, pas de fioriture, et la couleur
+   ne change qu'aux deux moments qui comptent : l'approche et le dépassement. */
+.jauge {
+  height: 4px; margin: 10px 0 8px; background: var(--trait);
+  border-radius: 2px; overflow: hidden;
+}
+.jauge span {
+  display: block; height: 100%; background: var(--sceau);
+  transition: width .3s ease-out;
+}
+.budget.proche  .jauge span { background: var(--caution); }
+.budget.depasse .jauge span { background: var(--alerte); }
+.budget .mesures { font-size: 11px; color: var(--attenue); }
+.budget .quand { font-size: 10.5px; color: var(--faible); margin-top: 4px; }
+
+.secrets { padding: 22px 28px 48px; max-width: 780px; }
+.secrets h2 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
+.secrets .note { color: var(--faible); font-size: 11.5px; margin: 0 0 18px; max-width: 60ch; }
+.secret {
+  display: flex; align-items: baseline; gap: 14px; width: 100%;
+  padding: 10px 12px; background: none; border: 0;
+  border-bottom: 1px solid var(--trait); cursor: pointer; text-align: left;
+}
+.secret:hover { background: var(--panneau); }
+.secret .genre { width: 132px; flex: none; font-size: 11.5px; }
+.secret .emp { color: var(--sceau); font-size: 11px; width: 64px; flex: none; }
+.secret .infos { color: var(--faible); font-size: 10.5px; }
+.circulation { margin: 6px 0 14px 28px; }
+.circulation .etape {
+  font-size: 11px; color: var(--attenue); padding: 4px 0 4px 16px;
+  border-left: 1px solid var(--trait);
+}
+.efface { color: var(--caution); font-size: 11px; }
+
+/* ───────────────────────────────────────────── piste centrale */
+
+.piste { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+
+.entete {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--trait);
+}
+.entete h2 { margin: 0; font-size: 14px; font-weight: 500; letter-spacing: .02em; }
+.entete .details {
+  margin: 7px 0 0; color: var(--faible); font-size: 10.5px;
+  display: flex; gap: 18px; flex-wrap: wrap;
+}
+.entete .details b { color: var(--attenue); font-weight: 400; }
+
+.defilement { flex: 1; overflow-y: auto; min-height: 0; }
+.chronologie { padding: 18px 28px 40px; }
+
+.vide { color: var(--faible); font-size: 12px; margin: 0; }
+
+/* ─── l'élément signature : le fil de la chaîne de hash ─── */
+
+.evt {
+  display: grid; grid-template-columns: 62px 1fr;
+  gap: 14px; position: relative;
+  border: 0; background: none; width: 100%; text-align: left;
+  padding: 0; cursor: pointer; color: inherit;
+}
+.evt .fil {
+  position: relative;
+  padding: 7px 0 7px 0;
+  display: flex; justify-content: flex-end;
+}
+/* le fil continu qui relie tous les maillons */
+.evt .fil::after {
+  content: ""; position: absolute; right: -7px; top: 0; bottom: -1px;
+  width: 1px; background: color-mix(in srgb, var(--sceau) 22%, transparent);
+}
+.evt:first-child .fil::after { top: 12px; }
+.evt:last-child  .fil::after { bottom: auto; height: 12px; }
+
+.evt .sceau {
+  font-size: 9.5px; color: color-mix(in srgb, var(--sceau) 55%, var(--faible));
+  letter-spacing: .06em;
+}
+.evt:hover .sceau { color: var(--sceau); }
+.evt:hover .corps { background: #171F26; }
+.evt[aria-current="true"] .corps { background: var(--panneau); box-shadow: inset 2px 0 0 var(--sceau); }
+
+/* le fil rompu : là où la vérification échoue, le trait se coupe */
+.evt.rompu .fil::after {
+  background: repeating-linear-gradient(to bottom,
+    var(--alerte) 0 3px, transparent 3px 7px);
+}
+.evt.rompu .sceau { color: var(--alerte); text-decoration: line-through; }
+
+.evt .corps {
+  padding: 7px 12px 7px 10px; border-radius: 2px;
+  display: flex; align-items: baseline; gap: 10px; min-width: 0;
+}
+.evt .heure  { color: var(--faible); font-size: 10.5px; flex: none; }
+.evt .glyphe { color: var(--attenue); flex: none; width: 10px; }
+.evt.type-appel   .glyphe { color: var(--texte); }
+.evt.type-erreur  .glyphe { color: var(--alerte); }
+.evt.type-refus .glyphe, .evt.type-refus .resume { color: var(--alerte); }
+.evt.type-refus .corps {
+  background: color-mix(in srgb, var(--alerte) 7%, transparent);
+}
+.evt.type-meta    { opacity: .5; }
+.evt .resume {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 12px;
+}
+.evt.type-resultat .resume, .evt.type-meta .resume { color: var(--attenue); }
+
+.alerte-ligne {
+  grid-column: 2; margin: 0 0 4px 10px; padding: 6px 11px;
+  font-size: 11px; border-left: 2px solid var(--caution);
+  background: color-mix(in srgb, var(--caution) 7%, transparent);
+  color: var(--caution);
+}
+.alerte-ligne.critique {
+  border-left-color: var(--alerte);
+  background: color-mix(in srgb, var(--alerte) 8%, transparent);
+  color: var(--alerte);
+}
+.alerte-ligne .regle { letter-spacing: .06em; }
+.alerte-ligne .quoi  { color: color-mix(in srgb, var(--texte) 70%, transparent); }
+
+/* ───────────────────────────────────────────── tiroir d'enquête */
+
+.tiroir {
+  background: var(--creux); border-left: 1px solid var(--trait);
+  padding: 20px 22px 32px; overflow-y: auto; min-height: 0;
+}
+.tiroir h3 {
+  margin: 0 0 14px; font-size: 10px; letter-spacing: .24em;
+  text-transform: uppercase; color: var(--faible); font-weight: 500;
+}
+.tiroir h4 {
+  margin: 22px 0 9px; font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--faible); font-weight: 500;
+}
+.champ { margin-bottom: 9px; font-size: 11.5px; display: flex; gap: 10px; }
+.champ .cle { color: var(--faible); flex: none; width: 78px; }
+.champ .val { word-break: break-all; }
+
+pre.bloc {
+  margin: 0; padding: 11px 12px; background: var(--nuit);
+  border: 1px solid var(--trait); border-radius: 2px;
+  font-size: 11px; color: var(--attenue);
+  white-space: pre-wrap; word-break: break-word;
+  max-height: 240px; overflow: auto;
+}
+
+.genealogie { border-left: 1px solid var(--trait); margin-left: 5px; padding-left: 16px; }
+.maillon { position: relative; padding: 8px 0; font-size: 11.5px; }
+.maillon::before {
+  content: ""; position: absolute; left: -21px; top: 13px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--nuit); border: 1px solid var(--faible);
+}
+.maillon.origine::before { background: var(--alerte); border-color: var(--alerte); }
+.maillon.ici::before { background: var(--sceau); border-color: var(--sceau); }
+.maillon .role {
+  display: block; font-size: 9.5px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--faible); margin-bottom: 2px;
+}
+.maillon.origine .role { color: var(--alerte); }
+.maillon .quoi { color: var(--attenue); }
+.maillon.ici .quoi { color: var(--texte); }
+
+/* ───────────────────────────────────────────── panneau des règles */
+
+.regles { padding: 22px 28px 48px; max-width: 780px; }
+.regles h2 { margin: 0 0 8px; font-size: 14px; font-weight: 500; }
+.regles .note { color: var(--faible); font-size: 11.5px; margin: 0 0 16px; max-width: 56ch; }
+
+#yaml {
+  width: 100%; height: 320px; resize: vertical;
+  background: var(--nuit); color: var(--texte);
+  border: 1px solid var(--trait); border-radius: 2px;
+  padding: 13px 14px; font: 12px/1.6 var(--mono);
+}
+#yaml:focus, .bouton:focus-visible, .session:focus-visible, .evt:focus-visible {
+  outline: 1px solid var(--sceau); outline-offset: 1px;
+}
+
+.barre-boutons { display: flex; gap: 10px; margin-top: 12px; }
+.bouton {
+  background: none; border: 1px solid var(--trait);
+  padding: 7px 14px; border-radius: 2px; cursor: pointer;
+  font-size: 11px; letter-spacing: .08em; color: var(--attenue);
+}
+.bouton:hover { color: var(--texte); border-color: var(--faible); }
+.bouton.primaire { color: var(--sceau); border-color: color-mix(in srgb, var(--sceau) 40%, var(--trait)); }
+
+.resultat-regles { margin-top: 20px; font-size: 11.5px; }
+.resultat-regles .ligne {
+  display: flex; gap: 12px; padding: 7px 0;
+  border-bottom: 1px solid var(--trait);
+}
+.resultat-regles .n { color: var(--caution); flex: none; width: 46px; text-align: right; }
+.resultat-regles .ex { color: var(--faible); font-size: 10.5px; margin: 3px 0 0 58px; }
+.resultat-regles .erreur { color: var(--alerte); }
+
+/* ───────────────────────────────────────────── barre d'état */
+/* vidéo inversée, comme la ligne du bas d'un vieux terminal */
+
+.statut {
+  position: fixed; bottom: 0; left: 0; right: 0; height: var(--statut-h);
+  background: var(--texte); color: var(--nuit);
+  display: flex; align-items: center; gap: 22px;
+  padding: 0 14px; font-size: 10.5px; letter-spacing: .04em;
+}
+.statut .pousse { margin-left: auto; }
+
+/* ───────────────────────────────────────────── finitions */
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: var(--trait); border-radius: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.evt, .session { animation: apparait .18s ease-out both; }
+@keyframes apparait { from { opacity: 0; transform: translateY(2px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 1100px) {
+  .app { grid-template-columns: 220px minmax(0, 1fr); }
+  .tiroir { display: none; }
+}
