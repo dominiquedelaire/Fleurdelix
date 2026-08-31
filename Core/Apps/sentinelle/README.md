@@ -9,10 +9,7 @@ aucun conteneur.
 
 > **Ceci est un projet d'exemple, pas un produit.** Il est écrit pour montrer
 > comment on construit ce genre de dispositif et pour rendre les décisions de
-> conception discutables. Il n'a été ni audité ni éprouvé en production. Ne le
-> mets pas entre un agent et quelque chose d'important sans l'avoir lu et
-> compris toi-même. Pour un usage sérieux, regarde plutôt les projets cités en
-> [fin de page](#o%C3%B9-se-situe-ce-projet).
+> conception discutables. 
 
 ---
 
@@ -26,9 +23,9 @@ sentinelle ui        # ou : sentinelle ui --navigateur
 
 ## Le problème
 
-Un agent qui a accès à ton système de fichiers, à ton dépôt Git et au réseau
+Un agent qui a accès à votre système de fichiers, à votre dépôt Git et au réseau
 peut faire, en trente secondes et sans mauvaise intention, quelque chose que tu
-n'aurais jamais approuvé. Le journal de ton terminal ne suffit pas à le
+n'aurais jamais approuvé. Le journal du terminal ne suffit pas à le
 reconstituer après coup, et une confirmation à chaque appel serait ignorée dès
 le dixième clic.
 
@@ -338,15 +335,8 @@ identique dans les deux cas.
 
 ## Où se situe ce projet
 
-L'écosystème des passerelles MCP est actif et bien financé. Si tu cherches un
-outil pour une équipe ou une entreprise, regarde du côté de
-[mcp-firewall](https://github.com/ressl/mcp-firewall), qui couvre un terrain
-proche avec plus de sérieux, ou de la liste
-[awesome-mcp-gateways](https://github.com/e2b-dev/awesome-mcp-gateways).
-
-La plupart de ces projets visent l'entreprise : conteneurs, OAuth, SSO, SIEM,
-multi-tenant. Celui-ci vise une personne sur son portable, sans serveur et sans
-compte, avec une fenêtre pour regarder. C'est sa seule prétention.
+Celui-ci vise une personne qui exécute des agents en local sur son ordinateur, sans serveur et sans
+compte, avec une fenêtre pour regarder en temps réel.
 
 ## Licence
 
