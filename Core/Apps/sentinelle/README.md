@@ -25,7 +25,7 @@ sentinelle ui        # ou : sentinelle ui --navigateur
 
 ## Le problème
 
-Un agent qui a accès à votre système de fichiers, à votre dépôt Git et au réseau
+Un agent local ou cloud qui a accès à votre système de fichiers, à votre dépôt Git et au réseau
 peut faire, en trente secondes et sans mauvaise intention, quelque chose que tu
 n'aurais jamais approuvé. Le journal du terminal ne suffit pas à le
 reconstituer après coup, et une confirmation à chaque appel serait ignorée dès
