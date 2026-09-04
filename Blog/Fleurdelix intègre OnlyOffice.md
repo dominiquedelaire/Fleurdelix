@@ -1,4 +1,4 @@
-# Fleurdelix intègre OnlyOffice : la bureautique souveraine, directement dans votre OS
+# Fleurdelix intègre OnlyOffice : la suite  bureautique souveraine, directement dans votre OS
 
 <img width="800" height="1200" alt="onlyoffice_fleurdelix" src="https://github.com/user-attachments/assets/7cb05aa8-dd92-42ad-aa1c-0f03956a7da8" />
 Après Nextcloud pour la gestion de vos fichiers, Fleurdelix franchit une nouvelle étape vers une souveraineté numérique complète en intégrant OnlyOffice, la suite bureautique open source.
