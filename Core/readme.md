@@ -9,7 +9,7 @@
 
 
 
-# Version Core 
+# Version Core (gratuit)
 ### Télécharger le .Iso 
 Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
 
@@ -28,16 +28,33 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **KDE Partition Manager** : Gestionnaire de disques et partitions
     - **Konsole** : Terminal avec fond transparent pour finetuner le système et installer des extensions et apps.
     - **Paramétrage du système** (fonds d'écran, périphériques, bluetooth, thèmes et couleurs, Réseaux, Wifi, Régions, etc...)
-    - **Moniteur système**
+    - **Moniteur système** : Surveillance processeurs, disques, mémoires, ...
+    - **Spectacle** : Utilitaire de capture d'écrans multi écran (images, vidéos)
+    - **Info center** : Affichage des informations du système
+    - **Sweeper** : Nettoie les traces sur le système (fichiers temporaires, cookies, et toutes les traces que laisse l'utilisateur pour gagner de l'espace disque)
+  - **Développement**
+    - **Kate** : Editeur de textes et de codes
+  - **Graphiques**
+    - **Gnenview** : Visualisation d'images
+    - **Okular** : Visualisateur universel de documents et de différents formats de fichiers.  
   - **Applications Fleurdelix**
     - **Task365** : Gestionnaire de taĉhes et gestion de la vie personnelle et professionnelle.https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/Task365
     - **Flightboard** : Un Afficheur Temps-réel d'avions qui passent au-dessus de chez vous, façon panneau à LED d'aéroport ou scope radar de tour de contrôle. https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/flightboard
     
 
-# Version Core IA
+# Version Core IA (gratuit)
+- Toutes les fonctionnalités de la version **Core** +
 
+  - **Tal.ia** : Interface à la chatgpt pour utiliser l'IA avec différents modèles locaux ou ses propres données. Fonctionne en local sans internet.
 
-# Version Core Pro
-
+# Version Core Pro (payant pour entreprises et services publics)
+  - Toutes les fonctionnalités de la version **Core IA** +
+    - **framework Shellbots** : Framework pour accélérer les projets IA de toute nature : entraînement des données, génération d'images, création de modèles prédictifs, etc...
+    - Outils pour les entreprises pour bâtir leur propre modèle ou hériter de modèles locaux avec leurs données d'organisation
+    - Logiciels Financiers, ERP, CRM installés
+    - Autres logiciels pour entreprises :
+      - Liste à venir
 
 # Fleurdelix Mobile pour téléphones Android
+- Disponible Décembre 2026
+  - Plateforme mobile minimaliste remplaçant l'interface android et complétement configuratble avec de l'IA embarqué en local. Pratique pour les enfants et les personnes âgées.
