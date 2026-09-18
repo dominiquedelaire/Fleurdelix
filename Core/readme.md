@@ -9,18 +9,20 @@
 
 
 
-# Version Core 2026.03.22
+# Version Core 
 ### Télécharger le .Iso 
 Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
 
 
 
-### Détail et fonctionnalités de la version Core
+### Détail et fonctionnalités de la version Core version 2026.03.22
 - Basé sur un noyau ubuntu server minimal 26.04.1, interface terminal
 - Voici les logiciels par domaine installés sur Fleurdelix OS :
-  - **Internet :**
+  - **Internet**
     - **Firefox** : Navigateur web
     - **Chromium** : Navigateur web
+  - **Bureautique**
+    - OnlyOffice : Suite bureautique compatible Microsoft et remplaçant la suite Microsoft 365. Le visualisateur et l'éditeur de PDF inclus aussi est très bien. Je l'utilise tous les jours.
   - **Systèmes** 
     - **Dolphin** : Gestionnaire de fichiers
     - **KDE Partition Manager** : Gestionnaire de disques et partitions
