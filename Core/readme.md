@@ -1,3 +1,7 @@
+
+<img width="2560" height="1440" alt="Screenshot_20260918_101346" src="https://github.com/user-attachments/assets/8befecf5-32b7-4c41-8c08-1a0441b5adc8" />
+
+
 # Fonctionnalités par version   
 **Auteur :** Dominique Delaire   
 **Date de création initiale :** 14 juin 2025   
