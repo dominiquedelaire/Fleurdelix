@@ -14,15 +14,15 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
 ### Détail et fonctionnalités de la version Core
 - Basé sur un noyau ubuntu server minimal 26.04.1, interface terminal
 - Voici les logiciels par domaine installés sur Fleurdelix OS :
-  - Internet :
-    - Firefox : Navigateur web
-    - Chromium : Navigateur web
-  - Systèmes 
-    - Dolphin : Gestionnaire de fichiers
-    - KDE Partition Manager : Gestionnaire de disques et partitions
-    - Konsole : Terminal avec fond transparent pour finetuner le système et installer des extensions et apps.
-    - Paramétrage du système (fonds d'écran, périphériques, bluetooth, thèmes et couleurs, Réseaux, Wifi, Régions, etc...)
-    - Moniteur système
+  - **Internet :**
+    - **Firefox** : Navigateur web
+    - **Chromium** : Navigateur web
+  - **Systèmes** 
+    - **Dolphin** : Gestionnaire de fichiers
+    - **KDE Partition Manager** : Gestionnaire de disques et partitions
+    - **Konsole** : Terminal avec fond transparent pour finetuner le système et installer des extensions et apps.
+    - **Paramétrage du système** (fonds d'écran, périphériques, bluetooth, thèmes et couleurs, Réseaux, Wifi, Régions, etc...)
+    - **Moniteur système**
 
 # Version Core IA
 
