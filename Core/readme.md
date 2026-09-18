@@ -9,7 +9,7 @@
 ### Télécharger le .Iso 
 Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
 
-- Télécharger le Iso sur le site officiel (sans logiciel, sans base, sans interface graphique, juste le noyau)
+
 
 ### Détail et fonctionnalités de la version Core
 
