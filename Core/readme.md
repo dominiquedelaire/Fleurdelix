@@ -22,7 +22,7 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Firefox** : Navigateur web
     - **Chromium** : Navigateur web
   - **Bureautique**
-    - OnlyOffice : Suite bureautique compatible Microsoft et remplaçant la suite Microsoft 365. Le visualisateur et l'éditeur de PDF inclus aussi est très bien. Je l'utilise tous les jours.
+    - **OnlyOffice** : Suite bureautique compatible Microsoft et remplaçant la suite Microsoft 365. Le visualisateur et l'éditeur de PDF inclus aussi est très bien. Je l'utilise tous les jours.
   - **Systèmes** 
     - **Dolphin** : Gestionnaire de fichiers
     - **KDE Partition Manager** : Gestionnaire de disques et partitions
