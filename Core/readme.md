@@ -28,9 +28,9 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Paramétrage du système** (fonds d'écran, périphériques, bluetooth, thèmes et couleurs, Réseaux, Wifi, Régions, etc...)
     - **Moniteur système**
   - **Applications Fleurdelix**
-    - Task365 : Gestionnaire de taĉhes et gestion de la vie personnelle et professionnelle
-    - Flightboard : Tableau d'affichage des avions en temps réel et carte radar temps réel
-    - Sentinelle : 
+    - **Task365** : Gestionnaire de taĉhes et gestion de la vie personnelle et professionnelle.https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/Task365
+    - **Flightboard** : Un Afficheur Temps-réel d'avions qui passent au-dessus de chez vous, façon panneau à LED d'aéroport ou scope radar de tour de contrôle. https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/flightboard
+    
 
 # Version Core IA
 
