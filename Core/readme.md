@@ -12,3 +12,8 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
 - Télécharger le Iso sur le site officiel (sans logiciel, sans base, sans interface graphique, juste le noyau)
 
 ### Détail et fonctionnalités de la version Core
+
+# Version Core IA
+
+
+# Version Core Pro
