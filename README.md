@@ -1,6 +1,8 @@
-<img width="486" height="370" alt="fleurdelixlogo - Modifié" src="https://github.com/user-attachments/assets/a9e3bacf-3549-46b4-bd33-6d8ac18042cd" />
+<img width="2560" height="1440" alt="Fleurdelix OS" src="https://github.com/user-attachments/assets/8c7facb9-40ed-4f2a-9065-b3acb98ed01d" />
 
-Système d'exploitation souverain pour l'IA et pour le québec
+
+
+Système d'exploitation souverain pour le québec et les pays francophones, incluant des IA locales.
 
 # Fleurdelix OS
 
