@@ -27,6 +27,10 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Konsole** : Terminal avec fond transparent pour finetuner le système et installer des extensions et apps.
     - **Paramétrage du système** (fonds d'écran, périphériques, bluetooth, thèmes et couleurs, Réseaux, Wifi, Régions, etc...)
     - **Moniteur système**
+  - **Applications Fleurdelix**
+    - Task365 : Gestionnaire de taĉhes et gestion de la vie personnelle et professionnelle
+    - Flightboard : Tableau d'affichage des avions en temps réel et carte radar temps réel
+    - Sentinelle : 
 
 # Version Core IA
 
