@@ -23,6 +23,7 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Chromium** : Navigateur web
   - **Bureautique**
     - **OnlyOffice** : Suite bureautique compatible Microsoft et remplaçant la suite Microsoft 365. Le visualisateur et l'éditeur de PDF inclus aussi est très bien. Je l'utilise tous les jours.
+    - **Nextcloud** : Gestion électronique de documents et fichiers. (équivalent de onedrive en local et bien plus)
   - **Systèmes** 
     - **Dolphin** : Gestionnaire de fichiers
     - **KDE Partition Manager** : Gestionnaire de disques et partitions
