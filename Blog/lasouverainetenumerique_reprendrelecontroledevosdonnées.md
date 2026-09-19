@@ -1,3 +1,4 @@
+[Accueil projet Fleurdelix](https://github.com/dominiquedelaire/Fleurdelix/blob/main/README.md)   
 
 <img width="2560" height="1440" alt="Screenshot_20260918_101346" src="https://github.com/user-attachments/assets/53611007-216d-47a4-82c1-59b53c1e461f" />
 
