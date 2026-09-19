@@ -1,3 +1,5 @@
+[Accueil projet Fleurdelix](https://github.com/dominiquedelaire/Fleurdelix/blob/main/README.md)   
+
 # Fleurdelix intègre OnlyOffice : la suite  bureautique souveraine, directement dans votre OS
 
 <img width="800" height="1200" alt="onlyoffice_fleurdelix" src="https://github.com/user-attachments/assets/7cb05aa8-dd92-42ad-aa1c-0f03956a7da8" />
