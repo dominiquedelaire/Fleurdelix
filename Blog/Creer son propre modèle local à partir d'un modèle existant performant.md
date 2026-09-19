@@ -1,3 +1,5 @@
+[Accueil projet Fleurdelix](https://github.com/dominiquedelaire/Fleurdelix/blob/main/README.md)   
+
 # Créer son propre modèle local à partir d’un modèle existant performant   
 **Date de création :** 14 Juillet 2026   
 **Auteur :** Dominique Delaire
