@@ -3,7 +3,7 @@
 
 
 # La souveraineté numérique : reprendre le contrôle de vos données (et de votre IA)
-**Auteur** : Dominique Delaire
+**Auteur** : Dominique Delaire   
 **Version et date** : Version 1.1 du 18/09/2026
 
 *Pourquoi l'endroit où vivent vos fichiers, vos courriels et vos conversations avec l'intelligence artificielle compte beaucoup plus qu'on le pense.*
