@@ -37,7 +37,11 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Kate** : Editeur de textes et de codes
   - **Graphiques**
     - **Gnenview** : Visualisation d'images
-    - **Okular** : Visualisateur universel de documents et de différents formats de fichiers.  
+    - **Okular** : Visualisateur universel de documents et de différents formats de fichiers.
+  - **Multimédia**
+    - **Elisa** : lecteur audio et radio FM en ligne
+    - **Haruna** : lecteur vidéo et de streams (utilise le puissant mpv derrière)
+    - **Strawberry** : lecteur de musique
   - **Applications Fleurdelix**
     - **Task365** : Gestionnaire de taĉhes et gestion de la vie personnelle et professionnelle.https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/Task365
     - **Flightboard** : Un Afficheur Temps-réel d'avions qui passent au-dessus de chez vous, façon panneau à LED d'aéroport ou scope radar de tour de contrôle. https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/flightboard
