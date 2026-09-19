@@ -39,6 +39,7 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Gnenview** : Visualisation d'images
     - **Okular** : Visualisateur universel de documents et de différents formats de fichiers.
   - **Multimédia**
+    - **Audacity** : Création ét éditions de fichiers audios
     - **Elisa** : lecteur audio et radio FM en ligne
     - **Haruna** : lecteur vidéo et de streams (utilise le puissant mpv derrière)
     - **Strawberry** : lecteur de musique
