@@ -17,6 +17,7 @@ Le résultat : les 125 (ou 127 depuis 2026) circonscriptions du Québec **extrud
 | `quebec_elections_2d.kmz` | Google My Maps, tout SIG | Version 2D allégée (< 5 Mo) |
 
 <img width="2560" height="1440" alt="Screenshot_20260920_165258" src="https://github.com/user-attachments/assets/3b121941-f401-4001-a42b-fbeaa4a59dbd" />
+<img width="2560" height="1440" alt="Screenshot_20260920_154321" src="https://github.com/user-attachments/assets/7ac3408d-a2a3-4679-a4fa-bbb5f343b10f" />
 
 <img width="2560" height="1440" alt="Screenshot_20260920_140854" src="https://github.com/user-attachments/assets/36028cff-a0ec-48db-b20f-720af007839b" />
 
