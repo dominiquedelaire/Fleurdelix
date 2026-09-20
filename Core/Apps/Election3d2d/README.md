@@ -54,7 +54,7 @@ unidecode>=1.3
 ### Étape 1 : Générer le fichier complet pour Google Earth Pro
 
 ```bash
-python3 quebec_elections_3d_pourgoogleearth.py
+python3 quebec_elections_3d_pourgoogleearth.py ou quebec_elections_3d_pourgoogleearthavecnomcandidat.py
 ```
 
 Ce script :
@@ -67,7 +67,7 @@ Ce script :
 ### Étape 2 : Générer la version 2D pour Google My Maps
 
 ```bash
-python3 quebec_elections_2d_pourgooglemaps.py
+python3 quebec_elections_2d_pourgooglemaps.py ou quebec_elections_2d_pourgooglemapsavecnomcandidat.py
 ```
 
 Ce script réutilise les données déjà téléchargées et produit `quebec_elections_2d.kmz`, une version simplifiée sous 5 Mo compatible avec l'import de Google My Maps.
