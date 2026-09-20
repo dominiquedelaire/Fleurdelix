@@ -222,9 +222,6 @@ quebec-elections-3d/
 **Erreur `ModuleNotFoundError` au lancement**  
 Activer l'environnement virtuel : `source venv/bin/activate`
 
-**Erreur de lecture des CSV**  
-Les CSV du DGEQ sont en encodage ISO-8859-1 avec séparateur `;`. C'est géré par défaut. Si un CSV ne se lit pas, lancer `python3 diagnostic_quebec.py` pour inspecter la structure.
-
 **Aucun résultat associé aux circonscriptions**  
 La jointure entre le shapefile et les CSV se fait sur les noms de circonscriptions normalisés. Si de nouveaux noms apparaissent (fusion, création, renommage), adapter la fonction `normaliser_nom()`.
 
