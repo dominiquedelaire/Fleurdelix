@@ -5,6 +5,8 @@
 
 Génère des visualisations 3D/2D interactives des élections provinciales du Québec à partir des données ouvertes officielles d'Élections Québec (DGEQ) utilisable facilement sous Google Earth et My Google Maps.
 
+Fonctionne sur Fleurdelix OS mais aussi sur Linux Ubuntu, Mint, Windows 11, Mac OS, ...
+
 Le résultat : les 125 (ou 127 depuis 2026) circonscriptions du Québec **extrudées en 3D** sur Google Earth, colorées par parti gagnant, avec hauteur proportionnelle à la marge de victoire ou au pourcentage. Génère aussi des résultats pour être utilisé sur Google maps, my maps.
 
 ## Ce que cela produit
