@@ -40,6 +40,7 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Gnenview** : Visualisation d'images
     - **Okular** : Visualisateur universel de documents et de différents formats de fichiers.
   - **Multimédia**
+    - **Ardour** : Mixage audio multipiste
     - **Audacity** : Création ét éditions de fichiers audios
     - **Elisa** : lecteur audio et radio FM en 
     - **LMMS** : Séquenceur et création de musiques, style FL Studio
