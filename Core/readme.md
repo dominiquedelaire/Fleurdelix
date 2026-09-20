@@ -41,7 +41,8 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
     - **Okular** : Visualisateur universel de documents et de différents formats de fichiers.
   - **Multimédia**
     - **Audacity** : Création ét éditions de fichiers audios
-    - **Elisa** : lecteur audio et radio FM en ligne
+    - **Elisa** : lecteur audio et radio FM en 
+    - **LMMS** : Séquenceur et création de musiques, style FL Studio
     - **Haruna** : lecteur vidéo et de streams (utilise le puissant mpv derrière)
     - **Strawberry** : lecteur de musique
   - **Applications Fleurdelix**
