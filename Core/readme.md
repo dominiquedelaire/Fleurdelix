@@ -50,8 +50,11 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
   - **Applications Fleurdelix**
     - **Task365** : Gestionnaire de taĉhes et gestion de la vie personnelle et professionnelle.https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/Task365
     - **Flightboard** : Un Afficheur Temps-réel d'avions qui passent au-dessus de chez vous, façon panneau à LED d'aéroport ou scope radar de tour de contrôle. https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Apps/flightboard
+    - **Election 3d2d** : Génération en temps réel des données fournies par Election québec sur une couche 3d et 2d pour Google earth pro ou google maps my maps ou autre sig comme ArcGis, uMap, ...
   - **Jeux Fleurdelix**
     - Nids de poule Montréal https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core/Games/Nids-de-poule
+  - **Divers**
+    - **Google Earth Pro** : Version locale de Google Earth pour visiter la planète Terre
     
 
 # Version Core IA (gratuit)
