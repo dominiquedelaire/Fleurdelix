@@ -192,6 +192,9 @@ Utiliser la version 2D (`quebec_elections_2d.kmz`) sur [mymaps.google.com](https
 ### QGIS ou tout autre SIG
 
 Les deux KMZ s'ouvrent directement dans QGIS, ArcGIS, uMap, etc.
+Un exemple ici avec ArcGIS :  
+<img width="2560" height="1440" alt="Screenshot_20260920_154321" src="https://github.com/user-attachments/assets/56bf000b-1412-44da-8257-827b6753b132" />
+
 
 ## Sources des données
 
