@@ -37,6 +37,7 @@ Utiliser un outil pour installer le fichier sur une clé ou un disque bootable o
   - **Développement**
     - **Kate** : Editeur de textes et de codes
   - **Graphiques**
+    - **Blender** : Logiciel 3D et animations
     - **Gnenview** : Visualisation d'images
     - **Okular** : Visualisateur universel de documents et de différents formats de fichiers.
   - **Multimédia**
