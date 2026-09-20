@@ -3,9 +3,9 @@
 **Date de création** : Juillet 2026   
 **Date de modification** : 20 septembre 2026
 
-Génère des visualisations 3D interactives des élections provinciales du Québec à partir des données ouvertes officielles d'Élections Québec (DGEQ).
+Génère des visualisations 3D/2D interactives des élections provinciales du Québec à partir des données ouvertes officielles d'Élections Québec (DGEQ) utilisable facilement sous Google Earth et My Google Maps.
 
-Le résultat : les 125 (ou 127 depuis 2026) circonscriptions du Québec **extrudées en 3D** sur Google Earth, colorées par parti gagnant, avec hauteur proportionnelle à la marge de victoire ou au pourcentage.
+Le résultat : les 125 (ou 127 depuis 2026) circonscriptions du Québec **extrudées en 3D** sur Google Earth, colorées par parti gagnant, avec hauteur proportionnelle à la marge de victoire ou au pourcentage. Génère aussi des résultats pour être utilisé sur Google maps, my maps.
 
 ## Ce que cela produit
 
