@@ -10,7 +10,7 @@
 
 
 # Version Core (gratuit)
-### Télécharger le .Iso 
+### Télécharger le .Iso ou fichier VM
 Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
 iso disponible a partir du 30 septembre (quelques erreurs de déploiements à corriger :) ).
 
@@ -20,7 +20,6 @@ iso disponible a partir du 30 septembre (quelques erreurs de déploiements à co
 - Voici les logiciels par domaine installés sur Fleurdelix OS :
   - **Internet**
     - **Firefox** : Navigateur web
-    - **Chromium** : Navigateur web
     - **Thunderbird supernova** : Gestion des courriels / emails
   - **Bureautique**
     - **OnlyOffice** : Suite bureautique compatible Microsoft et remplaçant la suite Microsoft 365. Le visualisateur et l'éditeur de PDF inclus aussi est très bien. Je l'utilise tous les jours.
@@ -62,13 +61,21 @@ iso disponible a partir du 30 septembre (quelques erreurs de déploiements à co
 
   - **Tal.ia** : Interface à la chatgpt pour utiliser l'IA avec différents modèles locaux ou ses propres données. Fonctionne en local sans internet.
 
-# Version Core Pro (payant pour entreprises et services publics)
+### Télécharger le .Iso ou fichier VM
+Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
+iso disponible a partir du 15 octobre 2026.
+
+# Version Core Pro 
   - Toutes les fonctionnalités de la version **Core IA** +
     - **framework Shellbots** : Framework pour accélérer les projets IA de toute nature : entraînement des données, génération d'images, création de modèles prédictifs, etc...
     - Outils pour les entreprises pour bâtir leur propre modèle ou hériter de modèles locaux avec leurs données d'organisation
     - Logiciels Financiers, ERP, CRM installés
     - Autres logiciels pour entreprises :
       - Liste à venir
+
+### Télécharger le .Iso ou fichier VM
+Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
+iso disponible a partir du 15 décembre 2026.
 
 # Fleurdelix Mobile pour téléphones Android
 - Disponible Décembre 2026
