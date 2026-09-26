@@ -12,7 +12,7 @@
 # Version Core (gratuit)
 ### Télécharger le .Iso 
 Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
-iso disponible a partir du 25 septembre.
+iso disponible a partir du 30 septembre (quelques erreurs de déploiements à corriger :) ).
 
 
 ### Détail et fonctionnalités de la version Core version 2026.03.22
