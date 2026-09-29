@@ -7,7 +7,14 @@
 **Date de création initiale :** 14 juin 2025   
 **Date de mise à jour :** 28 septembre 2026     
 
-
+- [Télécharger les .Iso](#télécharger-les-iso)
+  - [Les fichiers](#les-fichiers)
+  - [Empreinte de la clé de signature](#empreinte-de-la-clé-de-signature)
+  - [Sur Linux ou macOS](#sur-linux-ou-macos)
+  - [Sur Windows](#sur-windows)
+  - [Si la vérification échoue](#si-la-vérification-échoue)
+  - [Ce que cette vérification prouve, et ne prouve pas](#ce-que-cette-vérification-prouve-et-ne-prouve-pas)
+  - [Démarrage sécurisé (Secure Boot)](#démarrage-sécurisé-secure-boot)
 
 # Version Core 
 
