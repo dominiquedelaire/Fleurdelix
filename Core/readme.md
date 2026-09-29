@@ -5,17 +5,13 @@
 # Fonctionnalités par version   
 **Auteur :** Dominique Delaire   
 **Date de création initiale :** 14 juin 2025   
-**Date de mise à jour :** 18 septembre 2026     
+**Date de mise à jour :** 28 septembre 2026     
 
 
 
 # Version Core (gratuit)
-### Télécharger le .Iso ou fichier VM
-Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
-iso disponible a partir du 30 septembre (quelques erreurs de déploiements à corriger :) ).
 
-
-### Détail et fonctionnalités de la version Core version 2026.03.22
+## Détail et fonctionnalités de la version Core version 2026.03.22
 - Basé sur un noyau ubuntu server minimal 26.04.1, interface terminal
 - Voici les logiciels par domaine installés sur Fleurdelix OS :
   - **Internet**
@@ -61,10 +57,6 @@ iso disponible a partir du 30 septembre (quelques erreurs de déploiements à co
 
   - **Tal.ia** : Interface à la chatgpt pour utiliser l'IA avec différents modèles locaux ou ses propres données. Fonctionne en local sans internet.
 
-### Télécharger le .Iso ou fichier VM
-Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
-iso disponible a partir du 15 octobre 2026.
-
 # Version Core Pro 
   - Toutes les fonctionnalités de la version **Core IA** +
     - **framework Shellbots** : Framework pour accélérer les projets IA de toute nature : entraînement des données, génération d'images, création de modèles prédictifs, etc...
@@ -73,10 +65,116 @@ iso disponible a partir du 15 octobre 2026.
     - Autres logiciels pour entreprises :
       - Liste à venir
 
-### Télécharger le .Iso ou fichier VM
-Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
-iso disponible a partir du 15 décembre 2026.
-
 # Fleurdelix Mobile pour téléphones Android
 - Disponible Décembre 2026
   - Plateforme mobile minimaliste remplaçant l'interface android et complétement configuratble avec de l'IA embarqué en local. Pratique pour les enfants et les personnes âgées.
+ 
+# Télécharger les .Iso 
+Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
+ISO Fleurdelix Core 2026.03.22 : [télécharger la version Core (4.1Gb)](https://fleurdelix.quebec/iso/fleurdelixOSCore-amd64-v20260322.iso)
+
+Toutes les images de Fleurdelix OS sont signées. Vous n'êtes pas obligé de faire cette opération mais cette vérification prend
+une minute et garantit que vous avez bien reçu l'image d'origine, sans
+altération en cours de route.
+
+### Les fichiers
+
+| Fichier | Rôle |
+|---|---|
+| `fleurdelixOS-Core20260322-amd64.iso` | l'image d'installation |
+| `SHA256SUMS` | l'empreinte de l'image |
+| `SHA256SUMS.asc` | la signature de cette empreinte |
+| `fleurdelix-signing-key.asc` | la clé publique de signature |
+
+Téléchargez les quatre dans le même dossier.
+
+### Empreinte de la clé de signature
+
+```
+43AB 08D4 173D A005 5D30 08F3 0EEB 9FE6 30C2 2E58
+```
+
+**Comparez-la avec celle affichée à l'étape 1 ci-dessous.** Si elles
+diffèrent, la clé que vous avez téléchargée n'est pas la nôtre : arrêtez-vous
+là et signalez-le.
+
+### Sur Linux ou macOS
+
+**1. Importer la clé publique**
+
+```bash
+gpg --import fleurdelix-signing-key.asc
+gpg --fingerprint 0EEB9FE630C22E58
+```
+
+**2. Vérifier la signature**
+
+```bash
+gpg --verify SHA256SUMS.asc SHA256SUMS
+```
+
+Réponse attendue :
+
+```
+gpg: Bonne signature de « Fleurdelix OS <ddelaire@fleurdelix.quebec> »
+```
+
+L'avertissement `Cette clé n'est pas certifiée par une signature de
+confiance` est normal : il signifie simplement que vous n'avez pas
+personnellement attesté de notre identité. La signature est valide.
+
+**3. Vérifier l'image**
+
+```bash
+sha256sum -c SHA256SUMS        # Linux
+shasum -a 256 -c SHA256SUMS    # macOS
+```
+
+Réponse attendue :
+
+```
+fleurdelixOS-Core20260322-amd64.iso: Réussi
+```
+
+### Sur Windows
+
+Installez [Gpg4win](https://gpg4win.org/), puis dans PowerShell :
+
+```powershell
+gpg --import fleurdelix-signing-key.asc
+gpg --verify SHA256SUMS.asc SHA256SUMS
+
+Get-FileHash fleurdelixOS-Core20260322-amd64.iso -Algorithm SHA256
+```
+
+Comparez l'empreinte obtenue avec le contenu de `SHA256SUMS`.
+
+### Si la vérification échoue
+
+**L'empreinte ne correspond pas** : le téléchargement est probablement
+incomplet ou corrompu. Retéléchargez l'image.
+
+**La signature est invalide** : ne l'installez pas. Signalez-le-nous.
+
+### Ce que cette vérification prouve, et ne prouve pas
+
+Elle prouve que l'image provient bien du détenteur de cette clé et qu'elle
+n'a pas été modifiée depuis sa signature.
+
+Elle ne remplace pas votre propre jugement sur le contenu de la
+distribution, et elle n'a aucun lien avec le démarrage sécurisé (voir
+ci-dessous).
+
+---
+
+## Démarrage sécurisé (Secure Boot)
+
+Fleurdelix OS n'est pas signé pour le démarrage sécurisé. Cette
+certification passe par un processus d'examen de plusieurs mois qui dépasse
+les moyens actuels du projet.
+
+**Désactivez le démarrage sécurisé dans le BIOS/UEFI avant de démarrer sur
+la clé d'installation.** L'option se trouve en général sous *Security* ou
+*Boot*, selon le fabricant.
+
+Une fois le système installé, vous pouvez le réactiver si vous le souhaitez.
