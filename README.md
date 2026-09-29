@@ -20,7 +20,7 @@ Fleurdelix bénéficie aussi des outils modernes pour la bureautique, l'IA gén�
 Le système peut être téléchargé directement sur Github ou via l'achat de nos machines intégrant notre OS (bientôt dispo)
 
 ## Versions, Fonctionnalités et Téléchargements
-- Il y a plusieurs versions , une version Core, Core IA et Core Pro pour les entreprises. Une version pour téléphone mobile aussi est en préparation.
+- Il y a plusieurs versions , une version Core et Core IA Pro pour les particuliers et entreprises. A terme, nous n'aurons qu'une version Core IA Pro regroupement l'ensemble. Une version pour téléphone mobile aussi est en préparation.
 - Pour le détail des fonctionnalités par version ou télécharger les versions en ISO, voir la section "Core".
   Allez à la section [Core](https://github.com/dominiquedelaire/Fleurdelix/tree/main/Core) 
 
