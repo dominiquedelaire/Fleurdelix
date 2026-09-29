@@ -7,14 +7,21 @@
 **Date de création initiale :** 14 juin 2025   
 **Date de mise à jour :** 28 septembre 2026     
 
+## Table des matières
+
+- [Version Core](#version-core)
+  - [Détail et fonctionnalités de la version Core version 2026.03.22](#détail-et-fonctionnalités-de-la-version-core-version-20260322)
+- [Version Core IA Pro](#version-core-ia-pro)
+- [Fleurdelix Mobile pour téléphones Android](#fleurdelix-mobile-pour-téléphones-android)
 - [Télécharger les .Iso](#télécharger-les-iso)
-  - [Les fichiers](#les-fichiers)
-  - [Empreinte de la clé de signature](#empreinte-de-la-clé-de-signature)
-  - [Sur Linux ou macOS](#sur-linux-ou-macos)
-  - [Sur Windows](#sur-windows)
-  - [Si la vérification échoue](#si-la-vérification-échoue)
-  - [Ce que cette vérification prouve, et ne prouve pas](#ce-que-cette-vérification-prouve-et-ne-prouve-pas)
-  - [Démarrage sécurisé (Secure Boot)](#démarrage-sécurisé-secure-boot)
+    - [Les fichiers](#les-fichiers)
+    - [Empreinte de la clé de signature](#empreinte-de-la-clé-de-signature)
+    - [Sur Linux ou macOS](#sur-linux-ou-macos)
+    - [Sur Windows](#sur-windows)
+    - [Si la vérification échoue](#si-la-vérification-échoue)
+    - [Ce que cette vérification prouve, et ne prouve pas](#ce-que-cette-vérification-prouve-et-ne-prouve-pas)
+    - [Démarrage sécurisé (Secure Boot)](#démarrage-sécurisé-secure-boot)
+
 
 # Version Core 
 
