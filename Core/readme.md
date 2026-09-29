@@ -9,7 +9,7 @@
 
 
 
-# Version Core (gratuit)
+# Version Core 
 
 ## Détail et fonctionnalités de la version Core version 2026.03.22
 - Basé sur un noyau ubuntu server minimal 26.04.1, interface terminal
@@ -52,13 +52,10 @@
     - **Google Earth Pro** : Version locale de Google Earth pour visiter la planète Terre
     
 
-# Version Core IA (gratuit)
+# Version Core IA Pro 
 - Toutes les fonctionnalités de la version **Core** +
 
-  - **Tal.ia** : Interface à la chatgpt pour utiliser l'IA avec différents modèles locaux ou ses propres données. Fonctionne en local sans internet.
-
-# Version Core Pro 
-  - Toutes les fonctionnalités de la version **Core IA** +
+    - **Tal.ia** : Interface à la chatgpt pour utiliser l'IA avec différents modèles locaux ou ses propres données. Fonctionne en local sans internet.
     - **framework Shellbots** : Framework pour accélérer les projets IA de toute nature : entraînement des données, génération d'images, création de modèles prédictifs, etc...
     - Outils pour les entreprises pour bâtir leur propre modèle ou hériter de modèles locaux avec leurs données d'organisation
     - Logiciels Financiers, ERP, CRM installés
@@ -70,10 +67,13 @@
   - Plateforme mobile minimaliste remplaçant l'interface android et complétement configuratble avec de l'IA embarqué en local. Pratique pour les enfants et les personnes âgées.
  
 # Télécharger les .Iso 
-Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.
-ISO Fleurdelix Core 2026.03.22 : [télécharger la version Core (4.1Gb)](https://fleurdelix.quebec/iso/fleurdelixOSCore-amd64-v20260322.iso)
+Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.   
 
-Toutes les images de Fleurdelix OS sont signées. Vous n'êtes pas obligé de faire cette opération mais cette vérification prend
+**ISO Fleurdelix Core 2026.03.22** : [télécharger la version Core (4.1Gb)](https://fleurdelix.quebec/iso/fleurdelixOSCore-amd64-v20260322.iso)   
+**ISO Fleurdelix Core IA Pro** : Disponible à compter du 20 octobre 2026
+
+
+Toutes les images de Fleurdelix OS sont signées. Vous n'êtes pas obligés de faire cette opération mais cette vérification prend
 une minute et garantit que vous avez bien reçu l'image d'origine, sans
 altération en cours de route.
 
@@ -81,7 +81,7 @@ altération en cours de route.
 
 | Fichier | Rôle |
 |---|---|
-| `fleurdelixOS-Core20260322-amd64.iso` | l'image d'installation |
+| `fleurdelixOSCore-amd64-v20260322.iso` | l'image d'installation |
 | `SHA256SUMS` | l'empreinte de l'image |
 | `SHA256SUMS.asc` | la signature de cette empreinte |
 | `fleurdelix-signing-key.asc` | la clé publique de signature |
@@ -144,7 +144,7 @@ Installez [Gpg4win](https://gpg4win.org/), puis dans PowerShell :
 gpg --import fleurdelix-signing-key.asc
 gpg --verify SHA256SUMS.asc SHA256SUMS
 
-Get-FileHash fleurdelixOS-Core20260322-amd64.iso -Algorithm SHA256
+Get-FileHash fleurdelixOSCore-amd64-v20260322.iso -Algorithm SHA256
 ```
 
 Comparez l'empreinte obtenue avec le contenu de `SHA256SUMS`.
