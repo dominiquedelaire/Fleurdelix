@@ -147,7 +147,7 @@ shasum -a 256 -c SHA256SUMS    # macOS
 Réponse attendue :
 
 ```
-fleurdelixOS-Core20260322-amd64.iso: Réussi
+fleurdelixOSCore-amd64-v20260322.iso: Réussi
 ```
 
 ### Sur Windows
