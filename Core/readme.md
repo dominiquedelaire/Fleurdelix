@@ -71,8 +71,8 @@
 
     - **Tal.ia** : Interface à la chatgpt pour utiliser l'IA avec différents modèles locaux ou ses propres données. Fonctionne en local sans internet.
     - **framework Shellbots** : Framework pour accélérer les projets IA de toute nature : entraînement des données, génération d'images, création de modèles prédictifs, etc...
-    - Outils pour les entreprises pour bâtir leur propre modèle ou hériter de modèles locaux avec leurs données d'organisation
-    - Logiciels Financiers, ERP, CRM installés
+    - **Outils pour les entreprises** pour bâtir leur propre modèle ou hériter de modèles locaux avec leurs données d'organisation
+    - **Logiciels Financiers, ERP, CRM installés**
     - Autres logiciels pour entreprises :
       - Liste à venir
 
@@ -181,7 +181,7 @@ ci-dessous).
 
 ---
 
-## Démarrage sécurisé (Secure Boot)
+### Démarrage sécurisé (Secure Boot)
 
 Fleurdelix OS n'est pas signé pour le démarrage sécurisé. Cette
 certification passe par un processus d'examen de plusieurs mois qui dépasse
