@@ -22,6 +22,7 @@
     - [Ce que cette vérification prouve, et ne prouve pas](#ce-que-cette-vérification-prouve-et-ne-prouve-pas)
     - [Démarrage sécurisé (Secure Boot)](#démarrage-sécurisé-secure-boot)
     - [Installation sur un PC, Mac, Nvidia, ...](#installation-sur-un-pc-mac-machines-nvidia-ou-autres-machines-pouvant-int%C3%A9grer-linux)
+    - [Installation sur un environnement de machines virtuelles comme VirtualBox](#installation-sur-un-environnement-de-machines-virtuelles-comme-virtualbox-doracle)
 
 
 # Version Core 
@@ -34,7 +35,6 @@
     - **Thunderbird supernova** : Gestion des courriels / emails
   - **Bureautique**
     - **OnlyOffice** : Suite bureautique compatible Microsoft et remplaçant la suite Microsoft 365. Le visualisateur et l'éditeur de PDF inclus aussi est très bien. Je l'utilise tous les jours.
-    - **Nextcloud** : Gestion électronique de documents et fichiers. (équivalent de onedrive en local et bien plus)
   - **Systèmes** 
     - **Dolphin** : Gestionnaire de fichiers
     - **KDE Partition Manager** : Gestionnaire de disques et partitions
@@ -70,8 +70,10 @@
 # Version Core IA Pro 
 - Toutes les fonctionnalités de la version **Core** +
 
+    - **Modèles Tal.ia léger et Tal.ia** 
     - **Tal.ia** : Interface à la chatgpt pour utiliser l'IA avec différents modèles locaux ou ses propres données. Fonctionne en local sans internet.
     - **framework Shellbots** : Framework pour accélérer les projets IA de toute nature : entraînement des données, génération d'images, création de modèles prédictifs, etc...
+    - **Nextcloud** : Gestion électronique de documents et fichiers. (équivalent de onedrive en local et bien plus)
     - **Outils pour les entreprises** pour bâtir leur propre modèle ou hériter de modèles locaux avec leurs données d'organisation
     - **Logiciels Financiers, ERP, CRM installés**
     - Autres logiciels pour entreprises :
@@ -85,7 +87,7 @@
 Utiliser un outil pour installer le fichier sur une clé ou un disque bootable ou l'utiliser directement sur un système de machine virtuelle tel que Virtual Box, Vm Ware, etc.   
 
 **ISO Fleurdelix Core 2026.03.22** : [télécharger la version Core (4.1Gb)](https://fleurdelix.quebec/iso/fleurdelixOSCore-amd64-v20260322.iso)   
-**ISO Fleurdelix Core IA Pro** : Disponible à compter du 20 octobre 2026
+**ISO Fleurdelix Core IA Pro** : Disponible à compter de novembre 2026
 
 
 Toutes les images de Fleurdelix OS sont signées. Vous n'êtes pas obligés de faire cette opération mais cette vérification prend
