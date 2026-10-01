@@ -21,6 +21,7 @@
     - [Si la vérification échoue](#si-la-vérification-échoue)
     - [Ce que cette vérification prouve, et ne prouve pas](#ce-que-cette-vérification-prouve-et-ne-prouve-pas)
     - [Démarrage sécurisé (Secure Boot)](#démarrage-sécurisé-secure-boot)
+    - [Installation sur un PC, Mac, Nvidia, ...](#installation-sur-un-pc-mac-machines-nvidia-ou-autres-machines-pouvant-int%C3%A9grer-linux)
 
 
 # Version Core 
