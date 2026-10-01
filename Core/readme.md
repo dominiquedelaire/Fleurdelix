@@ -192,3 +192,37 @@ la clé d'installation.** L'option se trouve en général sous *Security* ou
 *Boot*, selon le fabricant.
 
 Une fois le système installé, vous pouvez le réactiver si vous le souhaitez.
+
+### Installation sur un PC, Mac, Machines Nvidia ou autres machines pouvant intégrer Linux
+
+### Installation sur un environnement de machines virtuelles comme VirtualBox d'Oracle
+
+- Installer VirtualBox d'oracle sous Windows, MacOs ou Linux Architecture Amd, intel
+  - https://www.virtualbox.org/wiki/Downloads
+ 
+- Créer une nouvelle machine virtuelle en spécifiant comme OS host Ubuntu ou Linux 64 avec un disque de stockage d'environ 30Gb
+- Ajouter un média amovible pointant vers l'image Iso de Fleurdelix OS
+- Puis booter sur l'image Live
+- Vous pouvez utiliser le système tel quel mais il va être plus lent que si vous l'installer véritablement sur le disque de votre machine virtuelle.
+- Pour cela, il suffit de double cliquer sur l'icône représentant un oeuf (Install System) :)
+
+- Exemple d'écrans sur les étapes d'installation :
+  - <img width="1347" height="886" alt="wwqeFYlD" src="https://github.com/user-attachments/assets/0c7ec2ee-4f56-43f8-8d75-6bed9e0d0666" />  
+  - <img width="2048" height="840" alt="9k88pAVp" src="https://github.com/user-attachments/assets/eded0529-63bc-45e6-b8e3-061a520fca97" />
+  - <img width="1357" height="776" alt="Xs7TyNZi" src="https://github.com/user-attachments/assets/8d358dee-7371-4502-8842-10bc9927394b" />
+  - <img width="1365" height="823" alt="aIn_j_N9" src="https://github.com/user-attachments/assets/f18d5329-1db9-4e4e-b946-35221b7ed7f3" />
+  - <img width="805" height="521" alt="YPM69Hnh" src="https://github.com/user-attachments/assets/d5b38c6f-39ea-4204-ac90-be150d3eede6" />
+  - <img width="749" height="510" alt="jhM8ubNp" src="https://github.com/user-attachments/assets/67a4abff-856b-4792-9680-f34c9801f40b" />
+  - <img width="745" height="496" alt="BsVIaHJO" src="https://github.com/user-attachments/assets/14a36f9c-2034-4e0d-b1d7-2afe17134e53" />
+  - <img width="759" height="503" alt="avBtLXXK" src="https://github.com/user-attachments/assets/31dad93c-3dfc-4faf-a366-645d7afbe741" />
+  - <img width="779" height="531" alt="Jj4cwbbO" src="https://github.com/user-attachments/assets/234a9f4e-9c55-472a-a1dd-50cbab8c63c3" />
+  - <img width="770" height="506" alt="UI4k6Fpb" src="https://github.com/user-attachments/assets/7f325757-09d5-4852-93f0-a4e11f60846c" />
+  
+
+
+
+
+
+
+
+
