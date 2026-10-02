@@ -11,7 +11,7 @@ Anciennement ShellbotsOS, Fleurdelix a été réécrit de A à Z avec une base l
 
 Fleurdelix intègre gratuitement des applications de différentes sortes pour remplacer l'ensemble des outils payants ou gratuits des GAFAM (Google, Apple, Facebook, Amazon, Microsoft) et j'ai intégré aussi de l'IA complètement locale pour la sécurité de vos données avec une app fédératrice de modèles Tal.ia
 
-Fleurdelix est gratuit pour les versions **Core** et **Core IA** (payant pour la version **Core Pro**) et peux fonctionner sur des architectures Intel (PC) mais aussi Arm (Raspberry PI, ...), des machines virtuelles ainsi que des plateformes de virtualisation.
+Fleurdelix est gratuit pour les versions **Core** et **Core IA Pro** et peux fonctionner sur des architectures Intel (PC) mais aussi Arm (Raspberry PI, ...), des machines virtuelles ainsi que des plateformes de virtualisation.
 
 J'ai créé Fleurdelix pour les québécois et la communauté francophone à travers le monde dont la France, Belgique, Suisse, l'Afrique, .... ainsi que leurs entreprises afin qu'ils puissent bénéficier d'un système où leurs propres données restent confidentielles et ne servent pas à entrainer des modèles grand public.
 
