@@ -12,6 +12,8 @@ Dans ce tutoriel, on fait autrement : on utilise **tal.ia**, l'assistant de Fleu
 
 > **En bref :** Ollama fait tourner le modèle, tal.ia est notre version personnalisée du modèle dérivé de Qwen, et le plugin IA d'ONLYOFFICE fait le lien entre les deux.
 
+<img width="1254" height="1254" alt="onlyoffice talia" src="https://github.com/user-attachments/assets/f437de71-dac3-4712-b216-1ac92efb3f7a" />
+
 
 ## Introduction
 
