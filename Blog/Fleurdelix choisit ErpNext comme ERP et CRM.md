@@ -1,3 +1,5 @@
+[Accueil projet Fleurdelix](https://github.com/dominiquedelaire/Fleurdelix/blob/main/README.md)   
+
 # ERPNext sur Fleurdelix OS
 <img width="1672" height="941" alt="erpnextcrmfleurdelix" src="https://github.com/user-attachments/assets/b340e019-1bbc-4556-8fc1-176f718dfa9b" />
 
