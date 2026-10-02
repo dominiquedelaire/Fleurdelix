@@ -1,3 +1,5 @@
+[Accueil projet Fleurdelix](https://github.com/dominiquedelaire/Fleurdelix/blob/main/README.md)   
+
 ---
 description: "Comment intégrer un assistant IA qui tourne entièrement sur votre ordinateur dans ONLYOFFICE, grâce à Ollama et au modèle tal.ia."
 date: 2026-09-26
