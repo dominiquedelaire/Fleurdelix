@@ -37,7 +37,7 @@ Environment="OLLAMA_ORIGINS=http://*,https://*,onlyoffice://*"
 Voici 2 exemples, le premier dans le traitement de texte et le deuxième dans le tableur :
 
 Dans ONLYOFFICE, allez dans l'onglet IA (s'il n'est pas présent, activer le module dans "Modules complémentaires". 
-Puis choisir 'Paramètres'. On va ajouter les modèles Tal.ia de OnlyOffice. 
+Puis choisir 'Paramètres'. On va ajouter les modèles Tal.ia de Fleurdelix OS dans OnlyOffice. 
 Choisir "Modifier les modèles d'IA"
 
 <img width="1971" height="1198" alt="Screenshot_20260930_221442" src="https://github.com/user-attachments/assets/e0e3da87-48a3-48a8-9028-f74cec0cce30" />
