@@ -21,7 +21,7 @@ Ollama et les modèles de Tal.ia, ainsi que OnlyOffice sont déjà installés da
 
 Une carte graphique n'est pas obligatoire : le modèle fonctionne sur le processeur, simplement un peu plus lentement.
 
-Par sécurité par défaut, Ollama refuse par défaut les requêtes venant d'applications comme ONLYOFFICE.
+Par sécurité, Ollama refuse par défaut les requêtes venant d'applications comme ONLYOFFICE.
 
 Comme Ollama tourne en tant que service, nous avons modifié sa configuration ainsi :
 
