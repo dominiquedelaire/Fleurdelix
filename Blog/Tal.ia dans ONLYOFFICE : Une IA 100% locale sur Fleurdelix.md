@@ -1,5 +1,4 @@
 ---
-title: "tal.ia dans ONLYOFFICE : une IA 100 % locale sur Fleurdelix"
 description: "Comment intégrer un assistant IA qui tourne entièrement sur votre ordinateur dans ONLYOFFICE, grâce à Ollama et au modèle tal.ia."
 date: 2026-09-26
 Auteur : Dominique Delaire
@@ -81,10 +80,10 @@ Et on obtient le résultat
 
 ## Dépannage
 
-**tal.ia n'apparaît pas dans la liste des modèles d'ONLYOFFICE**
+**tal.ia n'apparaît pas dans la liste des modèles d'ONLYOFFICE**   
 Vérifiez qu'Ollama tourne (`systemctl status ollama`) et que le modèle existe (`ollama list`).
 
-**C'est lent**
+**C'est lent**   
 Sans carte graphique, c'est normal que la première réponse prenne quelques secondes. 
 
 ## À propos de tal.ia
