@@ -26,3 +26,8 @@ Les points forts face à Microsoft 365 :
 <img width="400" height="275" alt="ONLYOFFICE_logo_(centered) svg" src="https://github.com/user-attachments/assets/79a3836c-3e3c-46de-9c2a-7afa6e77c859" />   
 
 Visitez le site OnlyOFFICE https://onlyoffice.com/fr
+
+
+---
+
+*Fleurdelix OS · Souverain · Libre · Pour demain*
