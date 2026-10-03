@@ -577,3 +577,8 @@
 <p>Si vous avez des questions, n'hésitez pas à me contacter  :)</p>
 <p>Dominique</p>
 <p style="margin-top: 30px; font-size: 0.9em; color: #666; font-style: italic;">L'auteur, Dominique Delaire, est consultant sénior en machine learning et créateur de fleurdelix OS, système d'exploitation conçu autour des modèles locaux et de la souveraineté des données. Les opinions exprimées n'engagent que lui.</p>
+
+
+---
+
+*Fleurdelix OS · Souverain · Libre · Pour demain*
