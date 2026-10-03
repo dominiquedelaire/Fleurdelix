@@ -93,3 +93,8 @@ Sans carte graphique, c'est normal que la première réponse prenne quelques sec
 ## À propos de tal.ia
 
 tal.ia est une personnalisation du modèle dérivé et entraîné de **Qwen3**, développé par l'équipe Qwen d'Alibaba Cloud et distribué sous licence **Apache 2.0**. Un grand merci à eux, ainsi qu'aux équipes d'Ollama et d'ONLYOFFICE, dont le travail ouvert rend ce genre de projet possible.
+
+
+---
+
+*Fleurdelix OS · Souverain · Libre · Pour demain*
