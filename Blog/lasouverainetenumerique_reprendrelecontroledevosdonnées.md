@@ -164,3 +164,7 @@ Et ce choix commence chez vous.
 | **Juridiction** | L'ensemble des lois qui s'appliquent à un endroit ou à une entreprise. |
 | **Loi 25** | La loi québécoise qui modernise la protection des renseignements personnels et encadre notamment leur transfert à l'extérieur du Québec. |
 
+
+---
+
+*Fleurdelix OS · Souverain · Libre · Pour demain*
