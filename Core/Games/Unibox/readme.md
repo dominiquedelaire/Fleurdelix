@@ -21,7 +21,7 @@ encore libre.
 
 **Sur Fleurdelix OS** : Unibox est intégré au système. Rien à installer.
 
-**Dans un navigateur** : démo en ligne sur [fleurdelix.quebec](https://fleurdelix.quebec),
+**Dans un navigateur** : démo en ligne sur [fleurdelix.quebec](https://fleurdelix.quebec/execute/Unibox/index.html),
 sur ordinateur, téléphone et tablette.
 
 La version web s'ajoute à l'écran d'accueil d'un téléphone ou d'une tablette
