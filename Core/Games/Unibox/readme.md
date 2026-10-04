@@ -156,3 +156,9 @@ double-appui, pour ne pas zoomer au milieu d'un geste.
 Unibox est open source, et le code est fourni. Vous pouvez le lire, le
 modifier, le redistribuer, dessiner vos propres quais ou repartir du moteur
 pour autre chose.
+
+
+
+---
+
+*Fleurdelix OS · Souverain · Libre · Pour demain*
