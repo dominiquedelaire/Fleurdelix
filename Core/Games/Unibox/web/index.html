@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Unibox</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="frame">
+
+  <aside class="rail">
+    <header class="brand">
+      <h1>unibox</h1>
+      <p class="tagline">Le quai de nuit. Chaque caisse a sa place.</p>
+    </header>
+
+    <div class="chapter">
+      <span class="chapter-num" id="levelNum">1</span>
+      <div>
+        <h2 id="levelName">—</h2>
+        <p id="levelHint">—</p>
+      </div>
+    </div>
+
+    <dl class="readout">
+      <div><dt>Pas</dt><dd id="statMoves">0</dd></div>
+      <div><dt>Poussées</dt><dd id="statPushes">0</dd></div>
+      <div><dt>Caisses posées</dt><dd id="statDone">0 / 0</dd></div>
+      <div><dt>Meilleur score</dt><dd id="statBest">—</dd></div>
+    </dl>
+
+    <div class="controls">
+      <button id="btnUndo" class="btn">Annuler <kbd>U</kbd></button>
+      <button id="btnReset" class="btn">Recommencer <kbd>R</kbd></button>
+      <button id="btnLevels" class="btn">Choisir un niveau <kbd>L</kbd></button>
+    </div>
+
+    <div class="rail-foot">
+      <button id="btnSound" class="ghost" aria-pressed="true">Son activé</button>
+      <p class="keys">Flèches ou ZQSD pour marcher. Clic sur une case pour s’y rendre,
+        clic sur une caisse voisine pour la pousser.</p>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <canvas id="board"></canvas>
+
+    <div class="topbar">
+      <button id="btnPrev" class="chip" title="Niveau précédent">◀</button>
+      <span id="progressLabel" class="chip flat">Niveau 1 sur 1</span>
+      <button id="btnNext" class="chip" title="Niveau suivant">▶</button>
+    </div>
+
+    <nav class="dpad" aria-label="Déplacement">
+      <button data-dir="up">▲</button>
+      <button data-dir="left">◀</button>
+      <button data-dir="down">▼</button>
+      <button data-dir="right">▶</button>
+    </nav>
+  </main>
+</div>
+
+<div class="veil" id="winVeil" hidden>
+  <div class="card win">
+    <p class="eyebrow" id="winEyebrow">Niveau 1</p>
+    <h2 id="winTitle">Quai dégagé</h2>
+    <p class="win-line" id="winStats">—</p>
+    <p class="win-note" id="winNote"></p>
+    <div class="card-actions">
+      <button id="btnReplay" class="btn quiet">Rejouer</button>
+      <button id="btnContinue" class="btn solid">Niveau suivant</button>
+    </div>
+  </div>
+</div>
+
+<div class="veil" id="levelVeil" hidden>
+  <div class="card picker">
+    <div class="picker-head">
+      <h2>Les quais</h2>
+      <button id="btnCloseLevels" class="ghost">Fermer</button>
+    </div>
+    <div class="grid" id="levelGrid"></div>
+    <p class="picker-foot" id="pickerFoot">—</p>
+  </div>
+</div>
+
+<script src="js/levels.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
