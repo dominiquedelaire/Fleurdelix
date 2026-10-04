@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Unibox</title>
+<meta name="description" content="Unibox — vingt quais à dégager en poussant des caisses, en vue isométrique. Jouable au clavier, à la souris et au doigt.">
+<meta name="theme-color" content="#171320">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Unibox">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{
+  --night:#171320;
+  --deck:#211b2e;
+  --slab:#2f2743;
+  --line:#443a5e;
+  --bone:#ece2d3;
+  --dim:#9d92ae;
+  --oak:#c07a3a;
+  --amber:#f0a852;
+  --patina:#4fb8a0;
+  --rail:300px;
+  --ease:cubic-bezier(.2,.7,.3,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{height:100%;height:100dvh}
+
+body{
+  background:var(--night);
+  overscroll-behavior:none;
+  -webkit-tap-highlight-color:transparent;
+  color:var(--bone);
+  font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+.frame{
+  display:grid;
+  grid-template-columns:var(--rail) 1fr;
+  height:100%;
+  height:100dvh;
+}
+
+/* ---------- rail ---------- */
+
+.rail{
+  background:var(--deck);
+  border-right:1px solid var(--line);
+  padding:26px 24px 20px;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+  overflow:auto;
+}
+
+.brand h1{
+  font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  font-size:40px;
+  font-weight:600;
+  letter-spacing:-.02em;
+  line-height:1;
+}
+
+.tagline{
+  margin-top:8px;
+  color:var(--dim);
+  font-size:13.5px;
+  max-width:30ch;
+}
+
+.chapter{
+  display:flex;
+  gap:14px;
+  align-items:baseline;
+  padding-top:22px;
+  border-top:1px solid var(--line);
+}
+
+.chapter-num{
+  font-family:"Iowan Old Style",Georgia,serif;
+  font-size:34px;
+  line-height:.9;
+  color:var(--amber);
+  min-width:1.2em;
+}
+
+.chapter h2{font-size:17px;font-weight:600}
+.chapter p{color:var(--dim);font-size:13px;margin-top:3px}
+
+.readout{display:flex;flex-direction:column;gap:2px}
+.readout>div{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  padding:7px 0;
+  border-bottom:1px dotted var(--line);
+}
+.readout dt{color:var(--dim);font-size:13.5px}
+.readout dd{font-variant-numeric:tabular-nums;font-size:15px}
+
+.controls{display:flex;flex-direction:column;gap:8px}
+
+.btn{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  padding:10px 13px;
+  background:transparent;
+  border:1px solid var(--line);
+  border-radius:3px;
+  color:var(--bone);
+  font:inherit;
+  font-size:14px;
+  cursor:pointer;
+  transition:background .12s var(--ease),border-color .12s var(--ease);
+}
+.btn:hover{background:#2b2340;border-color:#5b4e7c}
+.btn:active{background:#332a4c}
+.btn.solid{background:var(--amber);color:#2a1a08;border-color:var(--amber);font-weight:600;justify-content:center}
+.btn.solid:hover{background:#ffbc66;border-color:#ffbc66}
+.btn.quiet{justify-content:center}
+
+kbd{
+  font:inherit;
+  font-size:11px;
+  color:var(--dim);
+  border:1px solid var(--line);
+  border-bottom-width:2px;
+  border-radius:3px;
+  padding:1px 5px;
+}
+
+.rail-foot{margin-top:auto;display:flex;flex-direction:column;gap:12px}
+
+.ghost{
+  background:none;
+  border:none;
+  color:var(--dim);
+  font:inherit;
+  font-size:13px;
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  align-self:flex-start;
+  padding:2px 0;
+}
+.ghost:hover{color:var(--bone)}
+
+.keys,.touch-keys{color:#6f6683;font-size:12px;line-height:1.45}
+.touch-keys{display:none}
+
+.hint-bubble{
+  position:absolute;
+  left:50%;
+  bottom:calc(22px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  max-width:min(88%,34ch);
+  margin:0;
+  padding:9px 14px;
+  background:rgba(33,27,46,.92);
+  border:1px solid var(--line);
+  border-radius:3px;
+  color:var(--bone);
+  font-size:13px;
+  line-height:1.4;
+  text-align:center;
+  backdrop-filter:blur(6px);
+  z-index:3;
+  pointer-events:none;
+  transition:opacity .5s var(--ease);
+}
+.hint-bubble[hidden]{display:none}
+.hint-bubble.fading{opacity:0}
+
+/* ---------- stage ---------- */
+
+.stage{position:relative;overflow:hidden}
+
+canvas{display:block;width:100%;height:100%;touch-action:none}
+
+.topbar{
+  position:absolute;
+  top:16px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:6px;
+  align-items:center;
+}
+
+.chip{
+  background:rgba(33,27,46,.82);
+  border:1px solid var(--line);
+  border-radius:3px;
+  color:var(--bone);
+  font:inherit;
+  font-size:13px;
+  padding:6px 11px;
+  cursor:pointer;
+  backdrop-filter:blur(6px);
+}
+.chip:hover{background:#2f2743}
+.chip.flat{cursor:default;color:var(--dim);font-variant-numeric:tabular-nums}
+.chip[disabled]{opacity:.35;cursor:default}
+
+.dpad{
+  display:none;
+  position:absolute;
+  right:14px;
+  bottom:calc(14px + env(safe-area-inset-bottom));
+  grid-template-columns:repeat(3,52px);
+  grid-template-rows:repeat(2,52px);
+  gap:6px;
+  z-index:2;
+}
+.dpad button{
+  background:rgba(33,27,46,.88);
+  border:1px solid var(--line);
+  border-radius:3px;
+  color:var(--bone);
+  font-size:16px;
+  cursor:pointer;
+  touch-action:none;
+  -webkit-user-select:none;
+  user-select:none;
+  backdrop-filter:blur(6px);
+}
+.dpad button:active{background:var(--slab)}
+.dpad [data-dir=up]{grid-area:1/2}
+.dpad [data-dir=left]{grid-area:2/1}
+.dpad [data-dir=down]{grid-area:2/2}
+.dpad [data-dir=right]{grid-area:2/3}
+
+/* ---------- overlays ---------- */
+
+.veil{
+  position:fixed;
+  inset:0;
+  background:rgba(12,9,18,.72);
+  display:grid;
+  place-items:center;
+  padding:24px;
+  z-index:10;
+}
+.veil[hidden]{display:none}
+
+.card{
+  background:var(--deck);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:30px;
+  max-width:520px;
+  width:100%;
+  box-shadow:0 30px 70px rgba(0,0,0,.55);
+}
+
+.eyebrow{color:var(--dim);font-size:13px}
+
+.win h2{
+  font-family:"Iowan Old Style",Georgia,serif;
+  font-size:30px;
+  font-weight:600;
+  margin:4px 0 14px;
+}
+.win-line{font-variant-numeric:tabular-nums}
+.win-note{color:var(--patina);font-size:14px;margin-top:6px;min-height:1.4em}
+
+.card-actions{display:flex;gap:10px;margin-top:24px}
+.card-actions .btn{flex:1}
+
+.picker{max-width:660px}
+.picker-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.picker-head h2{font-family:"Iowan Old Style",Georgia,serif;font-size:24px;font-weight:600}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(84px,1fr));
+  gap:8px;
+  max-height:52vh;
+  overflow:auto;
+}
+
+.tile{
+  aspect-ratio:1;
+  border:1px solid var(--line);
+  border-radius:3px;
+  background:transparent;
+  color:var(--bone);
+  font:inherit;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  transition:border-color .12s var(--ease),background .12s var(--ease);
+}
+.tile:hover{border-color:#5b4e7c;background:#2b2340}
+.tile b{font-family:"Iowan Old Style",Georgia,serif;font-size:21px;font-weight:600}
+.tile small{color:var(--dim);font-size:11px;font-variant-numeric:tabular-nums}
+.tile.done{border-color:#2f6a5e;background:rgba(79,184,160,.09)}
+.tile.done b{color:var(--patina)}
+.tile.current{border-color:var(--amber)}
+.tile.current b{color:var(--amber)}
+.tile.locked{opacity:.3;cursor:not-allowed}
+.tile.locked:hover{border-color:var(--line);background:transparent}
+
+.picker-foot{color:var(--dim);font-size:13px;margin-top:16px}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width:880px){
+  .frame{grid-template-columns:1fr;grid-template-rows:1fr auto}
+  .stage{order:1}
+  .rail{
+    order:2;
+    border-right:none;
+    border-top:1px solid var(--line);
+    padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+    gap:14px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    max-height:34vh;
+  }
+  .brand,.chapter p,.rail-foot .keys,.rail-foot .touch-keys,
+  .readout>div:nth-child(4){display:none}
+  .chapter{padding-top:0;border-top:none;grid-column:1}
+  .readout{grid-column:1;flex-direction:row;gap:16px;flex-wrap:wrap}
+  .readout>div{border-bottom:none;padding:0;gap:8px}
+  .controls{
+    grid-column:1 / -1;
+    flex-direction:row;
+    flex-wrap:wrap;
+  }
+  .controls .btn{width:auto;flex:1 1 40%;justify-content:center;font-size:13px;padding:9px 8px}
+  .controls kbd{display:none}
+  .rail-foot{grid-column:2;grid-row:1;margin:0}
+
+  .dpad{display:grid}
+}
+
+/* Tout écran tactile a droit au pavé, y compris une tablette en paysage,
+   et les raccourcis clavier n'y servent à rien. */
+@media (pointer:coarse){
+  .dpad{display:grid}
+  .keys,kbd{display:none}
+  .touch-keys{display:block}
+  .btn{padding:12px 13px}
+  .chip{padding:9px 13px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms !important}
+}
+
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>window.UNIBOX_STANDALONE = true;</script>
+<script>
+if ('serviceWorker' in navigator &&
+    (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+</head>
+<body>
+
+<div class="frame">
+
+  <aside class="rail">
+    <header class="brand">
+      <h1>unibox</h1>
+      <p class="tagline">Le quai de nuit. Chaque caisse a sa place.</p>
+    </header>
+
+    <div class="chapter">
+      <span class="chapter-num" id="levelNum">1</span>
+      <div>
+        <h2 id="levelName">—</h2>
+        <p id="levelHint">—</p>
+      </div>
+    </div>
+
+    <dl class="readout">
+      <div><dt>Pas</dt><dd id="statMoves">0</dd></div>
+      <div><dt>Poussées</dt><dd id="statPushes">0</dd></div>
+      <div><dt>Caisses posées</dt><dd id="statDone">0 / 0</dd></div>
+      <div><dt>Meilleur score</dt><dd id="statBest">—</dd></div>
+    </dl>
+
+    <div class="controls">
+      <button id="btnUndo" class="btn">Annuler <kbd>U</kbd></button>
+      <button id="btnReset" class="btn">Recommencer <kbd>R</kbd></button>
+      <button id="btnLevels" class="btn">Choisir un niveau <kbd>L</kbd></button>
+    </div>
+
+    <div class="rail-foot">
+      <button id="btnSound" class="ghost" aria-pressed="true">Son activé</button>
+      <p class="keys">Flèches ou ZQSD pour marcher. Clic sur une case pour s’y rendre,
+        clic sur une caisse voisine pour la pousser.</p>
+      <p class="touch-keys">Balayez pour marcher, appuyez sur une case pour vous y rendre.</p>
+    </div>
+  </aside>
+
+  <main class="stage">
+    <canvas id="board"></canvas>
+
+    <div class="topbar">
+      <button id="btnPrev" class="chip" title="Niveau précédent">◀</button>
+      <span id="progressLabel" class="chip flat">Niveau 1 sur 1</span>
+      <button id="btnNext" class="chip" title="Niveau suivant">▶</button>
+    </div>
+
+    <p class="hint-bubble" id="touchHint" hidden>
+      Balayez pour marcher, appuyez sur une case pour vous y rendre.
+    </p>
+
+    <nav class="dpad" aria-label="Déplacement">
+      <button data-dir="up">▲</button>
+      <button data-dir="left">◀</button>
+      <button data-dir="down">▼</button>
+      <button data-dir="right">▶</button>
+    </nav>
+  </main>
+</div>
+
+<div class="veil" id="winVeil" hidden>
+  <div class="card win">
+    <p class="eyebrow" id="winEyebrow">Niveau 1</p>
+    <h2 id="winTitle">Quai dégagé</h2>
+    <p class="win-line" id="winStats">—</p>
+    <p class="win-note" id="winNote"></p>
+    <div class="card-actions">
+      <button id="btnReplay" class="btn quiet">Rejouer</button>
+      <button id="btnContinue" class="btn solid">Niveau suivant</button>
+    </div>
+  </div>
+</div>
+
+<div class="veil" id="levelVeil" hidden>
+  <div class="card picker">
+    <div class="picker-head">
+      <h2>Les quais</h2>
+      <button id="btnCloseLevels" class="ghost">Fermer</button>
+    </div>
+    <div class="grid" id="levelGrid"></div>
+    <p class="picker-foot" id="pickerFoot">—</p>
+  </div>
+</div>
+
+<script>
+/* --- js/levels.js --- */
+/* Unibox — les quais.
+ *
+ *
+ *   #  mur           .  emplacement   $  caisse
+ *   *  caisse posée   @  vous          +  vous sur un emplacement
+ */
+
+const LEVELS = [
+  {
+    id: '01-prise-en-main',
+    name: "Prise en main",
+    hint: "Une caisse, une marque au sol.",
+    par: 2,
+    map: [
+      "#######",
+      "#     #",
+      "# @$ .#",
+      "#     #",
+      "#######",
+    ].join('\n'),
+  },
+  {
+    id: '02-petit-quai',
+    name: "Petit quai",
+    hint: "De la place tout autour : profitez-en.",
+    par: 5,
+    map: [
+      "#######",
+      "#@   .#",
+      "#     #",
+      "# $   #",
+      "#     #",
+      "#######",
+    ].join('\n'),
+  },
+  {
+    id: '03-la-reserve',
+    name: "La réserve",
+    hint: "Quatre murs et rien pour se cacher.",
+    par: 7,
+    map: [
+      "#######",
+      "#@$  .#",
+      "#   $ #",
+      "#.    #",
+      "#     #",
+      "#######",
+    ].join('\n'),
+  },
+  {
+    id: '04-le-pilier',
+    name: "Le pilier",
+    hint: "Contourner coûte moins cher que forcer.",
+    par: 8,
+    map: [
+      "########",
+      "#+     #",
+      "#  ##  #",
+      "#  ##$ #",
+      "# $ .  #",
+      "########",
+    ].join('\n'),
+  },
+  {
+    id: '05-autour-du-bloc',
+    name: "Autour du bloc",
+    hint: "Le bloc central sert de butoir.",
+    par: 9,
+    map: [
+      "########",
+      "#@     #",
+      "#  ##$ #",
+      "#  ## $#",
+      "#.    .#",
+      "########",
+    ].join('\n'),
+  },
+  {
+    id: '06-le-croisement',
+    name: "Le croisement",
+    hint: "Quatre branches, aucune ne va tout droit.",
+    par: 11,
+    map: [
+      "########",
+      "##@ . ##",
+      "##    ##",
+      "#     .#",
+      "# $    #",
+      "##$   ##",
+      "##    ##",
+      "########",
+    ].join('\n'),
+  },
+  {
+    id: '07-les-angles-coupes',
+    name: "Les angles coupés",
+    hint: "Les coins mangés rétrécissent les manœuvres.",
+    par: 12,
+    map: [
+      "########",
+      "##@   ##",
+      "##$   ##",
+      "# $    #",
+      "#      #",
+      "##   .##",
+      "##   .##",
+      "########",
+    ].join('\n'),
+  },
+  {
+    id: '08-deux-allees',
+    name: "Deux allées",
+    hint: "Par la gauche ou par la droite, mais choisir tôt.",
+    par: 10,
+    map: [
+      "########",
+      "#@.  $.#",
+      "# $##  #",
+      "#  ## $#",
+      "#    . #",
+      "########",
+    ].join('\n'),
+  },
+  {
+    id: '09-retour-de-tournee',
+    name: "Retour de tournée",
+    hint: "On connaît les lieux ; ça ne suffit pas.",
+    par: 12,
+    map: [
+      "########",
+      "#+ . $ #",
+      "# $##  #",
+      "#  ##$ #",
+      "#   .  #",
+      "########",
+    ].join('\n'),
+  },
+  {
+    id: '10-le-carre',
+    name: "Le carré",
+    hint: "Ni obstacle ni excuse.",
+    par: 13,
+    map: [
+      "########",
+      "#@  ...#",
+      "# $    #",
+      "# $$   #",
+      "#      #",
+      "########",
+    ].join('\n'),
+  },
+  {
+    id: '11-le-te',
+    name: "Le té",
+    hint: "Deux couloirs, une seule bonne entrée.",
+    par: 14,
+    map: [
+      "#########",
+      "#@    ..#",
+      "# $###  #",
+      "# $.#   #",
+      "# $ #   #",
+      "#       #",
+      "#########",
+    ].join('\n'),
+  },
+  {
+    id: '12-le-muret',
+    name: "Le muret",
+    hint: "Un mur au milieu, deux façons d'en faire le tour.",
+    par: 15,
+    map: [
+      "#########",
+      "#@  . $.#",
+      "#       #",
+      "# ##### #",
+      "# $     #",
+      "# $    .#",
+      "#########",
+    ].join('\n'),
+  },
+  {
+    id: '13-les-ilots',
+    name: "Les îlots",
+    hint: "Quatre blocs, huit passages, un seul chemin utile.",
+    par: 16,
+    map: [
+      "##########",
+      "#@  .  . #",
+      "# ##  ## #",
+      "# $      #",
+      "# ##$ ## #",
+      "#.     $ #",
+      "##########",
+    ].join('\n'),
+  },
+  {
+    id: '14-petit-dedale',
+    name: "Petit dédale",
+    hint: "Repérer les allées libres avant de pousser.",
+    par: 17,
+    map: [
+      "##########",
+      "#@     . #",
+      "# ##  ## #",
+      "# $      #",
+      "# ##$ ##.#",
+      "#  .   $ #",
+      "##########",
+    ].join('\n'),
+  },
+  {
+    id: '15-dedale-de-nuit',
+    name: "Dédale de nuit",
+    hint: "L'ordre des poussées décide de tout.",
+    par: 18,
+    map: [
+      "##########",
+      "#@$    . #",
+      "# ## $## #",
+      "#.     $ #",
+      "# ##  ## #",
+      "#.       #",
+      "##########",
+    ].join('\n'),
+  },
+  {
+    id: '16-grand-hall',
+    name: "Grand hall",
+    hint: "De la place, donc plus de façons de se tromper.",
+    par: 20,
+    map: [
+      "##########",
+      "#   ##+  #",
+      "#    $   #",
+      "##$$##  ##",
+      "#    .  .#",
+      "#   ##   #",
+      "##########",
+    ].join('\n'),
+  },
+  {
+    id: '17-les-plots',
+    name: "Les plots",
+    hint: "Se faufiler entre les colonnes.",
+    par: 21,
+    map: [
+      "##########",
+      "#+       #",
+      "#  #  #  #",
+      "#.     $ #",
+      "#. # $#$ #",
+      "#        #",
+      "##########",
+    ].join('\n'),
+  },
+  {
+    id: '18-quai-large',
+    name: "Quai large",
+    hint: "Aucun obstacle. Sauf les caisses elles-mêmes.",
+    par: 19,
+    map: [
+      "##########",
+      "#+.  $ $ #",
+      "#       .#",
+      "# $$     #",
+      "#    .   #",
+      "##########",
+    ].join('\n'),
+  },
+  {
+    id: '19-contre-allee',
+    name: "Contre-allée",
+    hint: "Un passage de plus qu'il n'en faut.",
+    par: 20,
+    map: [
+      "##########",
+      "#@       #",
+      "#$##$$## #",
+      "#.$      #",
+      "# ##  ## #",
+      "#.     ..#",
+      "##########",
+    ].join('\n'),
+  },
+  {
+    id: '20-dernier-quai',
+    name: "Dernier quai",
+    hint: "Tout ce que le dépôt vous a appris.",
+    par: 23,
+    map: [
+      "##########",
+      "#+     $ #",
+      "# ##$ ## #",
+      "# $    $ #",
+      "# ##  ## #",
+      "# .   .. #",
+      "##########",
+    ].join('\n'),
+  },
+];
+
+if (typeof module !== 'undefined') module.exports = { LEVELS };
+
+</script>
+<script>
+/* --- js/engine.js --- */
+/* Unibox — règles du jeu, indépendantes de l'affichage. */
+
+const key = (x, y) => x + ',' + y;
+
+const DIRS = {
+  up:    { dx: 0, dy: -1 },
+  down:  { dx: 0, dy: 1 },
+  left:  { dx: -1, dy: 0 },
+  right: { dx: 1, dy: 0 },
+};
+
+class Game {
+  constructor(def) {
+    this.def = def;
+    this.reset();
+  }
+
+  reset() {
+    const rows = this.def.map.split('\n').filter(r => r.length);
+    const width = Math.max(...rows.map(r => r.length));
+
+    this.width = width;
+    this.height = rows.length;
+    this.walls = new Set();
+    this.goals = new Set();
+    this.floor = new Set();
+    this.boxes = [];
+    this.player = { x: 0, y: 0 };
+
+    rows.forEach((row, y) => {
+      for (let x = 0; x < width; x++) {
+        const c = row[x] || ' ';
+        if (c === '#') { this.walls.add(key(x, y)); continue; }
+        if (c === '-') continue;              // vide hors du quai
+        this.floor.add(key(x, y));
+        if ('.*+'.includes(c)) this.goals.add(key(x, y));
+        if ('$*'.includes(c)) this.boxes.push({ x, y });
+        if ('@+'.includes(c)) this.player = { x, y };
+      }
+    });
+
+    this.history = [];
+    this.moves = 0;
+    this.pushes = 0;
+    this.reindex();
+  }
+
+  reindex() {
+    this.boxAt = new Map();
+    this.boxes.forEach((b, i) => this.boxAt.set(key(b.x, b.y), i));
+  }
+
+  isWall(x, y) { return this.walls.has(key(x, y)) || !this.floor.has(key(x, y)); }
+  isGoal(x, y) { return this.goals.has(key(x, y)); }
+  boxIndex(x, y) { const i = this.boxAt.get(key(x, y)); return i === undefined ? -1 : i; }
+
+  get placed() { return this.boxes.filter(b => this.isGoal(b.x, b.y)).length; }
+  get total() { return this.boxes.length; }
+  get solved() { return this.placed === this.total; }
+
+  /* Tente un déplacement. Renvoie null si bloqué, sinon un compte rendu
+     que l'affichage utilise pour animer et pour les effets sonores. */
+  step(dir) {
+    if (this.solved) return null;
+    const d = DIRS[dir];
+    if (!d) return null;
+
+    const from = { ...this.player };
+    const to = { x: from.x + d.dx, y: from.y + d.dy };
+    if (this.isWall(to.x, to.y)) return null;
+
+    const bi = this.boxIndex(to.x, to.y);
+    let pushed = null;
+
+    if (bi >= 0) {
+      const dest = { x: to.x + d.dx, y: to.y + d.dy };
+      if (this.isWall(dest.x, dest.y) || this.boxIndex(dest.x, dest.y) >= 0) return null;
+
+      const box = this.boxes[bi];
+      const wasOnGoal = this.isGoal(box.x, box.y);
+      box.x = dest.x; box.y = dest.y;
+      this.reindex();
+      pushed = {
+        index: bi,
+        from: { ...to },
+        to: dest,
+        wasOnGoal,
+        nowOnGoal: this.isGoal(dest.x, dest.y),
+      };
+      this.pushes++;
+    }
+
+    this.player = to;
+    this.moves++;
+    this.history.push({ dir, pushed: pushed ? pushed.index : -1, from });
+
+    return { dir, from, to, pushed, solved: this.solved };
+  }
+
+  undo() {
+    const last = this.history.pop();
+    if (!last) return null;
+
+    const d = DIRS[last.dir];
+    const playerFrom = { ...this.player };
+    this.player = { ...last.from };
+    this.moves--;
+
+    let pulled = null;
+    if (last.pushed >= 0) {
+      const box = this.boxes[last.pushed];
+      const boxFrom = { x: box.x, y: box.y };
+      box.x -= d.dx; box.y -= d.dy;
+      this.reindex();
+      this.pushes--;
+      pulled = { index: last.pushed, from: boxFrom, to: { x: box.x, y: box.y } };
+    }
+
+    return { from: playerFrom, to: this.player, pulled };
+  }
+
+  /* Chemin le plus court vers une case libre, pour le déplacement à la souris.
+     Renvoie une liste de directions, ou null. */
+  pathTo(tx, ty) {
+    if (this.isWall(tx, ty) || this.boxIndex(tx, ty) >= 0) return null;
+    const start = key(this.player.x, this.player.y);
+    const goal = key(tx, ty);
+    if (start === goal) return [];
+
+    const prev = new Map([[start, null]]);
+    const queue = [this.player];
+    while (queue.length) {
+      const p = queue.shift();
+      for (const [name, d] of Object.entries(DIRS)) {
+        const n = { x: p.x + d.dx, y: p.y + d.dy };
+        const k = key(n.x, n.y);
+        if (prev.has(k) || this.isWall(n.x, n.y) || this.boxIndex(n.x, n.y) >= 0) continue;
+        prev.set(k, { from: key(p.x, p.y), dir: name });
+        if (k === goal) {
+          const path = [];
+          let cur = k;
+          while (prev.get(cur)) { path.unshift(prev.get(cur).dir); cur = prev.get(cur).from; }
+          return path;
+        }
+        queue.push(n);
+      }
+    }
+    return null;
+  }
+}
+
+if (typeof module !== 'undefined') module.exports = { Game, DIRS, key };
+
+</script>
+<script>
+/* --- js/render.js --- */
+/* Unibox — rendu isométrique.
+
+   Une seule projection : x et y de la grille deviennent les deux diagonales
+   de l'écran, et tout ce qui a de la hauteur (murs, caisses, cariste) est
+   dessiné du fond vers l'avant. Rien n'est chargé depuis un fichier : les
+   volumes sont peints face par face, donc nets à n'importe quelle échelle. */
+
+const PALETTE = {
+  hazeA:     '#241d33',
+  hazeB:     '#14101c',
+
+  floor:     '#473d63',
+  floorAlt:  '#4f456d',
+  grout:     '#251f39',
+
+  wallTop:   '#2a2340',
+  wallLeft:  '#201a30',
+  wallRight: '#181324',
+  wallEdge:  '#463b64',
+
+  oakTop:    '#d5934f',
+  oakLeft:   '#b0713a',
+  oakRight:  '#8b5628',
+  oakEdge:   '#f2b678',
+
+  setTop:    '#5fc9ae',
+  setLeft:   '#3fa189',
+  setRight:  '#2d7b68',
+  setEdge:   '#9df0dc',
+
+  brass:     '#e0b163',
+  vest:      '#f6ead6',
+  vestLow:   '#cdbda4',
+  band:      '#f0a852',
+  goal:      '#4fb8a0',
+  player:    '#f0a852',
+  playerLow: '#b0721f',
+  visor:     '#241a2e',
+  cast:      'rgba(11,7,18,.30)',
+  contact:   'rgba(10,7,16,.34)',
+};
+
+/* Bruit stable par case : deux dalles voisines ne sont jamais identiques. */
+function jitter(x, y) {
+  const n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+  return n - Math.floor(n);
+}
+
+function rgb(hex) {
+  let h = hex.slice(1);
+  if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+  return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+}
+
+function mix(a, b, t) {
+  const pa = rgb(a), pb = rgb(b);
+  const c = pa.map((v, i) => Math.round(v + (pb[i] - v) * t));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+
+const TILE_W = 68;    // largeur d'une dalle avant mise à l'échelle
+const TILE_H = 34;    // sa hauteur apparente : rapport 2:1, l'angle classique
+const WALL_H = 16;   // assez bas pour ne pas masquer la case de derrière
+
+class Renderer {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.dpr = 1;
+    this.geom = null;
+  }
+
+  resize() {
+    const rect = this.canvas.getBoundingClientRect();
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.canvas.width = Math.max(1, Math.round(rect.width * this.dpr));
+    this.canvas.height = Math.max(1, Math.round(rect.height * this.dpr));
+    this.cw = rect.width;
+    this.ch = rect.height;
+  }
+
+  /* Échelle et centrage : le quai entier doit tenir dans la fenêtre. */
+  layout(game) {
+    const W = game.width, H = game.height;
+    const padX = 56, padY = this.cw < 700 ? 96 : 76;
+    const availW = Math.max(120, this.cw - padX * 2);
+    const availH = Math.max(120, this.ch - padY * 2);
+
+    const spanX = (W + H) * TILE_W / 2;
+    const spanY = (W + H) * TILE_H / 2 + WALL_H + 26;
+    const s = Math.max(0.3, Math.min(1.7, Math.min(availW / spanX, availH / spanY)));
+
+    const tw = TILE_W * s, th = TILE_H * s, wallH = WALL_H * s;
+    const minSX = -(H - 1) * tw / 2 - tw / 2;
+    const maxSX = (W - 1) * tw / 2 + tw / 2;
+    const minSY = -th / 2 - wallH - 20 * s;
+    const maxSY = (W + H - 2) * th / 2 + th / 2;
+
+    this.geom = {
+      tw, th, wallH, s,
+      ox: (this.cw - (maxSX - minSX)) / 2 - minSX,
+      oy: (this.ch - (maxSY - minSY)) / 2 - minSY,
+    };
+  }
+
+  project(x, y) {
+    const g = this.geom;
+    return { cx: g.ox + (x - y) * g.tw / 2, cy: g.oy + (x + y) * g.th / 2 };
+  }
+
+  /* Projection inverse, pour savoir sur quelle dalle le joueur a cliqué. */
+  cellAt(px, py) {
+    const g = this.geom;
+    if (!g) return null;
+    const a = (px - g.ox) / (g.tw / 2);
+    const b = (py - g.oy) / (g.th / 2);
+    return { x: Math.round((a + b) / 2), y: Math.round((b - a) / 2) };
+  }
+
+  /* ------------------------------------------------------------------ */
+
+  draw(game, view, time) {
+    const ctx = this.ctx;
+    ctx.save();
+    ctx.scale(this.dpr, this.dpr);
+    ctx.clearRect(0, 0, this.cw, this.ch);
+    this.backdrop(ctx);
+
+    // 1. le sol, puis les marques au sol
+    for (let y = 0; y < game.height; y++) {
+      for (let x = 0; x < game.width; x++) {
+        if (!game.floor.has(x + ',' + y)) continue;
+        const { cx, cy } = this.project(x, y);
+        this.floorTile(ctx, cx, cy, x, y);
+      }
+    }
+    for (const gk of game.goals) {
+      const [x, y] = gk.split(',').map(Number);
+      const { cx, cy } = this.project(x, y);
+      this.goalMark(ctx, cx, cy, time, game.boxIndex(x, y) >= 0);
+    }
+
+    // 2. les ombres portées, toutes à plat sur le sol
+    for (let y = 0; y < game.height; y++)
+      for (let x = 0; x < game.width; x++)
+        if (game.walls.has(x + ',' + y) && this.touchesFloor(game, x, y))
+          this.castShadow(ctx, x, y, 1);
+    for (const b of view.boxes) this.castShadow(ctx, b.x, b.y, 0.76);
+    this.castShadow(ctx, view.player.x, view.player.y, 0.4);
+
+    // 3. les volumes, du fond vers l'avant
+    const items = [];
+    for (let y = 0; y < game.height; y++)
+      for (let x = 0; x < game.width; x++)
+        if (game.walls.has(x + ',' + y) && this.touchesFloor(game, x, y))
+          items.push({ depth: x + y, x, y, kind: 'wall' });
+
+    for (const gk of game.goals) {
+      const [x, y] = gk.split(',').map(Number);
+      if (game.boxIndex(x, y) < 0) items.push({ depth: x + y + 0.15, x, y, kind: 'beam' });
+    }
+    view.boxes.forEach(b => items.push({ depth: b.x + b.y + 0.4, x: b.x, y: b.y, kind: 'box', data: b }));
+    items.push({ depth: view.player.x + view.player.y + 0.5, x: view.player.x, y: view.player.y, kind: 'hero' });
+    items.sort((a, b) => a.depth - b.depth);
+
+    for (const it of items) {
+      const { cx, cy } = this.project(it.x, it.y);
+      if (it.kind === 'wall') this.wall(ctx, cx, cy, it.x, it.y);
+      else if (it.kind === 'beam') this.goalBeam(ctx, cx, cy, time, it.x, it.y);
+      else if (it.kind === 'box') this.crate(ctx, cx, cy, it.data.set, time);
+      else this.hero(ctx, cx, cy, view.player.facing, time);
+    }
+
+    this.particles(ctx, view);
+    this.vignette(ctx);
+    ctx.restore();
+  }
+
+  touchesFloor(game, x, y) {
+    for (let dy = -1; dy <= 1; dy++)
+      for (let dx = -1; dx <= 1; dx++)
+        if (game.floor.has((x + dx) + ',' + (y + dy))) return true;
+    return false;
+  }
+
+  backdrop(ctx) {
+    const g = ctx.createRadialGradient(this.cw / 2, this.ch * 0.4, 40,
+                                       this.cw / 2, this.ch * 0.5, Math.max(this.cw, this.ch) * 0.8);
+    g.addColorStop(0, PALETTE.hazeA);
+    g.addColorStop(1, PALETTE.hazeB);
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, this.cw, this.ch);
+  }
+
+  vignette(ctx) {
+    const g = ctx.createRadialGradient(this.cw / 2, this.ch / 2, Math.min(this.cw, this.ch) * 0.35,
+                                       this.cw / 2, this.ch / 2, Math.max(this.cw, this.ch) * 0.75);
+    g.addColorStop(0, 'rgba(0,0,0,0)');
+    g.addColorStop(1, 'rgba(0,0,0,.42)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, this.cw, this.ch);
+  }
+
+  /* ------------------------------ formes ---------------------------- */
+
+  diamond(ctx, cx, cy, tw, th) {
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - th / 2);
+    ctx.lineTo(cx + tw / 2, cy);
+    ctx.lineTo(cx, cy + th / 2);
+    ctx.lineTo(cx - tw / 2, cy);
+    ctx.closePath();
+  }
+
+  floorTile(ctx, cx, cy, x, y) {
+    const { tw, th } = this.geom;
+    const shade = jitter(x, y) * 0.08;
+    ctx.fillStyle = mix((x + y) % 2 ? PALETTE.floorAlt : PALETTE.floor, '#000', shade);
+    this.diamond(ctx, cx, cy, tw, th);
+    ctx.fill();
+    ctx.strokeStyle = PALETTE.grout;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.strokeStyle = 'rgba(255,255,255,.045)';
+    this.diamond(ctx, cx, cy, tw * 0.7, th * 0.7);
+    ctx.stroke();
+  }
+
+  /* La lumière vient d'en haut à gauche : l'ombre tombe vers le bas à droite. */
+  castShadow(ctx, x, y, strength) {
+    const { tw, th } = this.geom;
+    const { cx, cy } = this.project(x, y);
+    ctx.save();
+    ctx.globalAlpha = strength;
+    ctx.fillStyle = PALETTE.cast;
+    this.diamond(ctx, cx + tw * 0.11, cy + th * 0.11, tw * 0.94, th * 0.94);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  /* Emplacement : un liseré au ras du sol, avec les quatre équerres de
+     marquage qu'on peint sur un vrai quai. Il bat doucement tant qu'il
+     est vide, et s'éteint dès qu'une caisse le couvre. */
+  goalMark(ctx, cx, cy, time, filled) {
+    const { tw, th } = this.geom;
+    const pulse = 0.5 + 0.5 * Math.sin(time / 620);
+    const w = tw * 0.72, d = th * 0.72;
+
+    ctx.save();
+    ctx.globalAlpha = filled ? 0.18 : 0.22 + pulse * 0.26;
+    ctx.fillStyle = PALETTE.goal;
+    this.diamond(ctx, cx, cy, w, d);
+    ctx.fill();
+
+    ctx.globalAlpha = filled ? 0.35 : 0.95;
+    ctx.strokeStyle = PALETTE.goal;
+    ctx.lineWidth = Math.max(1.4, tw * 0.03);
+
+    // équerres aux quatre sommets du losange
+    const V = [[cx, cy - d / 2], [cx + w / 2, cy], [cx, cy + d / 2], [cx - w / 2, cy]];
+    for (let i = 0; i < 4; i++) {
+      const a = V[i], b = V[(i + 1) % 4], p = V[(i + 3) % 4];
+      ctx.beginPath();
+      ctx.moveTo(a[0] + (p[0] - a[0]) * 0.34, a[1] + (p[1] - a[1]) * 0.34);
+      ctx.lineTo(a[0], a[1]);
+      ctx.lineTo(a[0] + (b[0] - a[0]) * 0.34, a[1] + (b[1] - a[1]) * 0.34);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  /* Colonne de lumière au-dessus d'un emplacement libre : on la voit même
+     quand un mur cache le bas du marquage au sol. */
+  goalBeam(ctx, cx, cy, time, x, y) {
+    const { tw, th } = this.geom;
+    const pulse = 0.72 + 0.28 * Math.sin(time / 620 + (x + y) * 0.7);
+    const h = th * 2.1, wBase = tw * 0.44, wTop = tw * 0.2;
+
+    const g = ctx.createLinearGradient(cx, cy, cx, cy - h);
+    g.addColorStop(0, 'rgba(79,184,160,.30)');
+    g.addColorStop(0.55, 'rgba(79,184,160,.10)');
+    g.addColorStop(1, 'rgba(79,184,160,0)');
+
+    ctx.save();
+    ctx.globalAlpha = pulse;
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(cx - wBase / 2, cy);
+    ctx.lineTo(cx - wTop / 2, cy - h);
+    ctx.lineTo(cx + wTop / 2, cy - h);
+    ctx.lineTo(cx + wBase / 2, cy);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  cube(ctx, cx, cy, tw, th, h, colors, edge) {
+    ctx.fillStyle = colors.left;
+    ctx.beginPath();
+    ctx.moveTo(cx - tw / 2, cy - h);
+    ctx.lineTo(cx, cy - h + th / 2);
+    ctx.lineTo(cx, cy + th / 2);
+    ctx.lineTo(cx - tw / 2, cy);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = colors.right;
+    ctx.beginPath();
+    ctx.moveTo(cx + tw / 2, cy - h);
+    ctx.lineTo(cx, cy - h + th / 2);
+    ctx.lineTo(cx, cy + th / 2);
+    ctx.lineTo(cx + tw / 2, cy);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = colors.top;
+    this.diamond(ctx, cx, cy - h, tw, th);
+    ctx.fill();
+
+    if (edge) {
+      ctx.strokeStyle = edge;
+      ctx.lineWidth = Math.max(1, tw * 0.018);
+      this.diamond(ctx, cx, cy - h, tw, th);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx - tw / 2, cy - h); ctx.lineTo(cx - tw / 2, cy);
+      ctx.moveTo(cx + tw / 2, cy - h); ctx.lineTo(cx + tw / 2, cy);
+      ctx.moveTo(cx, cy - h + th / 2); ctx.lineTo(cx, cy + th / 2);
+      ctx.stroke();
+    }
+  }
+
+  wall(ctx, cx, cy, x, y) {
+    const { tw, th, wallH } = this.geom;
+    const v = jitter(x * 3, y * 7) * 0.07;
+    this.cube(ctx, cx, cy, tw, th, wallH, {
+      top: mix(PALETTE.wallTop, '#000', v),
+      left: mix(PALETTE.wallLeft, '#000', v),
+      right: mix(PALETTE.wallRight, '#000', v),
+    }, 'rgba(93,79,131,.75)');
+
+    // joint de béton à mi-hauteur
+    ctx.strokeStyle = 'rgba(255,255,255,.07)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - tw / 2, cy - wallH * 0.5);
+    ctx.lineTo(cx, cy - wallH * 0.5 + th / 2);
+    ctx.lineTo(cx + tw / 2, cy - wallH * 0.5);
+    ctx.stroke();
+
+    // arête éclairée par la lampe du quai
+    ctx.strokeStyle = 'rgba(255,236,200,.13)';
+    ctx.lineWidth = Math.max(1, tw * 0.02);
+    ctx.beginPath();
+    ctx.moveTo(cx - tw / 2, cy - wallH);
+    ctx.lineTo(cx, cy - wallH - th / 2);
+    ctx.stroke();
+  }
+
+  crate(ctx, cx, cy, isSet, time) {
+    const { tw, th } = this.geom;
+    const w = tw * 0.74, d = th * 0.74, h = th * 0.86;
+
+    ctx.save();
+    ctx.fillStyle = PALETTE.contact;
+    this.diamond(ctx, cx, cy + th * 0.05, w * 1.04, d * 1.04);
+    ctx.fill();
+
+    if (isSet) {
+      ctx.shadowColor = 'rgba(95,201,174,.6)';
+      ctx.shadowBlur = tw * 0.3;
+    }
+    this.cube(ctx, cx, cy, w, d, h, {
+      top: isSet ? PALETTE.setTop : PALETTE.oakTop,
+      left: isSet ? PALETTE.setLeft : PALETTE.oakLeft,
+      right: isSet ? PALETTE.setRight : PALETTE.oakRight,
+    }, isSet ? PALETTE.setEdge : PALETTE.oakEdge);
+    ctx.shadowBlur = 0;
+
+    // croisillons de renfort sur les deux faces visibles
+    ctx.strokeStyle = isSet ? 'rgba(255,255,255,.3)' : 'rgba(120,72,20,.75)';
+    ctx.lineWidth = Math.max(1.2, tw * 0.026);
+    ctx.beginPath();
+    ctx.moveTo(cx - w / 2, cy - h); ctx.lineTo(cx, cy + d / 2);
+    ctx.moveTo(cx - w / 2, cy); ctx.lineTo(cx, cy - h + d / 2);
+    ctx.moveTo(cx + w / 2, cy - h); ctx.lineTo(cx, cy + d / 2);
+    ctx.moveTo(cx + w / 2, cy); ctx.lineTo(cx, cy - h + d / 2);
+    ctx.stroke();
+
+    // planches du couvercle
+    ctx.strokeStyle = isSet ? 'rgba(255,255,255,.18)' : 'rgba(120,72,20,.45)';
+    ctx.lineWidth = 1;
+    // sommets du couvercle : ouest, sud, nord, est
+    const Wp = [cx - w / 2, cy - h], Sp = [cx, cy - h + d / 2];
+    const Np = [cx, cy - h - d / 2], Ep = [cx + w / 2, cy - h];
+    for (const t of [1 / 3, 2 / 3]) {
+      ctx.beginPath();
+      ctx.moveTo(Wp[0] + (Sp[0] - Wp[0]) * t, Wp[1] + (Sp[1] - Wp[1]) * t);
+      ctx.lineTo(Np[0] + (Ep[0] - Np[0]) * t, Np[1] + (Ep[1] - Np[1]) * t);
+      ctx.stroke();
+    }
+
+    // ferrures laiton
+    ctx.fillStyle = PALETTE.brass;
+    const r = Math.max(1.4, tw * 0.028);
+    for (const [px, py] of [[cx, cy - h - d / 2 + r * 1.4], [cx - w / 2 + r * 1.6, cy - h],
+                            [cx + w / 2 - r * 1.6, cy - h]]) {
+      ctx.beginPath();
+      ctx.arc(px, py, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* Le cariste : blouse claire et bande réfléchissante, pour qu'on ne le
+     confonde jamais avec une caisse. Il fait face au dernier déplacement,
+     et les vues nord/est regardent vers la droite de l'écran. */
+  hero(ctx, cx, cy, facing, time) {
+    const { tw, th } = this.geom;
+    const bob = Math.sin(time / 340) * th * 0.04;
+    const w = tw * 0.30;
+    const legs = th * 0.30, torso = th * 0.62, head = w * 0.62;
+    const hip = cy - legs + bob;
+    const shoulder = hip - torso;
+    const dir = { up: -1, right: -1, down: 1, left: 1 }[facing] ?? 1;
+    const away = facing === 'up' || facing === 'right';
+
+    ctx.save();
+    ctx.fillStyle = PALETTE.contact;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + th * 0.05, w * 0.6, w * 0.3, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // jambes
+    ctx.fillStyle = '#403655';
+    ctx.fillRect(cx - w * 0.42, hip, w * 0.34, legs);
+    ctx.fillRect(cx + w * 0.08, hip, w * 0.34, legs);
+
+    // buste
+    const grad = ctx.createLinearGradient(cx, shoulder, cx, hip);
+    grad.addColorStop(0, PALETTE.vest);
+    grad.addColorStop(1, PALETTE.vestLow);
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(cx - w * 0.52, hip);
+    ctx.lineTo(cx - w * 0.46, shoulder + torso * 0.12);
+    ctx.quadraticCurveTo(cx, shoulder - torso * 0.06, cx + w * 0.46, shoulder + torso * 0.12);
+    ctx.lineTo(cx + w * 0.52, hip);
+    ctx.closePath();
+    ctx.fill();
+
+    // bande réfléchissante
+    ctx.fillStyle = PALETTE.band;
+    ctx.fillRect(cx - w * 0.5, hip - torso * 0.42, w, torso * 0.17);
+
+    // tête
+    ctx.fillStyle = mix(PALETTE.vest, '#ffffff', 0.35);
+    ctx.beginPath();
+    ctx.ellipse(cx, shoulder - head * 0.42, head * 0.5, head * 0.55, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // casque
+    ctx.fillStyle = PALETTE.band;
+    ctx.beginPath();
+    ctx.ellipse(cx, shoulder - head * 0.72, head * 0.58, head * 0.34, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (!away) {
+      ctx.fillStyle = PALETTE.visor;
+      ctx.beginPath();
+      ctx.ellipse(cx + dir * head * 0.1, shoulder - head * 0.3, head * 0.26, head * 0.16, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  particles(ctx, view) {
+    if (!view.particles.length) return;
+    ctx.save();
+    for (const p of view.particles) {
+      const { cx, cy } = this.project(p.x, p.y);
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      const s = p.size * (0.4 + p.life * 0.6);
+      ctx.beginPath();
+      ctx.moveTo(cx + p.ox, cy + p.oy - s);
+      ctx.lineTo(cx + p.ox + s, cy + p.oy);
+      ctx.lineTo(cx + p.ox, cy + p.oy + s);
+      ctx.lineTo(cx + p.ox - s, cy + p.oy);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+</script>
+<script>
+/* --- js/app.js --- */
+/* Unibox — assemblage : entrées, animation, interface, sauvegarde. */
+
+const $ = sel => document.querySelector(sel);
+const canvas = $('#board');
+const renderer = new Renderer(canvas);
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STEP_MS = reduceMotion ? 1 : 118;
+const PUSH_MS = reduceMotion ? 1 : 148;
+
+const state = {
+  index: 0,
+  game: null,
+  view: { player: { x: 0, y: 0, facing: 'down' }, boxes: [], particles: [] },
+  anim: null,
+  queue: [],
+  progress: { best: {}, reached: 0, sound: true },
+  busy: false,
+};
+
+/* ----------------------------- sauvegarde ----------------------------- */
+
+function waitForBridge() {
+  // Version autonome : pas de Python derrière, inutile d'attendre.
+  if (window.UNIBOX_STANDALONE) return Promise.resolve(false);
+  if (window.pywebview && window.pywebview.api) return Promise.resolve(true);
+  return new Promise(resolve => {
+    let done = false;
+    const finish = ok => { if (!done) { done = true; resolve(ok); } };
+    window.addEventListener('pywebviewready', () => finish(true));
+    setTimeout(() => finish(!!(window.pywebview && window.pywebview.api)), 900);
+  });
+}
+
+async function loadProgress() {
+  const bridged = await waitForBridge();
+  try {
+    if (bridged) {
+      const raw = await window.pywebview.api.load_progress();
+      if (raw) return { ...state.progress, ...JSON.parse(raw) };
+    } else {
+      const raw = localStorage.getItem('unibox');
+      if (raw) return { ...state.progress, ...JSON.parse(raw) };
+    }
+  } catch (e) { /* première partie, ou stockage indisponible */ }
+  return state.progress;
+}
+
+function saveProgress() {
+  const raw = JSON.stringify(state.progress);
+  try {
+    if (window.pywebview && window.pywebview.api) window.pywebview.api.save_progress(raw);
+    else localStorage.setItem('unibox', raw);
+  } catch (e) { /* on continue sans sauvegarde */ }
+}
+
+/* -------------------------------- son -------------------------------- */
+
+const audio = {
+  ctx: null,
+  on: true,
+  wake() {
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) this.ctx = new AC();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+  },
+  tone(freq, dur, type = 'sine', gain = 0.05, slide = 0) {
+    if (!this.on || !this.ctx) return;
+    const t = this.ctx.currentTime;
+    const o = this.ctx.createOscillator();
+    const g = this.ctx.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, t);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(30, freq + slide), t + dur);
+    g.gain.setValueAtTime(gain, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(this.ctx.destination);
+    o.start(t);
+    o.stop(t + dur + 0.02);
+  },
+  step()    { this.tone(190, 0.05, 'triangle', 0.022); },
+  push()    { this.tone(96, 0.16, 'sawtooth', 0.045, -40); },
+  seated()  { this.tone(660, 0.16, 'sine', 0.06, 330); },
+  blocked() { this.tone(72, 0.07, 'square', 0.02); },
+  fanfare() {
+    [0, 120, 240, 400].forEach((ms, i) =>
+      setTimeout(() => this.tone([523, 659, 784, 1047][i], 0.34, 'triangle', 0.05), ms));
+  },
+};
+
+/* ------------------------------ niveaux ------------------------------ */
+
+function loadLevel(i, { silent } = {}) {
+  state.index = Math.max(0, Math.min(LEVELS.length - 1, i));
+  state.game = new Game(LEVELS[state.index]);
+  state.queue = [];
+  state.anim = null;
+  state.view.particles = [];
+  state.view.player.facing = 'down';
+  syncView();
+  renderer.layout(state.game);
+  refreshUI();
+  $('#winVeil').hidden = true;
+  if (state.progress.reached < state.index) {
+    state.progress.reached = state.index;
+    saveProgress();
+  }
+  if (!silent) state.progress.last = state.index, saveProgress();
+}
+
+function syncView() {
+  const g = state.game;
+  state.view.player.x = g.player.x;
+  state.view.player.y = g.player.y;
+  state.view.boxes = g.boxes.map(b => ({ x: b.x, y: b.y, set: g.isGoal(b.x, b.y) }));
+}
+
+/* ------------------------------ actions ------------------------------ */
+
+function enqueue(dir) {
+  if (state.queue.length > 2 || (state.game && state.game.solved)) return;
+  state.queue.push(dir);
+  pump();
+}
+
+function pump() {
+  if (state.anim || !state.queue.length) return;
+  const dir = state.queue.shift();
+  const res = state.game.step(dir);
+  state.view.player.facing = dir;
+
+  if (!res) {
+    audio.blocked();
+    state.queue = [];
+    return;
+  }
+
+  state.anim = {
+    t0: performance.now(),
+    dur: res.pushed ? PUSH_MS : STEP_MS,
+    player: { from: res.from, to: res.to },
+    box: res.pushed ? { index: res.pushed.index, from: res.pushed.from, to: res.pushed.to } : null,
+    landed: res.pushed && res.pushed.nowOnGoal && !res.pushed.wasOnGoal,
+    solved: res.solved,
+  };
+
+  if (res.pushed) audio.push(); else audio.step();
+  refreshStats();
+}
+
+function finishAnim() {
+  const a = state.anim;
+  state.anim = null;
+  syncView();
+
+  if (a.landed) {
+    audio.seated();
+    burst(a.box.to.x, a.box.to.y);
+  }
+  refreshStats();
+
+  if (a.solved) { state.queue = []; setTimeout(celebrate, 260); return; }
+  pump();
+}
+
+function burst(x, y) {
+  for (let i = 0; i < 16; i++) {
+    const ang = (i / 16) * Math.PI * 2 + Math.random();
+    const sp = 12 + Math.random() * 22;
+    state.view.particles.push({
+      x, y,
+      ox: 0, oy: -6,
+      vx: Math.cos(ang) * sp,
+      vy: Math.sin(ang) * sp * 0.55 - 18,
+      life: 1,
+      size: 2 + Math.random() * 3,
+      color: Math.random() < 0.35 ? '#e0b163' : '#5fc9ae',
+    });
+  }
+}
+
+function undo() {
+  if (state.anim || state.game.solved) return;
+  const r = state.game.undo();
+  if (!r) return;
+  syncView();
+  audio.step();
+  refreshStats();
+}
+
+function restart() {
+  state.game.reset();
+  state.queue = [];
+  state.anim = null;
+  state.view.particles = [];
+  syncView();
+  refreshStats();
+  $('#winVeil').hidden = true;
+}
+
+function celebrate() {
+  const lvl = LEVELS[state.index];
+  const g = state.game;
+  const prev = state.progress.best[lvl.id];
+  const better = !prev || g.moves < prev.moves;
+  if (better) state.progress.best[lvl.id] = { moves: g.moves, pushes: g.pushes };
+  state.progress.reached = Math.max(state.progress.reached, state.index + 1);
+  saveProgress();
+  audio.fanfare();
+
+  $('#winEyebrow').textContent = `Niveau ${state.index + 1} sur ${LEVELS.length}`;
+  $('#winTitle').textContent = lvl.name;
+  $('#winStats').textContent = `${g.moves} pas, ${g.pushes} poussées.` +
+    (lvl.par ? ` Le minimum connu est de ${lvl.par} poussées.` : '');
+  $('#winNote').textContent = better && prev ? 'Nouveau meilleur score.'
+    : (g.pushes === lvl.par ? 'Poussées optimales.' : '');
+
+  const last = state.index === LEVELS.length - 1;
+  $('#btnContinue').textContent = last ? 'Revenir au premier quai' : 'Niveau suivant';
+  $('#winVeil').hidden = false;
+  $('#btnContinue').focus();
+}
+
+/* ----------------------------- interface ----------------------------- */
+
+function refreshStats() {
+  const g = state.game;
+  $('#statMoves').textContent = g.moves;
+  $('#statPushes').textContent = g.pushes;
+  $('#statDone').textContent = `${g.placed} / ${g.total}`;
+}
+
+function refreshUI() {
+  const lvl = LEVELS[state.index];
+  $('#levelNum').textContent = state.index + 1;
+  $('#levelName').textContent = lvl.name;
+  $('#levelHint').textContent = lvl.hint || '';
+  $('#progressLabel').textContent = `Niveau ${state.index + 1} sur ${LEVELS.length}`;
+  const best = state.progress.best[lvl.id];
+  $('#statBest').textContent = best ? `${best.moves} pas` : '—';
+  $('#btnPrev').disabled = state.index === 0;
+  $('#btnNext').disabled = state.index >= Math.min(LEVELS.length - 1, state.progress.reached);
+  refreshStats();
+}
+
+function openPicker() {
+  const grid = $('#levelGrid');
+  grid.innerHTML = '';
+  LEVELS.forEach((lvl, i) => {
+    const b = document.createElement('button');
+    b.className = 'tile';
+    const best = state.progress.best[lvl.id];
+    const locked = i > state.progress.reached;
+    if (best) b.classList.add('done');
+    if (i === state.index) b.classList.add('current');
+    if (locked) b.classList.add('locked');
+    b.innerHTML = `<b>${i + 1}</b><small>${best ? best.moves + ' pas' : (locked ? 'verrouillé' : 'à faire')}</small>`;
+    b.title = lvl.name;
+    b.disabled = locked;
+    b.onclick = () => { $('#levelVeil').hidden = true; loadLevel(i); };
+    grid.appendChild(b);
+  });
+  const done = LEVELS.filter(l => state.progress.best[l.id]).length;
+  $('#pickerFoot').textContent = `${done} quai${done > 1 ? 's' : ''} dégagé${done > 1 ? 's' : ''} sur ${LEVELS.length}.`;
+  $('#levelVeil').hidden = false;
+  $('#btnCloseLevels').focus();
+}
+
+/* Au tout premier lancement sur écran tactile, on explique le geste une fois.
+   Ensuite plus jamais : le pavé directionnel se passe de légende. */
+function showTouchHint() {
+  const el = $('#touchHint');
+  if (!el) return;
+  const coarse = window.matchMedia('(pointer:coarse)').matches;
+  if (!coarse || state.progress.touchHintSeen) return;
+
+  el.hidden = false;
+  state.progress.touchHintSeen = true;
+  saveProgress();
+
+  setTimeout(() => {
+    el.classList.add('fading');
+    setTimeout(() => { el.hidden = true; }, 600);
+  }, 5200);
+}
+
+/* ------------------------------ entrées ------------------------------ */
+
+const KEYS = {
+  ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
+  w: 'up', s: 'down', a: 'left', d: 'right',
+  z: 'up', q: 'left',
+};
+
+window.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  audio.wake();
+  const dir = KEYS[e.key] || KEYS[e.key.toLowerCase()];
+  if (dir) { e.preventDefault(); enqueue(dir); return; }
+
+  const k = e.key.toLowerCase();
+  if (k === 'u') { e.preventDefault(); undo(); }
+  else if (k === 'r') { e.preventDefault(); restart(); }
+  else if (k === 'l') { e.preventDefault(); openPicker(); }
+  else if (k === 'n' && !$('#btnNext').disabled) loadLevel(state.index + 1);
+  else if (k === 'p') loadLevel(state.index - 1);
+  else if (e.key === 'Escape') { $('#levelVeil').hidden = true; }
+  else if (e.key === 'Enter' && !$('#winVeil').hidden) $('#btnContinue').click();
+});
+
+/* Un geste sert à deux choses : balayer pour marcher pas à pas, ou appuyer
+   sur une case pour s'y rendre. On tranche au relâchement. */
+const SWIPE_MIN = 26;   // pixels avant qu'un glissement compte comme balayage
+let gesture = null;
+
+/* En vue isométrique, les quatre directions apparaissent en diagonale : aller
+   « en haut » déplace le cariste vers le haut à droite. Un balayage pourrait
+   donc se lire de deux façons, et les deux se défendent — vers la touche
+   correspondante, ou vers l'endroit où le personnage part.
+
+   On accepte les deux. L'angle est décalé d'un demi-secteur, puis découpé en
+   quatre : le balayage horizontal ou vertical donne la même direction que la
+   flèche du clavier et du pavé, et le balayage en diagonale désigne l'endroit
+   où le cariste se rend. Aucun geste ne reste ambigu. */
+const SWIPE_DIRS = ['right', 'down', 'left', 'up'];
+
+function swipeDirection(dx, dy) {
+  const deg = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360;
+  return SWIPE_DIRS[Math.floor(((deg + 45 / 2) % 360) / 90)];
+}
+
+canvas.addEventListener('pointerdown', e => {
+  audio.wake();
+  if (canvas.setPointerCapture) { try { canvas.setPointerCapture(e.pointerId); } catch (_) {} }
+  gesture = { x: e.clientX, y: e.clientY, swiped: false };
+});
+
+canvas.addEventListener('pointermove', e => {
+  if (!gesture || state.game.solved) return;
+  const dx = e.clientX - gesture.x, dy = e.clientY - gesture.y;
+  if (Math.hypot(dx, dy) < SWIPE_MIN) return;
+
+  enqueue(swipeDirection(dx, dy));
+  gesture.swiped = true;
+  // on repart d'ici : un balayage continu enchaîne les pas
+  gesture.x = e.clientX;
+  gesture.y = e.clientY;
+});
+
+canvas.addEventListener('pointerup', e => {
+  const g = gesture;
+  gesture = null;
+  if (!g || g.swiped || state.game.solved) return;
+
+  const r = canvas.getBoundingClientRect();
+  const cell = renderer.cellAt(e.clientX - r.left, e.clientY - r.top);
+  if (!cell) return;
+
+  const p = state.game.player;
+  const dx = cell.x - p.x, dy = cell.y - p.y;
+
+  // appui sur une caisse voisine : on la pousse
+  if (state.game.boxIndex(cell.x, cell.y) >= 0 && Math.abs(dx) + Math.abs(dy) === 1) {
+    enqueue(dx === 1 ? 'right' : dx === -1 ? 'left' : dy === 1 ? 'down' : 'up');
+    return;
+  }
+  const path = state.game.pathTo(cell.x, cell.y);
+  if (path && path.length && path.length <= 40) {
+    state.queue = path.slice();
+    pump();
+  }
+});
+
+canvas.addEventListener('pointercancel', () => { gesture = null; });
+canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+/* Pavé directionnel : réagit dès l'appui, et répète si on maintient. */
+document.querySelectorAll('.dpad button').forEach(b => {
+  let delay = null, repeat = null;
+  const go = () => enqueue(b.dataset.dir);
+  const stop = () => {
+    clearTimeout(delay); clearInterval(repeat);
+    delay = repeat = null;
+  };
+  b.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    audio.wake();
+    go();
+    stop();
+    delay = setTimeout(() => { repeat = setInterval(go, 150); }, 330);
+  });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, stop));
+});
+
+$('#btnUndo').onclick = () => { audio.wake(); undo(); };
+$('#btnReset').onclick = () => { audio.wake(); restart(); };
+$('#btnLevels').onclick = openPicker;
+$('#btnCloseLevels').onclick = () => { $('#levelVeil').hidden = true; };
+$('#btnPrev').onclick = () => loadLevel(state.index - 1);
+$('#btnNext').onclick = () => loadLevel(state.index + 1);
+$('#btnReplay').onclick = () => { $('#winVeil').hidden = true; restart(); };
+$('#btnContinue').onclick = () => {
+  loadLevel(state.index === LEVELS.length - 1 ? 0 : state.index + 1);
+};
+$('#btnSound').onclick = () => {
+  audio.on = !audio.on;
+  state.progress.sound = audio.on;
+  saveProgress();
+  $('#btnSound').textContent = audio.on ? 'Son activé' : 'Son coupé';
+  $('#btnSound').setAttribute('aria-pressed', String(audio.on));
+  if (audio.on) { audio.wake(); audio.seated(); }
+};
+
+window.addEventListener('resize', () => {
+  renderer.resize();
+  if (state.game) renderer.layout(state.game);
+});
+
+/* --------------------------- boucle de rendu -------------------------- */
+
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+function frame(now) {
+  const a = state.anim;
+  if (a) {
+    const t = Math.min(1, (now - a.t0) / a.dur);
+    const e = easeOut(t);
+    state.view.player.x = a.player.from.x + (a.player.to.x - a.player.from.x) * e;
+    state.view.player.y = a.player.from.y + (a.player.to.y - a.player.from.y) * e;
+    if (a.box) {
+      const b = state.view.boxes[a.box.index];
+      b.x = a.box.from.x + (a.box.to.x - a.box.from.x) * e;
+      b.y = a.box.from.y + (a.box.to.y - a.box.from.y) * e;
+    }
+    if (t >= 1) finishAnim();
+  }
+
+  const ps = state.view.particles;
+  for (let i = ps.length - 1; i >= 0; i--) {
+    const p = ps[i];
+    p.ox += p.vx * 0.016;
+    p.oy += p.vy * 0.016;
+    p.vy += 62 * 0.016;
+    p.life -= 0.018;
+    if (p.life <= 0) ps.splice(i, 1);
+  }
+
+  if (state.game) renderer.draw(state.game, state.view, now);
+  requestAnimationFrame(frame);
+}
+
+/* ------------------------------ démarrage ----------------------------- */
+
+(async function boot() {
+  state.progress = await loadProgress();
+  state.progress.best = state.progress.best || {};
+  state.progress.reached = state.progress.reached || 0;
+
+  audio.on = state.progress.sound !== false;
+  $('#btnSound').textContent = audio.on ? 'Son activé' : 'Son coupé';
+  $('#btnSound').setAttribute('aria-pressed', String(audio.on));
+
+  renderer.resize();
+  loadLevel(Math.min(state.progress.last || 0, state.progress.reached), { silent: true });
+  showTouchHint();
+  requestAnimationFrame(frame);
+})();
+
+</script>
+</body>
+</html>
