@@ -1,0 +1,12 @@
+# Fenêtre native. À installer dans un environnement virtuel :
+#     python3 -m venv .venv && source .venv/bin/activate
+#     pip install -r requirements.txt
+# (sinon Fleurdelix répond « externally-managed-environment »)
+pywebview>=4.4
+
+# Sous Linux, pywebview a besoin d'un moteur de rendu. Décommentez :
+# pywebview[qt]
+
+# Uniquement pour tools/preview.py (aperçu du rendu hors navigateur).
+# Le jeu lui-même n'en a pas besoin.
+# Pillow>=10.0
